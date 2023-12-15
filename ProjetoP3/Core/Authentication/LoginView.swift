@@ -32,9 +32,25 @@ struct LoginView: View {
                 .padding(.top, 12)
                 
                 // sign in button
-                Spacer()
                 
+                ButtonView(label: "SIGN IN", icon: "arrow.right", iconOnLeft: false){
+                    print("Log user in")
+                }
+
+                Spacer()
+        
                 // sign up button
+                
+                NavigationLink {
+                    
+                } label: {
+                    HStack(spacing: 3){
+                        Text("Don't have an account?")
+                        Text("Sign up")
+                            .fontWeight(.bold)
+                    }
+                    .font(.system(size: 14))
+                }
             }
         }
     }

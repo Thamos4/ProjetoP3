@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		350AC7E92B2CF77700DA13EA /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350AC7E82B2CF77700DA13EA /* RegistrationView.swift */; };
+		350AC7EC2B2CF9BB00DA13EA /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350AC7EB2B2CF9BB00DA13EA /* ButtonView.swift */; };
 		351A6C452B2BBBE900A8B4F0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 351A6C442B2BBBE800A8B4F0 /* GoogleService-Info.plist */; };
 		351A6C482B2BBC9100A8B4F0 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 351A6C472B2BBC9100A8B4F0 /* FirebaseAnalytics */; };
 		351A6C4A2B2BBC9100A8B4F0 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = 351A6C492B2BBC9100A8B4F0 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -61,6 +63,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		350AC7E82B2CF77700DA13EA /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
+		350AC7EB2B2CF9BB00DA13EA /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 		351A6C442B2BBBE800A8B4F0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		351A6C852B2BBF2A00A8B4F0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		351A6C872B2BC08500A8B4F0 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
@@ -137,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				351A6C872B2BC08500A8B4F0 /* InputView.swift */,
+				350AC7EB2B2CF9BB00DA13EA /* ButtonView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -170,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				351A6C852B2BBF2A00A8B4F0 /* LoginView.swift */,
+				350AC7E82B2CF77700DA13EA /* RegistrationView.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -386,8 +392,10 @@
 			files = (
 				351A6C862B2BBF2A00A8B4F0 /* LoginView.swift in Sources */,
 				351A6C882B2BC08500A8B4F0 /* InputView.swift in Sources */,
+				350AC7EC2B2CF9BB00DA13EA /* ButtonView.swift in Sources */,
 				3582B0022B2B665A00F4D489 /* ContentView.swift in Sources */,
 				3582B0002B2B665A00F4D489 /* ProjetoP3App.swift in Sources */,
+				350AC7E92B2CF77700DA13EA /* RegistrationView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

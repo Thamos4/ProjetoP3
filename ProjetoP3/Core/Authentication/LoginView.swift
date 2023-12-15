@@ -42,7 +42,8 @@ struct LoginView: View {
                 // sign up button
                 
                 NavigationLink {
-                    
+                    RegistrationView()
+                        .navigationBarBackButtonHidden(true)
                 } label: {
                     HStack(spacing: 3){
                         Text("Don't have an account?")

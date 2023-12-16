@@ -25,6 +25,7 @@
 		358159D22B2D22EF0023428C /* ProjetoP3App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3582AFFF2B2B665A00F4D489 /* ProjetoP3App.swift */; };
 		358159D42B2D25D30023428C /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358159D32B2D25D30023428C /* ProfileView.swift */; };
 		358159D62B2D27B00023428C /* SettingsRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358159D52B2D27B00023428C /* SettingsRowView.swift */; };
+		358159D82B2D2C530023428C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 358159D72B2D2C530023428C /* User.swift */; };
 		3582B0022B2B665A00F4D489 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3582B0012B2B665A00F4D489 /* ContentView.swift */; };
 		3582B0042B2B665A00F4D489 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3582B0032B2B665A00F4D489 /* Assets.xcassets */; };
 		3582B0072B2B665A00F4D489 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3582B0062B2B665A00F4D489 /* Preview Assets.xcassets */; };
@@ -38,6 +39,7 @@
 		351A6C872B2BC08500A8B4F0 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		358159D32B2D25D30023428C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		358159D52B2D27B00023428C /* SettingsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
+		358159D72B2D2C530023428C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		3582AFFC2B2B665A00F4D489 /* ProjetoP3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjetoP3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3582AFFF2B2B665A00F4D489 /* ProjetoP3App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjetoP3App.swift; sourceTree = "<group>"; };
 		3582B0012B2B665A00F4D489 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 		351A6C812B2BBEAA00A8B4F0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				358159D72B2D2C530023428C /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 				358159D22B2D22EF0023428C /* ProjetoP3App.swift in Sources */,
 				350AC7EC2B2CF9BB00DA13EA /* ButtonView.swift in Sources */,
 				358159D62B2D27B00023428C /* SettingsRowView.swift in Sources */,
+				358159D82B2D2C530023428C /* User.swift in Sources */,
 				3582B0022B2B665A00F4D489 /* ContentView.swift in Sources */,
 				358159D42B2D25D30023428C /* ProfileView.swift in Sources */,
 				350AC7E92B2CF77700DA13EA /* RegistrationView.swift in Sources */,

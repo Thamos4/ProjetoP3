@@ -49,8 +49,7 @@ struct ButtonView: View {
         .background(Color(.systemBlue))
         .cornerRadius(10)
         .padding(.top, 24)
-    
-        Divider()
+
     }
     
    

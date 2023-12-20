@@ -32,6 +32,20 @@ struct LoginView: View {
                 .padding(.horizontal)
                 .padding(.top, 12)
                 
+                
+                // Forgot Password
+                NavigationLink {
+                    //
+                } label: {
+                    HStack {
+                        Text("Forgot Password?")
+                            .fontWeight(.semibold)
+                    }
+                    .font(.system(size: 13))
+                    .frame(width: UIScreen.main.bounds.width - 32, alignment: .trailing)
+                    .padding(.top, 10)
+                }
+            
                 // sign in button
                 
                 ButtonView(label: "SIGN IN", icon: "arrow.right", iconOnLeft: false, isDisabled: !formIsValid){
@@ -42,7 +56,7 @@ struct LoginView: View {
                 }
                 
                 Divider()
-
+                
                 Spacer()
         
                 // sign up button

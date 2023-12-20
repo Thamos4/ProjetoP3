@@ -51,7 +51,7 @@ struct ButtonView: View {
         }
         .background(Color(.systemBlue))
         .cornerRadius(10)
-        .padding(.top, 24)
+        .padding(.top, 20)
         .disabled(isDisabled)
         .opacity(isDisabled ? 0.5: 1.0)
 

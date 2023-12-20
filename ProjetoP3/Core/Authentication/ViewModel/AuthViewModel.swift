@@ -51,6 +51,10 @@ class AuthViewModel: ObservableObject {
         }
     }
     
+    func forgotPassword(email: String) {
+        print("Reseting password")
+    }
+    
     func signOut() {
         do {
             try Auth.auth().signOut() // Da sign out ao user no backend

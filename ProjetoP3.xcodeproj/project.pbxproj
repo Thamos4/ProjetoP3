@@ -12,6 +12,7 @@
 		351A6C452B2BBBE900A8B4F0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 351A6C442B2BBBE800A8B4F0 /* GoogleService-Info.plist */; };
 		351A6C862B2BBF2A00A8B4F0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A6C852B2BBF2A00A8B4F0 /* LoginView.swift */; };
 		351A6C882B2BC08500A8B4F0 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A6C872B2BC08500A8B4F0 /* InputView.swift */; };
+		351DAB912B3272BA00EB7624 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351DAB902B3272BA00EB7624 /* ForgotPasswordView.swift */; };
 		357B8AC52B2F85E400A3612F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 357B8AC42B2F85E400A3612F /* FirebaseAuth */; };
 		357B8AC72B2F85E400A3612F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 357B8AC62B2F85E400A3612F /* FirebaseFirestore */; };
 		357B8AC92B2F85E400A3612F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 357B8AC82B2F85E400A3612F /* FirebaseFirestoreSwift */; };
@@ -32,6 +33,7 @@
 		351A6C442B2BBBE800A8B4F0 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		351A6C852B2BBF2A00A8B4F0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		351A6C872B2BC08500A8B4F0 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
+		351DAB902B3272BA00EB7624 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		357B8ACF2B2F865B00A3612F /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		358159D32B2D25D30023428C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		358159D52B2D27B00023428C /* SettingsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			children = (
 				351A6C852B2BBF2A00A8B4F0 /* LoginView.swift */,
 				350AC7E82B2CF77700DA13EA /* RegistrationView.swift */,
+				351DAB902B3272BA00EB7624 /* ForgotPasswordView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -255,6 +258,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				357B8AD02B2F865B00A3612F /* AuthViewModel.swift in Sources */,
+				351DAB912B3272BA00EB7624 /* ForgotPasswordView.swift in Sources */,
 				351A6C862B2BBF2A00A8B4F0 /* LoginView.swift in Sources */,
 				351A6C882B2BC08500A8B4F0 /* InputView.swift in Sources */,
 				358159D22B2D22EF0023428C /* ProjetoP3App.swift in Sources */,

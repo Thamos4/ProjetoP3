@@ -35,7 +35,7 @@ struct LoginView: View {
                 
                 // Forgot Password
                 NavigationLink {
-                    //
+                    ForgotPasswordView()
                 } label: {
                     HStack {
                         Text("Forgot Password?")
@@ -54,9 +54,7 @@ struct LoginView: View {
                     }
                     
                 }
-                
-                Divider()
-                
+
                 Spacer()
         
                 // sign up button

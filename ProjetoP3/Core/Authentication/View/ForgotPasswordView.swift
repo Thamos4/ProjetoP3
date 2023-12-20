@@ -25,7 +25,7 @@ struct ForgotPasswordView: View {
                 .padding(.horizontal)
                 .padding(.top, 12)
                 
-                ButtonView(label: "SEND RESET LINK", icon: "arrow.right", iconOnLeft: false, isDisabled: false){
+                ButtonView(label: "SEND RESET LINK", icon: "arrow.right", iconOnLeft: false, isDisabled: !formIsValid){
                     Task {
                        viewModel.forgotPassword(email: email)
                     }
@@ -48,6 +48,14 @@ struct ForgotPasswordView: View {
         }
 
     }
+}
+
+extension ForgotPasswordView: AuthenticationFormProtocol {
+    var formIsValid: Bool {
+        return !email.isEmpty
+        && email.contains("@") //TODO: Add better email validation
+    }
+
 }
 
 struct ForgotPasswordView_Previews: PreviewProvider {

@@ -34,7 +34,7 @@ struct LoginView: View {
                 
                 // sign in button
                 
-                ButtonView(label: "SIGN IN", icon: "arrow.right", iconOnLeft: false){
+                ButtonView(label: "SIGN IN", icon: "arrow.right", iconOnLeft: false, isDisabled: !formIsValid){
                     Task {
                        try await viewModel.signIn(email: email, password: password)
                     }
@@ -42,7 +42,6 @@ struct LoginView: View {
                 }
                 
                 Divider()
-            
 
                 Spacer()
         
@@ -62,6 +61,16 @@ struct LoginView: View {
             }
         }
     }
+}
+
+extension LoginView: AuthenticationFormProtocol {
+    var formIsValid: Bool {
+        return !email.isEmpty
+        && email.contains("@") //TODO: Add better email validation
+        && !password.isEmpty
+        && password.count > 5
+    }
+
 }
 
 struct LoginView_Previews: PreviewProvider {

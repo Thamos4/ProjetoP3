@@ -40,7 +40,7 @@ struct RegistrationView: View {
             .padding(.horizontal)
             .padding(.top, 12)
             
-            ButtonView(label: "SIGN UP", icon: "arrow.right", iconOnLeft: false){
+            ButtonView(label: "SIGN UP", icon: "arrow.right", iconOnLeft: false, isDisabled: !formIsValid){
                 Task {
                     try await viewModel.createUser(email: email, fullname: fullname,
                         password: password)
@@ -62,6 +62,19 @@ struct RegistrationView: View {
         }
     }
 }
+
+extension RegistrationView: AuthenticationFormProtocol {
+    var formIsValid: Bool {
+        return !email.isEmpty
+        && email.contains("@") //TODO: Add better email validation
+        && !password.isEmpty
+        && password.count > 5
+        && confirmPassword == password
+        && !fullname.isEmpty
+    }
+
+}
+
 
 struct RegistrationView_Previews: PreviewProvider {
     static var previews: some View {

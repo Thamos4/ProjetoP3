@@ -10,6 +10,7 @@ import SwiftUI
 struct ButtonView: View {
     let label: String
     let icon: String?
+    var isDisabled: Bool
     var iconOnLeft: Bool?
     let action: () -> Void
     
@@ -20,10 +21,12 @@ struct ButtonView: View {
         label: String,
         icon: String? = nil,
         iconOnLeft: Bool? = true,
+        isDisabled: Bool,
         action: @escaping () -> Void
     ) {
         self.label = label
         self.icon = icon
+        self.isDisabled = isDisabled
         self.iconOnLeft = iconOnLeft
         self.action = action
     }
@@ -49,6 +52,8 @@ struct ButtonView: View {
         .background(Color(.systemBlue))
         .cornerRadius(10)
         .padding(.top, 24)
+        .disabled(isDisabled)
+        .opacity(isDisabled ? 0.5: 1.0)
 
     }
     
@@ -57,7 +62,7 @@ struct ButtonView: View {
 
 struct ButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        ButtonView(label: "My Button", icon: "star.fill", iconOnLeft: true) {}
+        ButtonView(label: "My Button", icon: "star.fill", iconOnLeft: true, isDisabled: true) {}
 
     }
 }

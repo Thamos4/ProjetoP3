@@ -54,7 +54,6 @@ struct ButtonView: View {
         .padding(.top, 20)
         .disabled(isDisabled)
         .opacity(isDisabled ? 0.5: 1.0)
-
     }
     
    

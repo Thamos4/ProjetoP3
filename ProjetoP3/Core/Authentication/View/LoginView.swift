@@ -11,6 +11,7 @@ struct LoginView: View {
     @State private var email = ""
     @State private var password = ""
     @EnvironmentObject var viewModel: AuthViewModel
+    @State private var isError = false
     
     var body: some View {
         NavigationStack {
@@ -36,6 +37,7 @@ struct LoginView: View {
                 // Forgot Password
                 NavigationLink {
                     ForgotPasswordView()
+                        .navigationBarBackButtonHidden(true)
                 } label: {
                     HStack {
                         Text("Forgot Password?")
@@ -50,9 +52,17 @@ struct LoginView: View {
                 
                 ButtonView(label: "SIGN IN", icon: "arrow.right", iconOnLeft: false, isDisabled: !formIsValid){
                     Task {
-                       try await viewModel.signIn(email: email, password: password)
+                        do{
+                            try await viewModel.signIn(email: email, password: password)
+                        }catch{
+                            self.isError = true
+                        }
+                       
                     }
-                    
+                }.alert(isPresented: $isError) {
+                    Alert(title: Text("Failed to Sign In"),
+                          message: Text("Invalid Email or Password"),
+                          dismissButton: .default(Text("OK")))
                 }
 
                 Spacer()

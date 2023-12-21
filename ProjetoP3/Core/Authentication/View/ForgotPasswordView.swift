@@ -7,9 +7,14 @@
 
 import SwiftUI
 
+
+
 struct ForgotPasswordView: View {
     @State private var email = ""
     @EnvironmentObject var viewModel: AuthViewModel
+    @State private var isError = false
+    @State private var isSuccess = false
+    
     
     var body: some View {
         
@@ -27,9 +32,24 @@ struct ForgotPasswordView: View {
                 
                 ButtonView(label: "SEND RESET LINK", icon: "arrow.right", iconOnLeft: false, isDisabled: !formIsValid){
                     Task {
-                       viewModel.forgotPassword(email: email)
+                        do{
+                            try await viewModel.forgotPassword(email: email)
+                            self.isSuccess = true
+                            self.isError = false
+                        }catch{
+                            self.isError = true
+                            self.isSuccess = false
+                        }
+                        
                     }
-                    
+                }.alert(isPresented: $isError) {
+                    Alert(title: Text("Error Recovering account"),
+                          message: Text("Email was not found"),
+                          dismissButton: .default(Text("OK")))
+                }.alert(isPresented: $isSuccess) {
+                    Alert(title: Text("Success"),
+                          message: Text("An email was sent to your inbox"),
+                          dismissButton: .default(Text("Ok")))
                 }
                 
                 Spacer()

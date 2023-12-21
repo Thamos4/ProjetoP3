@@ -12,8 +12,10 @@ struct RegistrationView: View {
     @State private var fullname = ""
     @State private var password = ""
     @State private var confirmPassword = ""
+    @State private var isError = false
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: AuthViewModel
+    
     
     var body: some View {
         VStack {
@@ -57,9 +59,18 @@ struct RegistrationView: View {
             
             ButtonView(label: "SIGN UP", icon: "arrow.right", iconOnLeft: false, isDisabled: !formIsValid){
                 Task {
-                    try await viewModel.createUser(email: email, fullname: fullname,
-                        password: password)
+                    do{
+                        try await viewModel.createUser(email: email, fullname: fullname,
+                            password: password)
+                    }catch{
+                        self.isError = true
+                    }
+
                 }
+            }.alert(isPresented: $isError) {
+                Alert(title: Text("Failed to Sign Un"),
+                      message: Text("Email is already in use"),
+                      dismissButton: .default(Text("OK")))
             }
             
             Spacer()

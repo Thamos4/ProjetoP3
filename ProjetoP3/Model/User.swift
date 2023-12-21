@@ -7,10 +7,16 @@
 
 import Foundation
 
+enum Role: String, Codable {
+    case admin = "Admin"
+    case user = "User"
+}
+
 struct User: Identifiable, Codable {
     let id: String
     let fullname: String
     let email: String
+    let role: Role
     // TODO: Adicionar user image.
     
     var initials: String {
@@ -27,5 +33,6 @@ struct User: Identifiable, Codable {
 
 // Mock user
 extension User {
-    static var MOCK_USER = User(id: NSUUID().uuidString, fullname: "Gabriel Gomes", email: "gabriel.gomes@gmail.com")
+    static var MOCK_USER = User(id: NSUUID().uuidString, fullname: "Gabriel Gomes", email: "gabriel.gomes@gmail.com", role: Role.user
+    )
 }

@@ -17,7 +17,7 @@ struct User: Identifiable, Codable {
     let fullname: String
     let email: String
     let role: Role
-    // TODO: Adicionar user image.
+    let birthdate: String
     
     var initials: String {
         let formatter = PersonNameComponentsFormatter()
@@ -31,8 +31,9 @@ struct User: Identifiable, Codable {
     
 }
 
+
 // Mock user
 extension User {
-    static var MOCK_USER = User(id: NSUUID().uuidString, fullname: "Gabriel Gomes", email: "gabriel.gomes@gmail.com", role: Role.user
+    static var MOCK_USER = User(id: NSUUID().uuidString, fullname: "Gabriel Gomes", email: "gabriel.gomes@gmail.com", role: Role.user, birthdate: "30/03/2003"
     )
 }

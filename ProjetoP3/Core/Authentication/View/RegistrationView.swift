@@ -10,12 +10,19 @@ import SwiftUI
 struct RegistrationView: View {
     @State private var email = ""
     @State private var fullname = ""
+    @State private var birthdate = Date()
     @State private var password = ""
     @State private var confirmPassword = ""
     @State private var isError = false
     @Environment(\.dismiss) var dismiss
     @EnvironmentObject var viewModel: AuthViewModel
     
+    
+    func formattedDate(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.string(from: date)
+    }
     
     var body: some View {
         VStack {
@@ -25,6 +32,8 @@ struct RegistrationView: View {
                     .autocapitalization(.none)
                 
                 InputView(text: $fullname, title: "Full Name", placeholder: "Enter your name")
+                
+            DatePicker("Birthdate", selection: $birthdate, displayedComponents: .date)
                 
                 InputView(text: $password,
                           title: "Password",
@@ -60,8 +69,9 @@ struct RegistrationView: View {
             ButtonView(label: "SIGN UP", icon: "arrow.right", iconOnLeft: false, isDisabled: !formIsValid){
                 Task {
                     do{
-                        try await viewModel.createUser(email: email, fullname: fullname,
-                            password: password)
+                        try await viewModel.createUser(email: email, fullname:fullname,
+                            password: password,
+                            birthdate: formattedDate(date: birthdate))
                     }catch{
                         self.isError = true
                     }
@@ -97,6 +107,7 @@ extension RegistrationView: AuthenticationFormProtocol {
         && password.count > 5
         && confirmPassword == password
         && !fullname.isEmpty
+        && birthdate < Date()
     }
 
 }

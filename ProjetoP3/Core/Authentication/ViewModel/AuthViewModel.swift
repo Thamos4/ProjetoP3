@@ -18,7 +18,6 @@ class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
 
-    
     init(){
         // Ve se esta algum user loggado na cache do dispositivo
         self.userSession = Auth.auth().currentUser
@@ -34,10 +33,10 @@ class AuthViewModel: ObservableObject {
         await fetchUser()
     }
     
-    func createUser(email: String, fullname: String, password: String) async throws {
+    func createUser(email: String, fullname: String, password: String, birthdate: String) async throws {
         let result = try await Auth.auth().createUser(withEmail: email, password: password)
         self.userSession = result.user
-        let user = User(id: result.user.uid, fullname: fullname, email: email, role: Role.user)
+        let user = User(id: result.user.uid, fullname: fullname, email: email, role: Role.user, birthdate: birthdate)
         let encodedUser = try Firestore.Encoder().encode(user)
         try await Firestore.firestore().collection("users").document(user.id).setData(encodedUser)
             
@@ -66,6 +65,6 @@ class AuthViewModel: ObservableObject {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
         self.currentUser = try? snapshot.data(as: User.self)
-                
+
     }
 }

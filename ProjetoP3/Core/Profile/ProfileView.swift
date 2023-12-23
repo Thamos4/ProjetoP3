@@ -39,6 +39,7 @@ struct ProfileView: View {
                 
                 Section("General") {
                     SettingsRowView(imageName: "camera.fill", title: "Edit Image", tintColor: Color(.systemGray))
+                    SettingsRowView(imageName: "calendar", title: "Birthdate: \(user.birthdate) ", tintColor: Color(.systemGray))
                 }
                 
                 Section("Account") {

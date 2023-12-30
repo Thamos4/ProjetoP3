@@ -23,7 +23,7 @@ struct ForgotPasswordView: View {
 
                 // form fields
                 VStack(spacing: 24) {
-                    InputView(text: $email, title: "Email", placeholder: "email@example.com")
+                    InputView(imageName: "envelope", placeholder: "Email", text: $email )
                         .autocapitalization(.none)
                     
                 }

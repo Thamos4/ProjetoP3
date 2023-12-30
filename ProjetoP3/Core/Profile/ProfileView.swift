@@ -64,6 +64,10 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        let authViewModel = AuthViewModel()
+        authViewModel.currentUser = User.MOCK_USER
+        
+        return ProfileView()
+            .environmentObject(authViewModel)
     }
 }

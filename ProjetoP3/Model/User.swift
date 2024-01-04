@@ -28,7 +28,13 @@ struct User: Identifiable, Codable {
         
         return ""
     }
-    
+    init(id: String, fullname: String, email: String, role: Role, birthdate: String) {
+        self.id = id
+        self.fullname = fullname
+        self.email = email
+        self.role = role
+        self.birthdate = birthdate
+    }
 }
 
 

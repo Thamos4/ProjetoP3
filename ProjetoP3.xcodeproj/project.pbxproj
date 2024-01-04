@@ -13,6 +13,9 @@
 		351A6C862B2BBF2A00A8B4F0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A6C852B2BBF2A00A8B4F0 /* LoginView.swift */; };
 		351A6C882B2BC08500A8B4F0 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A6C872B2BC08500A8B4F0 /* InputView.swift */; };
 		351DAB912B3272BA00EB7624 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351DAB902B3272BA00EB7624 /* ForgotPasswordView.swift */; };
+		355699022B47476300CC5F3B /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355699012B47476300CC5F3B /* Article.swift */; };
+		355699052B4747B900CC5F3B /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355699042B4747B900CC5F3B /* UserManager.swift */; };
+		355699072B4747C900CC5F3B /* ArticleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355699062B4747C900CC5F3B /* ArticleManager.swift */; };
 		357B8AC52B2F85E400A3612F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 357B8AC42B2F85E400A3612F /* FirebaseAuth */; };
 		357B8AC72B2F85E400A3612F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 357B8AC62B2F85E400A3612F /* FirebaseFirestore */; };
 		357B8AC92B2F85E400A3612F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 357B8AC82B2F85E400A3612F /* FirebaseFirestoreSwift */; };
@@ -34,6 +37,9 @@
 		351A6C852B2BBF2A00A8B4F0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		351A6C872B2BC08500A8B4F0 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		351DAB902B3272BA00EB7624 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
+		355699012B47476300CC5F3B /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
+		355699042B4747B900CC5F3B /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		355699062B4747C900CC5F3B /* ArticleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleManager.swift; sourceTree = "<group>"; };
 		357B8ACF2B2F865B00A3612F /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		358159D32B2D25D30023428C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		358159D52B2D27B00023428C /* SettingsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
@@ -81,6 +87,7 @@
 		351A6C802B2BBEA200A8B4F0 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				355699032B4747A500CC5F3B /* Managers */,
 				351A6C832B2BBEDD00A8B4F0 /* Authentication */,
 				351A6C842B2BBEFB00A8B4F0 /* Profile */,
 				351A6C822B2BBEC500A8B4F0 /* Root */,
@@ -92,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				358159D72B2D2C530023428C /* User.swift */,
+				355699012B47476300CC5F3B /* Article.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -119,6 +127,15 @@
 				358159D32B2D25D30023428C /* ProfileView.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		355699032B4747A500CC5F3B /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				355699042B4747B900CC5F3B /* UserManager.swift */,
+				355699062B4747C900CC5F3B /* ArticleManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		357B8ACC2B2F862000A3612F /* View */ = {
@@ -257,14 +274,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				355699072B4747C900CC5F3B /* ArticleManager.swift in Sources */,
 				357B8AD02B2F865B00A3612F /* AuthViewModel.swift in Sources */,
 				351DAB912B3272BA00EB7624 /* ForgotPasswordView.swift in Sources */,
 				351A6C862B2BBF2A00A8B4F0 /* LoginView.swift in Sources */,
+				355699052B4747B900CC5F3B /* UserManager.swift in Sources */,
 				351A6C882B2BC08500A8B4F0 /* InputView.swift in Sources */,
 				358159D22B2D22EF0023428C /* ProjetoP3App.swift in Sources */,
 				350AC7EC2B2CF9BB00DA13EA /* ButtonView.swift in Sources */,
 				358159D62B2D27B00023428C /* SettingsRowView.swift in Sources */,
 				358159D82B2D2C530023428C /* User.swift in Sources */,
+				355699022B47476300CC5F3B /* Article.swift in Sources */,
 				3582B0022B2B665A00F4D489 /* ContentView.swift in Sources */,
 				358159D42B2D25D30023428C /* ProfileView.swift in Sources */,
 				350AC7E92B2CF77700DA13EA /* RegistrationView.swift in Sources */,

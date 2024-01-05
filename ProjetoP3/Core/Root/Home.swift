@@ -31,6 +31,7 @@ struct Home: View {
                                 .scaledToFill()
                                 .frame(width: 40, height: 40)
                                 .clipShape(Circle())
+                                .padding([.top, .trailing], 14)
                         }
                         Text("Manage\nyour tasks")
                             .font(.system(size: 50))

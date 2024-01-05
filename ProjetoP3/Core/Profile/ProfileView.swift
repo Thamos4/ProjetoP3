@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var showDeleteAlert = false
+    @State private var selectedItem: PhotosPickerItem? = nil
     
     var body: some View {
         if let user = viewModel.currentUser {
@@ -40,7 +42,21 @@ struct ProfileView: View {
                 }
                 
                 Section("General") {
-                    SettingsRowView(imageName: "camera.fill", title: "Edit Image", tintColor: Color(.systemGray))
+                    HStack(spacing: 12){
+                        Image(systemName: "camera.fill")
+                            .imageScale(.small)
+                            .font(.title)
+                            .foregroundColor(Color(.systemGray))
+                        
+                        PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
+
+                            Text("Edit Image")
+                                .font(.subheadline)
+                                .foregroundColor(.black)
+                        }
+                    }
+
+                
                     SettingsRowView(imageName: "calendar", title: "Birthdate: \(user.birthdate) ", tintColor: Color(.systemGray))
                 }
                 
@@ -71,6 +87,8 @@ struct ProfileView: View {
                     }
                     
                 }
+                
+
                 
             }
         }

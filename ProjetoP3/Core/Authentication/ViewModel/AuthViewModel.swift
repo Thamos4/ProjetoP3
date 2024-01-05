@@ -50,15 +50,21 @@ class AuthViewModel: ObservableObject {
     func signOut() {
         do {
             try Auth.auth().signOut() // Da sign out ao user no backend
-            self.userSession = nil // Limpa a sessao do user e leva nos para o login
-            self.currentUser = nil // Limpa o data model do user
+            clearSessionData()
         } catch {
             print("DEBUG: Failed to sign out with error \(error.localizedDescription)")
         }
     }
     
-    func deleteAccount() {
+    //selfUser: the current logged in user decided do delete is own account
+    func deleteAccount(selfUser: Bool, user: FirebaseAuth.User) {
+        user.delete() // deletes user from the auth table
+        Firestore.firestore().collection("users").document(user.uid).delete() // deletes user metadate from users collection
         
+        if selfUser {
+            clearSessionData()
+        }
+
     }
     
     func fetchUser() async {
@@ -66,5 +72,10 @@ class AuthViewModel: ObservableObject {
         guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
         self.currentUser = try? snapshot.data(as: User.self)
 
+    }
+    
+    func clearSessionData (){
+        self.userSession = nil // Limpa a sessao do user e leva nos para o login
+        self.currentUser = nil // Limpa o data model do user
     }
 }

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthViewModel
+    @State private var showDeleteAlert = false
+    
     var body: some View {
         if let user = viewModel.currentUser {
             List {
@@ -50,9 +52,22 @@ struct ProfileView: View {
                     }
                     
                     Button{
-                        print("Delete Account...")
+                        showDeleteAlert = true
                     } label: {
                         SettingsRowView(imageName: "xmark.circle.fill", title: "Delete Account", tintColor: Color(.red))
+                    }.alert(isPresented: $showDeleteAlert) {
+                        Alert(title: Text("Delete Account"),
+                              message: Text("Do you really want to delete your account? "),
+                              primaryButton: .default(Text("Yes"), action:{
+                            viewModel.deleteAccount(
+                                selfUser: true,
+                                user: viewModel.userSession!)
+                                
+                                showDeleteAlert = false
+                            }),
+                              secondaryButton: .default(Text("No"), action:{
+                                showDeleteAlert = false
+                            }))
                     }
                     
                 }
@@ -64,6 +79,10 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        let authViewModel = AuthViewModel()
+        authViewModel.currentUser = User.MOCK_USER
+        
+        return ProfileView()
+            .environmentObject(authViewModel)
     }
 }

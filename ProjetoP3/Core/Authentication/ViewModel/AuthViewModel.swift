@@ -8,6 +8,8 @@
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
+import SwiftUI
+import PhotosUI
 
 protocol AuthenticationFormProtocol {
     var formIsValid: Bool { get }
@@ -77,5 +79,17 @@ class AuthViewModel: ObservableObject {
     func clearSessionData (){
         self.userSession = nil // Limpa a sessao do user e leva nos para o login
         self.currentUser = nil // Limpa o data model do user
+    }
+    
+    func saveProfileImage(item: PhotosPickerItem){
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        
+        Task {
+            guard let data = try await item.loadTransferable(type: Data.self) else { return }
+            let (path, name) = try await StoreManager.shared.saveImage(data: data, userId: userId )
+            print("lol123")
+            print(path)
+            print(name)
+        }
     }
 }

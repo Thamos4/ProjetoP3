@@ -54,7 +54,11 @@ struct ProfileView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.black)
                         }
-                    }
+                    }.onChange(of: selectedItem, perform: {
+                        newValue in if let newValue {
+                            viewModel.saveProfileImage(item: newValue)
+                        }
+                    })
 
                 
                     SettingsRowView(imageName: "calendar", title: "Birthdate: \(user.birthdate) ", tintColor: Color(.systemGray))

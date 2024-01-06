@@ -18,15 +18,30 @@ struct LoginView: View {
             VStack{
                 // image (dps arranjamos um logo)
                 
+                //Blue stack (pode ser outro background depois)
+                VStack(alignment: .leading){
+                    HStack{ Spacer() }
+                    Text("Hello.")
+                        .font(.largeTitle)
+                        .fontWeight(.semibold)
+                    Text("Welcome back.")
+                        .font(.largeTitle)
+                        .fontWeight(.semibold)
+                }
+                .frame(height: 260)
+                .padding(.leading)
+                .background(Color(.systemCyan))
+                .foregroundColor(.white)
+                
                 // form fields
                 VStack(spacing: 24){
-                    InputView(text: $email, title: "Email", placeholder: "email@example.com")
+                    InputView(imageName: "envelope", placeholder: "Email", text: $email)
                         .autocapitalization(.none)
                     
-                    InputView(text: $password,
-                              title: "Password",
+                    InputView(imageName: "lock",
                               placeholder: "Enter your password",
-                            isSecureField: true)
+                              text: $password,
+                              isSecureField: true)
                         .autocapitalization(.none)
                     
                 }
@@ -74,7 +89,7 @@ struct LoginView: View {
                         .navigationBarBackButtonHidden(true)
                 } label: {
                     HStack(spacing: 3){
-                        Text("Don't have an account?")
+                        Text("Don't have an account?").foregroundColor(.black)
                         Text("Sign up")
                             .fontWeight(.bold)
                     }
@@ -82,6 +97,7 @@ struct LoginView: View {
                 }
             }
         }
+        .toolbar(.hidden, for: .tabBar)
     }
 }
 

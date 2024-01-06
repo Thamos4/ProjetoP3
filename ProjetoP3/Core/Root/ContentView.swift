@@ -9,17 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
-    //@EnvironmentObject var
     
     var body: some View {
-        Group {
-            if authViewModel.userSession != nil {
-                ProfileView()
-            } else {
-                //LoginView()
-                AdminDashboardView()
-            }
-        }
+        MainTabView()
     }
 }
 

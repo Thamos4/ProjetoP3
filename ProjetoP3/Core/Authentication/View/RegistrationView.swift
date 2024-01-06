@@ -26,25 +26,46 @@ struct RegistrationView: View {
     
     var body: some View {
         VStack {
+            //Blue stack (pode ser outro background depois)
+            VStack(alignment: .leading){
+                HStack{ Spacer() }
+                Text("Hello.")
+                    .font(.largeTitle)
+                    .fontWeight(.semibold)
+                Text("Create your account.")
+                    .font(.largeTitle)
+                    .fontWeight(.semibold)
+            }
+            .frame(height: 260)
+            .padding(.leading)
+            .background(Color(.systemCyan))
+            .foregroundColor(.white)
             // form fields
             VStack(spacing: 24){
-                InputView(text: $email, title: "Email", placeholder: "email@example.com")
+                InputView(imageName: "envelope",
+                          placeholder: "Email",
+                          text: $email )
                     .autocapitalization(.none)
                 
-                InputView(text: $fullname, title: "Full Name", placeholder: "Enter your name")
+                InputView(imageName: "person",
+                          placeholder: "Enter your full name",
+                          text: $fullname)
                 
             DatePicker("Birthdate", selection: $birthdate, displayedComponents: .date)
                 
-                InputView(text: $password,
-                          title: "Password",
+                InputView(imageName: "lock",
                           placeholder: "Enter your password",
-                        isSecureField: true)
-                
+                          text: $password,
+                          isSecureField: true
+                        )
+                //isSecureField: true
                 ZStack(alignment: .trailing){
-                    InputView(text: $confirmPassword,
-                              title: "Confirm Password",
+                    InputView(imageName: "lock",
                               placeholder: "Confirm your password",
-                            isSecureField: true)
+                              text: $confirmPassword,
+                              isSecureField: true
+                        )
+                            
                     
                     if !password.isEmpty && !confirmPassword.isEmpty{
                         if password == confirmPassword {
@@ -89,7 +110,7 @@ struct RegistrationView: View {
                 dismiss()
             } label: {
                 HStack(spacing: 3){
-                    Text("Already have an account?")
+                    Text("Already have an account?").foregroundColor(.black)
                     Text("Sign In")
                         .fontWeight(.bold)
                 }

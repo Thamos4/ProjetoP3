@@ -6,23 +6,47 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var showDeleteAlert = false
+
     
     var body: some View {
         if let user = viewModel.currentUser {
             List {
                 Section {
                     HStack{
-                        Text(user.initials)
-                            .font(.title)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.white)
-                            .frame(width: 72, height: 72)
-                            .background(Color(.systemGray3))
-                            .clipShape(Circle())
+                       
+                        PhotosPicker(selection: $viewModel.selectedItem){
+                            if let profileImage = viewModel.profileImage{
+                                profileImage
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 72, height: 72)
+                                    .cornerRadius(10)
+                                    .clipShape(Circle())
+                            } else {
+                                Text(user.initials)
+                                    .font(.title)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.white)
+                                    .frame(width: 72, height: 72)
+                                    .background(Color(.systemGray3))
+                                    .clipShape(Circle())
+                            }
+                        }.onChange(of: viewModel.selectedItem, perform: {
+                            newValue in if let newValue {
+                                Task {
+                                    viewModel.saveProfileImage(item: newValue)
+                                }
+
+                            }
+                        })
+
+                        
+
                         
                         VStack(alignment: .leading, spacing: 4){
                             Text(user.fullname)
@@ -35,12 +59,24 @@ struct ProfileView: View {
                                 .foregroundColor(.gray)
                                 
                         }
-                    }
-
+                    }                    
                 }
                 
                 Section("General") {
-                    SettingsRowView(imageName: "camera.fill", title: "Edit Image", tintColor: Color(.systemGray))
+                    HStack(spacing: 12){
+                        Image(systemName: "camera.fill")
+                            .imageScale(.small)
+                            .font(.title)
+                            .foregroundColor(Color(.systemGray))
+                        
+                        PhotosPicker(selection: $viewModel.selectedItem, matching: .images, photoLibrary: .shared()) {
+
+                            Text("Edit Image")
+                                .font(.subheadline)
+                                .foregroundColor(.black)
+                        }
+                    }
+                
                     SettingsRowView(imageName: "calendar", title: "Birthdate: \(user.birthdate) ", tintColor: Color(.systemGray))
                 }
                 
@@ -71,7 +107,7 @@ struct ProfileView: View {
                     }
                     
                 }
-                
+    
             }
         }
     }

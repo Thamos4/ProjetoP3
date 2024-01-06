@@ -19,30 +19,31 @@ protocol AuthenticationFormProtocol {
 class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
+    @Published var image: UIImage?
 
     init(){
         // Ve se esta algum user loggado na cache do dispositivo
         self.userSession = Auth.auth().currentUser
         
         Task {
-            await fetchUser()
+            try await fetchUser()
         }
     }
     
     func signIn(email: String, password: String) async throws {
         let result = try await Auth.auth().signIn(withEmail: email, password: password)
         self.userSession = result.user
-        await fetchUser()
+        try await fetchUser()
     }
     
     func createUser(email: String, fullname: String, password: String, birthdate: String) async throws {
         let result = try await Auth.auth().createUser(withEmail: email, password: password)
         self.userSession = result.user
-        let user = User(id: result.user.uid, fullname: fullname, email: email, role: Role.user, birthdate: birthdate)
+        let user = User(id: result.user.uid, fullname: fullname, email: email, role: Role.user, birthdate: birthdate, profileImagePath: "")
         let encodedUser = try Firestore.Encoder().encode(user)
         try await Firestore.firestore().collection("users").document(user.id).setData(encodedUser)
             
-        await fetchUser()
+        try await fetchUser()
     }
     
     func forgotPassword(email: String) async throws{
@@ -69,11 +70,11 @@ class AuthViewModel: ObservableObject {
 
     }
     
-    func fetchUser() async {
+    func fetchUser() async throws {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
         self.currentUser = try? snapshot.data(as: User.self)
-
+    
     }
     
     func clearSessionData (){
@@ -87,9 +88,14 @@ class AuthViewModel: ObservableObject {
         Task {
             guard let data = try await item.loadTransferable(type: Data.self) else { return }
             let (path, name) = try await StoreManager.shared.saveImage(data: data, userId: userId )
-            print("lol123")
-            print(path)
+            try await updateProfileImage(userId: userId, path: name)
             print(name)
         }
     }
+    
+    func updateProfileImage(userId: String, path: String) async throws {
+        try await Firestore.firestore().collection("users").document(userId).setData(["profileImagePath": path], merge: true)
+    }
+    
+
 }

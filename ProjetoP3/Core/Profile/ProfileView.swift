@@ -12,19 +12,30 @@ struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var showDeleteAlert = false
     @State private var selectedItem: PhotosPickerItem? = nil
+    @State private var image: UIImage? = nil
     
     var body: some View {
         if let user = viewModel.currentUser {
             List {
                 Section {
                     HStack{
-                        Text(user.initials)
-                            .font(.title)
-                            .fontWeight(.semibold)
-                            .foregroundColor(.white)
-                            .frame(width: 72, height: 72)
-                            .background(Color(.systemGray3))
-                            .clipShape(Circle())
+                        if let image {
+                            Image(uiImage: image)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 72, height: 72)
+                                .cornerRadius(10)
+                                .clipShape(Circle())
+                        } else {
+                            Text(user.initials)
+                                .font(.title)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                                .frame(width: 72, height: 72)
+                                .background(Color(.systemGray3))
+                                .clipShape(Circle())
+                        }
+
                         
                         VStack(alignment: .leading, spacing: 4){
                             Text(user.fullname)
@@ -90,6 +101,11 @@ struct ProfileView: View {
                             }))
                     }
                     
+                }.task{
+                   
+                    let image = try? await StoreManager.shared.getImage(userId: user.id, path: user.profileImagePath)
+                    
+                    self.image = image
                 }
                 
 

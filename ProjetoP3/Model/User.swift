@@ -18,6 +18,7 @@ struct User: Identifiable, Codable {
     let email: String
     let role: Role
     let birthdate: String
+    var profileImagePath: String
     
     var initials: String {
         let formatter = PersonNameComponentsFormatter()
@@ -34,6 +35,6 @@ struct User: Identifiable, Codable {
 
 // Mock user
 extension User {
-    static var MOCK_USER = User(id: NSUUID().uuidString, fullname: "Gabriel Gomes", email: "gabriel.gomes@gmail.com", role: Role.user, birthdate: "30/03/2003"
+    static var MOCK_USER = User(id: NSUUID().uuidString, fullname: "Gabriel Gomes", email: "gabriel.gomes@gmail.com", role: Role.user, birthdate: "30/03/2003", profileImagePath: ""
     )
 }

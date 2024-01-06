@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseStorage
+import UIKit
 
 class StoreManager {
     static let shared = StoreManager()
@@ -16,6 +17,20 @@ class StoreManager {
     
     private func userReference(userId: String) -> StorageReference {
         storage.child("users").child(userId)
+    }
+    
+    func getData(userId: String, path: String) async throws -> Data {
+        try await userReference(userId: userId).child(path).data(maxSize: 3 * 1024 * 1024)
+    }
+    
+    func getImage(userId: String, path: String) async throws -> UIImage {
+        let data = try await getData(userId: userId, path: path)
+        
+        guard let image = UIImage(data: data) else {
+            throw URLError(.badServerResponse)
+        }
+        
+        return image
     }
     
     func saveImage(data: Data, userId: String) async throws -> (path: String, name: String) {
@@ -30,5 +45,11 @@ class StoreManager {
         }
         
         return (returnedPath, returnedName)
+    }
+    
+    func saveImage(image: UIImage, userId: String) async throws -> (path: String, name: String) {
+        guard let data = image.jpegData(compressionQuality: 1) else { throw URLError(.badServerResponse) }
+    
+        return try await saveImage(data: data, userId: userId)
     }
 }

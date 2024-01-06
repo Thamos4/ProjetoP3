@@ -62,7 +62,8 @@ struct RegistrationView: View {
                 ZStack(alignment: .trailing){
                     InputView(imageName: "lock",
                               placeholder: "Confirm your password",
-                              text: $confirmPassword
+                              text: $confirmPassword,
+                              isSecureField: true
                         )
                             
                     

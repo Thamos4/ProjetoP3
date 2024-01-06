@@ -12,7 +12,6 @@ struct Home: View {
     @State private var password = ""
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var isError = false
-    @State private var image: UIImage? = nil
     
     var body: some View {
         if let user = viewModel.currentUser {
@@ -29,8 +28,8 @@ struct Home: View {
                                     .frame(width: 40, height: 40)
                                 
                                 Spacer()
-                                if let image {
-                                    Image(uiImage: image)
+                                if let image = viewModel.profileImage {
+                                    image
                                         .resizable()
                                         .scaledToFill()
                                         .frame(width: 40, height: 40)
@@ -151,10 +150,12 @@ struct Home: View {
                     .padding(.horizontal)
                     .scrollIndicators(.hidden)
                 }
-            }.task {
-                 let image = try? await StoreManager.shared.getImage(userId: user.id, path: user.profileImagePath)
-                 
-                 self.image = image
+            }.onAppear {
+                Task {
+                    let uiImage = try await StoreManager.shared.getImage(userId: user.id, path: user.profileImagePath)
+                    
+                    viewModel.profileImage = Image(uiImage: uiImage)
+                }
             }
         }
     }
@@ -163,6 +164,10 @@ struct Home: View {
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        Home()
+        let authViewModel = AuthViewModel()
+        authViewModel.currentUser = User.MOCK_USER
+        
+        return Home()
+            .environmentObject(authViewModel)
     }
 }

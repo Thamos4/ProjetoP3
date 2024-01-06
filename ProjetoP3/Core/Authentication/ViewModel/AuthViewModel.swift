@@ -19,7 +19,11 @@ protocol AuthenticationFormProtocol {
 class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
-    @Published var image: UIImage?
+    
+    @Published var profileImage: Image?
+    @Published var selectedItem: PhotosPickerItem? {
+        didSet{ Task { try await loadImage() } }
+    }
 
     init(){
         // Ve se esta algum user loggado na cache do dispositivo
@@ -89,8 +93,16 @@ class AuthViewModel: ObservableObject {
             guard let data = try await item.loadTransferable(type: Data.self) else { return }
             let (path, name) = try await StoreManager.shared.saveImage(data: data, userId: userId )
             try await updateProfileImage(userId: userId, path: name)
-            print(name)
+            print(path)
+            
         }
+    }
+    
+    func loadImage() async throws {
+        guard let item = selectedItem else { return }
+        guard let imgData = try await item.loadTransferable(type: Data.self) else { return }
+        guard let uiImage = UIImage(data: imgData) else { return }
+        self.profileImage = Image(uiImage: uiImage)
     }
     
     func updateProfileImage(userId: String, path: String) async throws {

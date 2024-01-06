@@ -11,30 +11,41 @@ import PhotosUI
 struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var showDeleteAlert = false
-    @State private var selectedItem: PhotosPickerItem? = nil
-    @State private var image: UIImage? = nil
+
     
     var body: some View {
         if let user = viewModel.currentUser {
             List {
                 Section {
                     HStack{
-                        if let image {
-                            Image(uiImage: image)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 72, height: 72)
-                                .cornerRadius(10)
-                                .clipShape(Circle())
-                        } else {
-                            Text(user.initials)
-                                .font(.title)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.white)
-                                .frame(width: 72, height: 72)
-                                .background(Color(.systemGray3))
-                                .clipShape(Circle())
-                        }
+                       
+                        PhotosPicker(selection: $viewModel.selectedItem){
+                            if let profileImage = viewModel.profileImage{
+                                profileImage
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 72, height: 72)
+                                    .cornerRadius(10)
+                                    .clipShape(Circle())
+                            } else {
+                                Text(user.initials)
+                                    .font(.title)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.white)
+                                    .frame(width: 72, height: 72)
+                                    .background(Color(.systemGray3))
+                                    .clipShape(Circle())
+                            }
+                        }.onChange(of: viewModel.selectedItem, perform: {
+                            newValue in if let newValue {
+                                Task {
+                                    viewModel.saveProfileImage(item: newValue)
+                                }
+
+                            }
+                        })
+
+                        
 
                         
                         VStack(alignment: .leading, spacing: 4){
@@ -48,8 +59,7 @@ struct ProfileView: View {
                                 .foregroundColor(.gray)
                                 
                         }
-                    }
-
+                    }                    
                 }
                 
                 Section("General") {
@@ -59,18 +69,13 @@ struct ProfileView: View {
                             .font(.title)
                             .foregroundColor(Color(.systemGray))
                         
-                        PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
+                        PhotosPicker(selection: $viewModel.selectedItem, matching: .images, photoLibrary: .shared()) {
 
                             Text("Edit Image")
                                 .font(.subheadline)
                                 .foregroundColor(.black)
                         }
-                    }.onChange(of: selectedItem, perform: {
-                        newValue in if let newValue {
-                            viewModel.saveProfileImage(item: newValue)
-                        }
-                    })
-
+                    }
                 
                     SettingsRowView(imageName: "calendar", title: "Birthdate: \(user.birthdate) ", tintColor: Color(.systemGray))
                 }
@@ -101,15 +106,8 @@ struct ProfileView: View {
                             }))
                     }
                     
-                }.task{
-                   
-                    let image = try? await StoreManager.shared.getImage(userId: user.id, path: user.profileImagePath)
-                    
-                    self.image = image
                 }
-                
-
-                
+    
             }
         }
     }

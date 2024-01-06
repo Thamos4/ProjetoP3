@@ -26,9 +26,12 @@ class UserManager{
     }
     
     func getAllUsers() async throws -> [User]{
+        
+        //try await usersCollection.getDocuments(as: User.self)
         let snapshot = try await usersCollection.getDocuments()
-
-        var users: [User] = []
+        
+        var users:[User] = []
+        
         for document in snapshot.documents{
             let user = try document.data(as: User.self)
             users.append(user)
@@ -37,9 +40,12 @@ class UserManager{
     }
   
     func deleteUser(userId: String) async throws {
-        let uid = Auth.auth().currentUser?.uid
+        guard let uid = Auth.auth().currentUser?.uid else{
+            print("DEBUG: Oopsie, couldn't get current user id :p")
+            return
+        }
           
-        let currentUserRef = userDocument(userId: userId)
+        let currentUserRef = userDocument(userId: uid)
         let currentUser = try await currentUserRef.getDocument().data(as: User.self)
         
         if currentUser.id == userId {

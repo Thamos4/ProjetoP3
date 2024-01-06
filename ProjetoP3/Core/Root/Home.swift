@@ -17,7 +17,9 @@ struct Home: View {
     var body: some View {
         if let user = viewModel.currentUser {
             NavigationStack {
-                VStack{
+                ZStack{
+                    Color("HomeBG")
+                    .ignoresSafeArea()
                     //hamburger e profile photo
                     ScrollView {
                         VStack(alignment: .leading){
@@ -50,19 +52,38 @@ struct Home: View {
                         //cards (pode ser outro background depois)
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 20) {
-                                ForEach(0..<5) {
-                                    Text("Item \($0)")
-                                        .foregroundStyle(.white)
-                                        .font(.largeTitle)
-                                        .frame(width: 175, height: 225)
-                                        .background(
-                                            LinearGradient(gradient: Gradient(colors: [.indigo, .purple]), startPoint: .top, endPoint: .bottom))
-                                        .cornerRadius(10)
+                              //  ForEach(0..<5) {
+                                VStack {
+                                    HStack{
+                                        Spacer()
+                                        
+                                        Text("15/24/2024")
+                                            .font(.caption)
+                                            .padding(.horizontal)
+                                            .padding(.top, 5)
+                                            .clipShape(Capsule())
+                                            .frame(minWidth: 0, maxHeight: .infinity, alignment: .topTrailing)
+                                    }
+                                   
+                                    
+                                    Text("Random conference 007")
+                                        .font(.title3)
+                                        .bold()
+                                        .frame(minWidth: 0,minHeight: 125, maxHeight: 550, alignment: .top)
+                                    Spacer()
                                 }
+                                //}
                             }
+                            .foregroundStyle(.white)
+                            .font(.largeTitle)
+                            .frame(width: 175, height: 225)
+                            .background(Color("TaskBG"))
+                            .cornerRadius(10)
+                            .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
                         }
+                        
                         Text("Progress")
-                            .font(.system(size: 30))
+                            .font(.system(size: 25))
                             .padding(.top, 30)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         
@@ -73,6 +94,7 @@ struct Home: View {
                                     .padding(.horizontal)
                                     .padding(.vertical, 8)
                                     .background(.black.opacity(0.1))
+                                    .foregroundColor(Color(.white))
                                     .clipShape(Capsule())
                                 
                                 Spacer()
@@ -80,16 +102,20 @@ struct Home: View {
                             }
                             Text("Random conference 007")
                                 .font(.title3)
+                                .foregroundColor(Color(.white))
+                                .bold()
                             
                             HStack{
                                 Image(systemName: "person")
+                                .foregroundColor(Color(.white))
                             }
                         }
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color("CardBG"))
+                        .background(Color("TaskBG"))
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .padding()
+                        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
                         
                         VStack(alignment: .leading, spacing: 15){
                             HStack {
@@ -98,6 +124,7 @@ struct Home: View {
                                     .padding(.horizontal)
                                     .padding(.vertical, 8)
                                     .background(.black.opacity(0.1))
+                                    .foregroundColor(Color(.white))
                                     .clipShape(Capsule())
                                 
                                 Spacer()
@@ -105,20 +132,24 @@ struct Home: View {
                             }
                             Text("Random conference 007")
                                 .font(.title3)
+                                .foregroundColor(Color(.white))
+                                .bold()
                             
                             HStack{
                                 Image(systemName: "person")
+                                .foregroundColor(Color(.white))
                             }
                         }
                         .padding()
                         .frame(maxWidth: .infinity)
-                        .background(Color("CardBG"))
+                        .background(Color("TaskBG"))
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .padding()
+                        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
                         
                     }
                     .padding(.horizontal)
-                    
+                    .scrollIndicators(.hidden)
                 }
             }.task {
                  let image = try? await StoreManager.shared.getImage(userId: user.id, path: user.profileImagePath)

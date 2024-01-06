@@ -24,15 +24,14 @@ struct AdminDashboardView: View{
     var body: some View {
         NavigationStack{
             List {
-                Text("Test")
-//                ForEach(viewModel.users) {user in
-//                    Text(user.fullname)
-//                }
+                ForEach(viewModel.users) {user in
+                    Text(user.fullname)
+                }
             }
             .navigationTitle("List of all users")
-//            .task{
-//                try? await viewModel.getAllUsers()
-//            }
+            .task{
+                try? await viewModel.getAllUsers()
+            }
         }
     }
 }

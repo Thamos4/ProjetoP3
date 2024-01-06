@@ -26,17 +26,7 @@ class UserManager{
     }
     
     func getAllUsers() async throws -> [User]{
-        
-        //try await usersCollection.getDocuments(as: User.self)
-        let snapshot = try await usersCollection.getDocuments()
-        
-        var users:[User] = []
-        
-        for document in snapshot.documents{
-            let user = try document.data(as: User.self)
-            users.append(user)
-        }
-        return users
+        try await usersCollection.getDocuments(as: User.self)
     }
   
     func deleteUser(userId: String) async throws {

@@ -42,7 +42,7 @@ struct Home: View {
                 
                             }
                             HStack{
-                                Text("Manage\nyour tasks")
+                                Text("Conferences")
                                     .font(.system(size: 50))
                                 VStack {
                                     if user.role == .admin {
@@ -58,7 +58,7 @@ struct Home: View {
 
                                 }
                                 .navigationDestination(isPresented: $showWelcomeView) {
-                                    CreateTask()
+                                    AddConferenceView()
                                 }
                             }
                         }

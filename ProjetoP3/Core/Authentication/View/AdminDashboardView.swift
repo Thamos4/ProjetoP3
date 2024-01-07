@@ -7,14 +7,19 @@
 
 import SwiftUI
 
+@MainActor
 class AdminDashboardViewModel: ObservableObject {
-    
     @Published private(set) var users: [User] = []
     
     func getAllUsers() async throws{
         print("DEBGUG: Called getAllUsers from ViewModel")
         self.users = try await UserManager.shared.getAllUsers()
     }
+    
+    func switchUserRole(userId: String) async throws{
+        try await UserManager.shared.switchUserRole(userId: userId)
+    }
+    
 }
 
 struct AdminDashboardView: View{
@@ -24,7 +29,24 @@ struct AdminDashboardView: View{
         NavigationStack{
             List {
                 ForEach(viewModel.users) {user in
-                    Text(user.fullname)
+                    VStack{
+                        Text(user.fullname)
+                        Text(user.role.rawValue)
+                        Button{
+                            Task {
+                                try await viewModel.switchUserRole(userId: user.id)
+                            }
+                        }label: {
+                            Text("Switch Role")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(width: 340, height: 50)
+                                .background(Color("TaskBG"))
+                                .clipShape(Capsule())
+                                .padding()
+                        }
+
+                    }
                 }
             }
             .navigationTitle("List of all users")

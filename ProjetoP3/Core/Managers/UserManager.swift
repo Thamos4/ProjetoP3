@@ -53,8 +53,7 @@ class UserManager{
 
       func switchUserRole(userId: String) async throws {
           let user = try await userDocument(userId: userId).getDocument().data(as: User.self)
-          let role = (user.role == Role.user) ? Role.admin : Role.user
-          //let updatedUser = User(id: user.id, fullname: user.fullname, email: user.email, role: role, birthdate: user.birthdate, )
+          let role = (user.role == Role.user) ? "Admin" : "User"
           try await userDocument(userId: userId).setData(["role": role], merge: true)
       }
 

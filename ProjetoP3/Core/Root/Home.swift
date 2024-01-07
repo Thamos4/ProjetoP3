@@ -11,6 +11,7 @@ struct Home: View {
     @State private var email = ""
     @State private var password = ""
     @EnvironmentObject var viewModel: AuthViewModel
+    @StateObject var conferenceViewModel = ConferenceViewModel()
     @State private var isError = false
     @State private var showWelcomeView = false
     
@@ -66,27 +67,15 @@ struct Home: View {
                         //cards (pode ser outro background depois)
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 20) {
-                              //  ForEach(0..<5) {
-                                VStack {
-                                    HStack{
-                                        Spacer()
-                                        
-                                        Text("15/24/2024")
-                                            .font(.caption)
-                                            .padding(.horizontal)
-                                            .padding(.top, 5)
-                                            .clipShape(Capsule())
-                                            .frame(minWidth: 0, maxHeight: .infinity, alignment: .topTrailing)
-                                    }
-                                   
+                                ForEach(conferenceViewModel.conferences) { conference in
+                                    Text(conference.name)
+                                        .foregroundStyle(.white)
+                                        .font(.largeTitle)
+                                        .frame(width: 175, height: 225)
+                                        .background(.purple)
+                                        .cornerRadius(10)
                                     
-                                    Text("Random conference 007")
-                                        .font(.title3)
-                                        .bold()
-                                        .frame(minWidth: 0,minHeight: 125, maxHeight: 550, alignment: .top)
-                                    Spacer()
                                 }
-                                //}
                             }
                             .foregroundStyle(.white)
                             .font(.largeTitle)
@@ -167,6 +156,8 @@ struct Home: View {
                 }
             }.onAppear {
                 Task {
+                    try await conferenceViewModel.setAllConferences()
+                    
                     let uiImage = try await StoreManager.shared.getImage(userId: user.id, path: user.profileImagePath)
                     
                     viewModel.profileImage = Image(uiImage: uiImage)
@@ -180,6 +171,7 @@ struct Home: View {
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
         let authViewModel = AuthViewModel()
+        let conferenceViewModel = ConferenceViewModel()
         authViewModel.currentUser = User.MOCK_USER
         
         return Home()

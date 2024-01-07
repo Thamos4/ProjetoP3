@@ -26,6 +26,10 @@ class ConferenceManager {
         let newConference = Conference(id: id, name: name, beginDate: beginDate, endDate: endDate, description: description)
         try newConferenceRef.setData(from: newConference)
     }
+    
+    func getAllConferences() async throws -> [Conference]{
+        try await conferencesCollection.getDocuments(as: Conference.self)
+    }
 }
 
 

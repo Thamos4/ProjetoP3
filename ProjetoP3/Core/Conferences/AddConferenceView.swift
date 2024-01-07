@@ -12,6 +12,14 @@ struct AddConferenceView: View {
     @State private var description = ""
     @State private var beginDate = Date()
     @State private var endDate = Date()
+    @State private var goHome = false
+    @StateObject private var viewModel = ConferenceViewModel()
+    
+    func formattedDate(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy"
+        return formatter.string(from: date)
+    }
 
     var body: some View {
         GeometryReader { geometry in
@@ -52,7 +60,13 @@ struct AddConferenceView: View {
                         .lineLimit(1...5)
                     
                     Button{
-                        print("Create Conference")
+                        Task {
+                            try await viewModel.createConference(name: name, beginDate: formattedDate(date: beginDate),
+                                endDate: formattedDate(date: endDate),
+                                description: description)
+                            
+                            self.goHome = true
+                        }
                     }label: {
                         Text("Create Conference")
                             .font(.headline)
@@ -62,10 +76,15 @@ struct AddConferenceView: View {
                             .clipShape(Capsule())
                             .padding()
                     }
+                    .disabled(!formIsValid)
+                    .opacity(!formIsValid ? 0.5: 1.0)
                     
                 }
                 .padding(.horizontal)
                 .padding(.top, 75)
+                .navigationDestination(isPresented: $goHome) {
+                    Home()
+                }
         
                 
 
@@ -77,7 +96,8 @@ struct AddConferenceView: View {
 extension AddConferenceView: AuthenticationFormProtocol {
     var formIsValid: Bool {
         return !name.isEmpty
-                && beginDate < endDate
+                && !description.isEmpty
+                && beginDate <= endDate
     }
 
 }

@@ -12,6 +12,7 @@ struct Home: View {
     @State private var password = ""
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var isError = false
+    @State private var showWelcomeView = false
     
     var body: some View {
         if let user = viewModel.currentUser {
@@ -45,18 +46,23 @@ struct Home: View {
                                 }
                                 
                             }
-                            Text("Ongoing Conferences")
-                                .font(.system(size: 40))
-                        }
-                        
-                    
-                        if user.role == .admin {
-                            NavigationLink {
-                                    AddConferenceView()
-                                        .navigationBarBackButtonHidden(true)
-                            } label: {
-                                Text("Add Conference")
-                                .foregroundColor(.black)
+                            HStack{
+                                Text("Manage\nyour tasks")
+                                    .font(.system(size: 50))
+                                    .padding(.trailing, 30)
+                                VStack {
+                                    Button(action: { showWelcomeView = true }) {
+                                        Text("New Task")
+                                            .foregroundColor(.white)
+                                            .padding(.horizontal)
+                                            .padding(.vertical,8)
+                                            .background(Color("TaskBG"))
+                                            .clipShape(Capsule())
+                                    }
+                                }
+                                .navigationDestination(isPresented: $showWelcomeView) {
+                                    CreateTask()
+                                }
                             }
                         }
                         

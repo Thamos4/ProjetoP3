@@ -45,9 +45,21 @@ struct Home: View {
                                 }
                                 
                             }
-                            Text("Manage\nyour tasks")
-                                .font(.system(size: 50))
+                            Text("Ongoing Conferences")
+                                .font(.system(size: 40))
                         }
+                        
+                    
+                        if user.role == .admin {
+                            NavigationLink {
+                                    AddConferenceView()
+                                        .navigationBarBackButtonHidden(true)
+                            } label: {
+                                Text("Add Conference")
+                                .foregroundColor(.black)
+                            }
+                        }
+                        
                         //cards (pode ser outro background depois)
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: 20) {

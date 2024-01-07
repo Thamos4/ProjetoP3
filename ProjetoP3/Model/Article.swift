@@ -8,9 +8,9 @@
 import Foundation
 
 struct Article: Identifiable, Codable {
-  let id: String
-  let trackId: String
-  let author: String
-  let summary: String
-  //let title: String
+    let id: String
+    let trackId: String
+    let author: String
+    let summary: String
+    //let title: String
 }

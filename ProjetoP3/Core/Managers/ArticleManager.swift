@@ -11,17 +11,15 @@ import FirebaseFirestoreSwift
 
 @MainActor
 class ArticleManager{
+    
     static let shared = ArticleManager()
     private init() { }
     
     private let articlesCollection = Firestore.firestore().collection("articles")
+    private let commentsCollection = Firestore.firestore().collection("article-comments")
     
     private func articleDocument(articleId: String) -> DocumentReference {
         articlesCollection.document(articleId)
-    }
-    
-    func createArticle (article: Article) async throws{
-        try articleDocument(articleId: article.id).setData(from: article, merge: false)
     }
     
     func createArticle (trackId: String, author: String, summary: String) async throws{
@@ -53,6 +51,14 @@ class ArticleManager{
         }catch{
             print("DEBUG: Made an oopsie deleting article u.u")
         }
+    }
+    
+    func addComment(articleId: String, userId: String, content: String) async throws
+    {
+        let newCommentRef = commentsCollection.document()
+        let id = newCommentRef.documentID
+        let newComment = articleComment(id: id, articleId: articleId, userId: userId, content: content)
+        try newCommentRef.setData(from: newComment)
     }
 }
 

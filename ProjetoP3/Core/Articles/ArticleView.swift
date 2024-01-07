@@ -1,36 +1,16 @@
 //
-//  ArticleViewModel.swift
+//  ArticleView.swift
 //  ProjetoP3
 //
 //  Created by user243107 on 1/7/24.
 //
 
-import Foundation
 import SwiftUI
-
-@MainActor
-class ArticlesViewModel: ObservableObject{
-    @Published private(set) var articles: [Article] = []
-    
-    func createArticle(trackId: String, author: String, summary: String) async throws {
-        try await ArticleManager.shared.createArticle(trackId: trackId, author: author, summary: summary)
-    }
-    
-    func updateArticle(id: String, trackId: String, author: String, summary: String) async throws{
-        let newArticle = Article(id:id, trackId: trackId, author: author, summary: summary)
-        try await ArticleManager.shared.updateArticle(article: newArticle)
-    }
-    
-    func deleteArticle(id: String) async throws{
-        try await ArticleManager.shared.deleteArticle(articleId: id)
-    }
-}
 
 struct ArticleView: View {
     @State private var trackId = ""
     @State private var author = ""
     @State private var summary = ""
-    
     @StateObject private var viewModel = ArticlesViewModel()
     
     @State private var isError = false
@@ -84,6 +64,7 @@ struct ArticleView: View {
     }
 }
 
+
 extension ArticleView: AuthenticationFormProtocol {
     var formIsValid: Bool {
         return !trackId.isEmpty
@@ -98,3 +79,4 @@ struct ArticleView_Previews: PreviewProvider {
         ArticleView()
     }
 }
+

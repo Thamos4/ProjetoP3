@@ -20,14 +20,9 @@ struct Home: View {
                 ZStack{
                     Color("HomeBG")
                     .ignoresSafeArea()
-                    //hamburger e profile photo
                     ScrollView {
                         VStack(alignment: .leading){
                             HStack{
-                                Image(systemName: "line.3.horizontal")
-                                    .imageScale(.large)
-                                    .frame(width: 40, height: 40)
-                                
                                 Spacer()
                                 if let image = viewModel.profileImage {
                                     image
@@ -44,21 +39,23 @@ struct Home: View {
                                         .clipShape(Circle())
                                         .padding([.top, .trailing], 14)
                                 }
-                                
+                
                             }
                             HStack{
                                 Text("Manage\nyour tasks")
                                     .font(.system(size: 50))
-                                    .padding(.trailing, 30)
                                 VStack {
-                                    Button(action: { showWelcomeView = true }) {
-                                        Text("New Task")
-                                            .foregroundColor(.white)
-                                            .padding(.horizontal)
-                                            .padding(.vertical,8)
-                                            .background(Color("TaskBG"))
-                                            .clipShape(Capsule())
+                                    if user.role == .admin {
+                                        Button(action: { showWelcomeView = true }) {
+                                            Text("Add Conference")
+                                                .foregroundColor(.white)
+                                                .padding(.horizontal)
+                                                .padding(.vertical,8)
+                                                .background(Color("TaskBG"))
+                                                .clipShape(Capsule())
+                                        }
                                     }
+
                                 }
                                 .navigationDestination(isPresented: $showWelcomeView) {
                                     CreateTask()

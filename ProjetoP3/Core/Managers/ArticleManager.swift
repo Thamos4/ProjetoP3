@@ -16,20 +16,27 @@ class ArticleManager{
     
     private let articlesCollection = Firestore.firestore().collection("articles")
     
-    private func articlesDocument(articleId: String) -> DocumentReference {
+    private func articleDocument(articleId: String) -> DocumentReference {
         articlesCollection.document(articleId)
     }
     
-    func createArticle(){
-        //
+    func createArticle (article: Article) async throws{
+        try articleDocument(articleId: article.id).setData(from: article, merge: false)
+    }
+    
+    func createArticle (trackId: String, author: String, summary: String) async throws{
+        let newArticleRef = articlesCollection.document()
+        let id = newArticleRef.documentID
+        let newArticle = Article(id: id, trackId: trackId, author: author, summary: summary)
+        try newArticleRef.setData(from: newArticle)
     }
     
     func getArticle(articleId: String) async throws -> Article{
-        try await articlesDocument(articleId: articleId).getDocument(as: Article.self)
+        try await articleDocument(articleId: articleId).getDocument(as: Article.self)
     }
     
     func updateArticle(article: Article) async throws {
-        try articlesDocument(articleId: article.id).setData(from: article, merge: true)
+        try articleDocument(articleId: article.id).setData(from: article, merge: true)
     }
     
     func getAllArticles() async throws -> [Article]{
@@ -42,7 +49,7 @@ class ArticleManager{
     
     func deleteArticle(articleId: String) async throws -> Void{
         do{
-            try await articlesDocument(articleId: articleId).delete()
+            try await articleDocument(articleId: articleId).delete()
         }catch{
             print("DEBUG: Made an oopsie deleting article u.u")
         }

@@ -15,7 +15,6 @@ class AdminDashboardViewModel: ObservableObject {
         print("DEBGUG: Called getAllUsers from ViewModel")
         self.users = try await UserManager.shared.getAllUsers()
     }
-    
 }
 
 struct AdminDashboardView: View{

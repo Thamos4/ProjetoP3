@@ -52,9 +52,10 @@ class UserManager{
     }
 
       func switchUserRole(userId: String) async throws {
-          let user = try await userDocument(userId: userId).getDocument().data(as: User.self)
-          let role = (user.role == Role.user) ? "Admin" : "User"
-          try await userDocument(userId: userId).setData(["role": role], merge: true)
+          var user = try await userDocument(userId: userId).getDocument().data(as: User.self)
+          user.role.toggle()
+//          try await userDocument(userId: userId).setData(["role": role], merge: true)
+          try userDocument(userId: userId).setData(from: user, merge: true)
       }
 
       func resetPassword(userId: String) async throws {

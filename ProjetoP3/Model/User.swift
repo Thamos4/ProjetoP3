@@ -10,13 +10,18 @@ import Foundation
 enum Role: String, Codable {
     case admin = "Admin"
     case user = "User"
+    
+    mutating func toggle() {
+            // Switch between roles
+            self = (self == .user) ? .admin : .user
+        }
 }
 
 struct User: Identifiable, Codable {
     let id: String
     let fullname: String
     let email: String
-    let role: Role
+    var role: Role
     let birthdate: String
     var profileImagePath: String
     

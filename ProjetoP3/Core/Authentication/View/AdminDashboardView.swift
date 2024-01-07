@@ -18,12 +18,17 @@ class AdminDashboardViewModel: ObservableObject {
     
     func switchUserRole(userId: String) async throws{
         try await UserManager.shared.switchUserRole(userId: userId)
+        
+        if let index = users.firstIndex(where: { $0.id == userId }) {
+            users[index].role.toggle()
+        }
     }
     
 }
 
 struct AdminDashboardView: View{
     @StateObject private var viewModel = AdminDashboardViewModel()
+    
     
     var body: some View {
         NavigationStack{

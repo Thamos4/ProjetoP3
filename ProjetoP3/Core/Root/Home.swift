@@ -20,7 +20,7 @@ struct Home: View {
             NavigationStack {
                 ZStack{
                     Color("HomeBG")
-                    .ignoresSafeArea()
+                        .ignoresSafeArea()
                     ScrollView {
                         VStack(alignment: .leading){
                             HStack{
@@ -40,119 +40,45 @@ struct Home: View {
                                         .clipShape(Circle())
                                         .padding([.top, .trailing], 14)
                                 }
-                
-                            }
+                                
+                            }.padding(.horizontal)
                             HStack{
-                                Text("Conferences")
+                                Text("Welcome")
                                     .font(.system(size: 50))
-                                VStack {
-                                    if user.role == .admin {
-                                        Button(action: { showWelcomeView = true }) {
-                                            Text("Add Conference")
-                                                .foregroundColor(.white)
-                                                .padding(.horizontal)
-                                                .padding(.vertical,8)
-                                                .background(Color("TaskBG"))
-                                                .clipShape(Capsule())
-                                        }
-                                    }
+                            }.padding(.horizontal)
+                        }
 
-                                }
-                                .navigationDestination(isPresented: $showWelcomeView) {
-                                    AddConferenceView()
-                                }
-                            }
-                        }
                         
-                        //cards (pode ser outro background depois)
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 20) {
-                                ForEach(conferenceViewModel.conferences) { conference in
-                                    Text(conference.name)
-                                        .foregroundStyle(.white)
-                                        .font(.largeTitle)
-                                        .frame(width: 175, height: 225)
-                                        .background(.purple)
-                                        .cornerRadius(10)
-                                    
-                                }
-                            }
-                            .foregroundStyle(.white)
-                            .font(.largeTitle)
-                            .frame(width: 175, height: 225)
-                            .background(Color("TaskBG"))
-                            .cornerRadius(10)
-                            .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
-                        }
-                        
-                        Text("Progress")
-                            .font(.system(size: 25))
-                            .padding(.top, 30)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        
-                        VStack(alignment: .leading, spacing: 15){
-                            HStack {
-                                Text("15/24/2024")
-                                    .font(.caption)
-                                    .padding(.horizontal)
-                                    .padding(.vertical, 8)
-                                    .background(.black.opacity(0.1))
-                                    .foregroundColor(Color(.white))
-                                    .clipShape(Capsule())
-                                
-                                Spacer()
-                                
-                            }
-                            Text("Random conference 007")
-                                .font(.title3)
-                                .foregroundColor(Color(.white))
-                                .bold()
+                        HStack {
+                            Text("Conferences")
+                                .font(.system(size: 25))
+                                .padding(.top, 5)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            HStack{
-                                Image(systemName: "person")
-                                .foregroundColor(Color(.white))
-                            }
-                        }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color("TaskBG"))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .padding()
-                        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
-                        
-                        VStack(alignment: .leading, spacing: 15){
-                            HStack {
-                                Text("15/24/2024")
-                                    .font(.caption)
-                                    .padding(.horizontal)
-                                    .padding(.vertical, 8)
-                                    .background(.black.opacity(0.1))
-                                    .foregroundColor(Color(.white))
-                                    .clipShape(Capsule())
-                                
-                                Spacer()
+                            VStack {
+                                if user.role == .admin {
+                                    Button(action: { showWelcomeView = true }) {
+                                        Text("Add Conference")
+                                            .foregroundColor(.white)
+                                            .padding(.horizontal)
+                                            .padding(.vertical,8)
+                                            .background(Color("TaskBG"))
+                                            .clipShape(Capsule())
+                                    }
+                                }
                                 
                             }
-                            Text("Random conference 007")
-                                .font(.title3)
-                                .foregroundColor(Color(.white))
-                                .bold()
-                            
-                            HStack{
-                                Image(systemName: "person")
-                                .foregroundColor(Color(.white))
+                            .navigationDestination(isPresented: $showWelcomeView) {
+                                AddConferenceView()
                             }
-                        }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color("TaskBG"))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .padding()
-                        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
+                        }.padding(.horizontal)
+
                         
+                        
+                        ForEach(conferenceViewModel.conferences) { conference in
+                           ConferenceContainerView(conference: conference)
+                        }
                     }
-                    .padding(.horizontal)
-                    .scrollIndicators(.hidden)
                 }
             }.onAppear {
                 Task {
@@ -171,7 +97,6 @@ struct Home: View {
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
         let authViewModel = AuthViewModel()
-        let conferenceViewModel = ConferenceViewModel()
         authViewModel.currentUser = User.MOCK_USER
         
         return Home()

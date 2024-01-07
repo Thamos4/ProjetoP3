@@ -28,6 +28,7 @@ class AdminDashboardViewModel: ObservableObject {
 
 struct AdminDashboardView: View{
     @StateObject private var viewModel = AdminDashboardViewModel()
+    @StateObject private var authViewModel = AuthViewModel()
     
     
     var body: some View {
@@ -37,19 +38,23 @@ struct AdminDashboardView: View{
                     VStack{
                         Text(user.fullname)
                         Text(user.role.rawValue)
-                        Button{
-                            Task {
-                                try await viewModel.switchUserRole(userId: user.id)
+                        
+                        if(user.id != authViewModel.currentUser?.id){
+                            Button{
+                                Task {
+                                    try await viewModel.switchUserRole(userId: user.id)
+                                }
+                            }label: {
+                                Text("Switch Role")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .frame(width: 340, height: 50)
+                                    .background(Color("TaskBG"))
+                                    .clipShape(Capsule())
+                                    .padding()
                             }
-                        }label: {
-                            Text("Switch Role")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(width: 340, height: 50)
-                                .background(Color("TaskBG"))
-                                .clipShape(Capsule())
-                                .padding()
                         }
+
 
                     }
                 }

@@ -19,11 +19,19 @@ struct MainTabView: View {
                 
                 ProfileView()
                     .tabItem {Label("Profile", systemImage: "person")}
+
+
+                if let user = authViewModel.currentUser, user.role == .admin {
+                    
+                    AdminDashboardView()
+                        .tabItem {
+                            Label("Dashboard", systemImage: "lock")
+                        }
+                }
             }
         } else {
             LoginView()
         }
-
     }
 }
 

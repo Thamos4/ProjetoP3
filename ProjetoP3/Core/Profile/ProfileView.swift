@@ -17,49 +17,54 @@ struct ProfileView: View {
         if let user = viewModel.currentUser {
             List {
                 Section {
-                    HStack{
-                       
-                        PhotosPicker(selection: $viewModel.selectedItem){
-                            if let profileImage = viewModel.profileImage{
-                                profileImage
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 72, height: 72)
-                                    .cornerRadius(10)
-                                    .clipShape(Circle())
-                            } else {
-                                Text(user.initials)
-                                    .font(.title)
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.white)
-                                    .frame(width: 72, height: 72)
-                                    .background(Color(.systemGray3))
-                                    .clipShape(Circle())
-                            }
-                        }.onChange(of: viewModel.selectedItem, perform: {
-                            newValue in if let newValue {
-                                Task {
-                                    viewModel.saveProfileImage(item: newValue)
+                    ZStack{
+                                    
+                        VStack{
+                            HStack{
+                            Spacer()
+                            PhotosPicker(selection: $viewModel.selectedItem){
+                                if let profileImage = viewModel.profileImage{
+                                    profileImage
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 100, height: 100)
+                                        .cornerRadius(10)
+                                        .clipShape(Circle())
+                                } else {
+                                    Text(user.initials)
+                                        .font(.title)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.white)
+                                        .frame(width: 100, height: 100)
+                                        .background(Color(.systemGray3))
+                                        .clipShape(Circle())
                                 }
-
-                            }
-                        })
-
-                        
-
-                        
-                        VStack(alignment: .leading, spacing: 4){
-                            Text(user.fullname)
-                                .font(.subheadline)
-                                .fontWeight(.semibold)
-                                .padding(.top, 4)
-                            
-                            Text(user.email)
-                                .font(.footnote)
-                                .foregroundColor(.gray)
-                                
+                            }.onChange(of: viewModel.selectedItem, perform: {
+                                newValue in if let newValue {
+                                    Task {
+                                        viewModel.saveProfileImage(item: newValue)
+                                    }
+                                    
+                                }
+                            })
+                        Spacer()
                         }
-                    }                    
+                            
+                            
+                            
+                            VStack(alignment: .center, spacing: 4){
+                                Text(user.fullname)
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                                    .padding(.top, 4)
+                                
+                                Text(user.email)
+                                    .font(.footnote)
+                                    .foregroundColor(.gray)
+                                
+                            }
+                        }
+                    }
                 }
                 
                 Section("General") {
@@ -108,7 +113,7 @@ struct ProfileView: View {
                     
                 }
     
-            }
+            }.background(Color("CardBG"))
         }
     }
 }

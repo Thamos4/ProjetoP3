@@ -15,16 +15,16 @@ class ScheduleViewModel: ObservableObject{
         didSet{ Task { try await setAllSchedules()}}
     }
 
-    func createSchedule(name: String, beginDate: String, endDate: String, description: String) async throws {
-        try await ScheduleManager.shared.createSchedule()
+    func createSchedule(name: String, trackId: String, articleId: String, roomId: String, time: String) async throws {
+        try await ScheduleManager.shared.createSchedule(trackId: trackId, articleId: articleId, roomId: roomId, time: time)
     }
 
     func setAllSchedules() async throws {
         try await schedules = ScheduleManager.shared.getAllSchedules()
     }
 
-    func updateSchedule(id: String, name: String, beginDate: String, endDate: String, description: String) async throws{
-        let newSchedule = Schedule()
+    func updateSchedule(id: String, trackId: String, articleId: String, roomId: String, time: String) async throws{
+        let newSchedule = Schedule(id: id, trackId: trackId, articleId: articleId, roomId: roomId, time: time)
         try await ScheduleManager.shared.updateSchedule(schedule: newSchedule)
     }
 

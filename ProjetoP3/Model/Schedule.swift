@@ -12,5 +12,5 @@ struct Schedule: Identifiable, Codable {
     let trackId: String
     let articleId: String
     let roomId: String
-    let time: Date
+    let time: String
 }

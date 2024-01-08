@@ -21,10 +21,10 @@ class ScheduleManager{
         schedulesCollection.document(scheduleId)
     }
     
-    func createSchedule (name: String, description: String, conferenceId: String) async throws{
+    func createSchedule (trackId: String, articleId: String, roomId: String, time: String) async throws{
         let newScheduleRef = schedulesCollection.document()
         let id = newScheduleRef.documentID
-        let newSchedule = Schedule(id: id, trackId: String, articleId: String, roomId: String, time: Date)
+        let newSchedule = Schedule(id: id, trackId: trackId, articleId: articleId, roomId: roomId, time: time)
         try newScheduleRef.setData(from: newSchedule)
     }
     

@@ -11,22 +11,19 @@ struct Home: View {
     @State private var email = ""
     @State private var password = ""
     @EnvironmentObject var viewModel: AuthViewModel
+    @StateObject var conferenceViewModel = ConferenceViewModel()
     @State private var isError = false
+    @State private var showWelcomeView = false
     
     var body: some View {
         if let user = viewModel.currentUser {
             NavigationStack {
                 ZStack{
                     Color("HomeBG")
-                    .ignoresSafeArea()
-                    //hamburger e profile photo
+                        .ignoresSafeArea()
                     ScrollView {
                         VStack(alignment: .leading){
                             HStack{
-                                Image(systemName: "line.3.horizontal")
-                                    .imageScale(.large)
-                                    .frame(width: 40, height: 40)
-                                
                                 Spacer()
                                 if let image = viewModel.profileImage {
                                     image
@@ -44,114 +41,56 @@ struct Home: View {
                                         .padding([.top, .trailing], 14)
                                 }
                                 
-                            }
-                            Text("Manage\nyour tasks")
-                                .font(.system(size: 50))
+                            }.padding(.horizontal)
+                            HStack{
+                                Text("Welcome")
+                                    .font(.system(size: 50))
+                            }.padding(.horizontal)
                         }
-                        //cards (pode ser outro background depois)
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 20) {
-                              //  ForEach(0..<5) {
-                                VStack {
-                                    HStack{
-                                        Spacer()
-                                        
-                                        Text("15/24/2024")
-                                            .font(.caption)
+                        
+                        
+                        HStack {
+                            Text("Conferences")
+                                .font(.system(size: 25))
+                                .padding(.top, 5)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            VStack {
+                                if user.role == .admin {
+                                    Button(action: { showWelcomeView = true }) {
+                                        Text("Add Conference")
+                                            .foregroundColor(.white)
                                             .padding(.horizontal)
-                                            .padding(.top, 5)
+                                            .padding(.vertical,8)
+                                            .background(Color("TaskBG"))
                                             .clipShape(Capsule())
-                                            .frame(minWidth: 0, maxHeight: .infinity, alignment: .topTrailing)
                                     }
-                                   
-                                    
-                                    Text("Random conference 007")
-                                        .font(.title3)
-                                        .bold()
-                                        .frame(minWidth: 0,minHeight: 125, maxHeight: 550, alignment: .top)
-                                    Spacer()
                                 }
-                                //}
+                                
                             }
-                            .foregroundStyle(.white)
-                            .font(.largeTitle)
-                            .frame(width: 175, height: 225)
-                            .background(Color("TaskBG"))
-                            .cornerRadius(10)
-                            .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
+                            .navigationDestination(isPresented: $showWelcomeView) {
+                                AddConferenceView()
+                            }
+                        }.padding(.horizontal)
+                        
+                        
+                        if(conferenceViewModel.conferences.count > 0) {
+                            ForEach(conferenceViewModel.conferences) { conference in
+                               ConferenceContainerView(conference: conference)
+                            }
+                        } else {
+                            Text("No Available Conferencees")
+                                .font(.system(size: 25))
+                                .padding(.top, 5)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                        
-                        Text("Progress")
-                            .font(.system(size: 25))
-                            .padding(.top, 30)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        
-                        VStack(alignment: .leading, spacing: 15){
-                            HStack {
-                                Text("15/24/2024")
-                                    .font(.caption)
-                                    .padding(.horizontal)
-                                    .padding(.vertical, 8)
-                                    .background(.black.opacity(0.1))
-                                    .foregroundColor(Color(.white))
-                                    .clipShape(Capsule())
-                                
-                                Spacer()
-                                
-                            }
-                            Text("Random conference 007")
-                                .font(.title3)
-                                .foregroundColor(Color(.white))
-                                .bold()
-                            
-                            HStack{
-                                Image(systemName: "person")
-                                .foregroundColor(Color(.white))
-                            }
-                        }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color("TaskBG"))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .padding()
-                        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
-                        
-                        VStack(alignment: .leading, spacing: 15){
-                            HStack {
-                                Text("15/24/2024")
-                                    .font(.caption)
-                                    .padding(.horizontal)
-                                    .padding(.vertical, 8)
-                                    .background(.black.opacity(0.1))
-                                    .foregroundColor(Color(.white))
-                                    .clipShape(Capsule())
-                                
-                                Spacer()
-                                
-                            }
-                            Text("Random conference 007")
-                                .font(.title3)
-                                .foregroundColor(Color(.white))
-                                .bold()
-                            
-                            HStack{
-                                Image(systemName: "person")
-                                .foregroundColor(Color(.white))
-                            }
-                        }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color("TaskBG"))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .padding()
-                        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
-                        
+
                     }
-                    .padding(.horizontal)
-                    .scrollIndicators(.hidden)
                 }
             }.onAppear {
                 Task {
+                    try await conferenceViewModel.setAllConferences()
+                    
                     let uiImage = try await StoreManager.shared.getImage(userId: user.id, path: user.profileImagePath)
                     
                     viewModel.profileImage = Image(uiImage: uiImage)

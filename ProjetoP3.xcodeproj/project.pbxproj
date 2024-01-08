@@ -46,6 +46,7 @@
 		35D12F412B4B38EA00361B02 /* ConferenceContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D12F402B4B38EA00361B02 /* ConferenceContainerView.swift */; };
 		35EF62C32B45698000DF0E5F /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35EF62C22B45698000DF0E5F /* MainTabView.swift */; };
 		35EF62C52B456B0F00DF0E5F /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35EF62C42B456B0F00DF0E5F /* Home.swift */; };
+		57F9F87E2B4C0CC1001A3BD6 /* TUMAMA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F9F87D2B4C0CC1001A3BD6 /* TUMAMA.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -85,6 +86,7 @@
 		35D12F402B4B38EA00361B02 /* ConferenceContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConferenceContainerView.swift; sourceTree = "<group>"; };
 		35EF62C22B45698000DF0E5F /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		35EF62C42B456B0F00DF0E5F /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		57F9F87D2B4C0CC1001A3BD6 /* TUMAMA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TUMAMA.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				358159D32B2D25D30023428C /* ProfileView.swift */,
+				57F9F87D2B4C0CC1001A3BD6 /* TUMAMA.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				351A6C862B2BBF2A00A8B4F0 /* LoginView.swift in Sources */,
 				358944D42B48AD0E009DAC2D /* StorageManager.swift in Sources */,
 				35D12F2B2B4B004000361B02 /* ConferenceViewModel.swift in Sources */,
+				57F9F87E2B4C0CC1001A3BD6 /* TUMAMA.swift in Sources */,
 				35D12F2D2B4B005B00361B02 /* ConferenceView.swift in Sources */,
 				351A6C882B2BC08500A8B4F0 /* InputView.swift in Sources */,
 				358159D22B2D22EF0023428C /* ProjetoP3App.swift in Sources */,

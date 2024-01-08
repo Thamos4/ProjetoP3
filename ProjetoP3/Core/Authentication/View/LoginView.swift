@@ -27,6 +27,7 @@ struct LoginView: View {
                     Text("Welcome back.")
                         .font(.largeTitle)
                         .fontWeight(.semibold)
+                        
                 }
                 .frame(height: 260)
                 .padding(.leading)

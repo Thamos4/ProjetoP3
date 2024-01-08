@@ -8,21 +8,27 @@
 import SwiftUI
 import PhotosUI
 
-struct ProfileView: View {
+struct TUMAMA: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var showDeleteAlert = false
 
     
     var body: some View {
         if let user = viewModel.currentUser {
-            
-            List {
-                Section {
-                    ZStack{
-                                    
-                        VStack{
-                            HStack{
-                            Spacer()
+          
+            GeometryReader { geometry in
+                ZStack{
+                    Color(.white)
+                        .ignoresSafeArea()
+                    
+                    Ellipse()
+                        .fill(Color("TaskBG"))
+                        .frame(width: geometry.size.width * 2.0, height: geometry.size.height * 0.50)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.1)
+                        .shadow(radius: 3)
+                        .edgesIgnoringSafeArea(.all)
+                    HStack {
+                        VStack() {
                             PhotosPicker(selection: $viewModel.selectedItem){
                                 if let profileImage = viewModel.profileImage{
                                     profileImage
@@ -45,30 +51,50 @@ struct ProfileView: View {
                                     Task {
                                         viewModel.saveProfileImage(item: newValue)
                                     }
-                                    
                                 }
                             })
-                        Spacer()
+                            Text(user.fullname)
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .padding(.top, 4)
+                                .foregroundColor(.white)
+                            
+                            
+                            Spacer()
+                            
                         }
+                        .padding()
+                        .padding(.top, 20)
+                        
+                        
+                    }
+                    
+                    VStack{
+                        
+                        Text(user.email)
+                            .font(.footnote)
+                            .foregroundColor(.black)
+                        
+                        HStack(spacing: 12){
+                            Image(systemName: "camera.fill")
+                                .imageScale(.small)
+                                .font(.title)
+                                .foregroundColor(Color(.systemGray))
                             
-                            
-                            
-                            VStack(alignment: .center, spacing: 4){
-                                Text(user.fullname)
+                            PhotosPicker(selection: $viewModel.selectedItem, matching: .images, photoLibrary: .shared()) {
+
+                                Text("Edit Image")
                                     .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                    .padding(.top, 4)
-                                
-                                Text(user.email)
-                                    .font(.footnote)
-                                    .foregroundColor(.gray)
-                                
+                                    .foregroundColor(.black)
                             }
                         }
                     }
+                    
+                    
+                    
                 }
-                
-                Section("General") {
+            }
+                /**Section("General") {
                     HStack(spacing: 12){
                         Image(systemName: "camera.fill")
                             .imageScale(.small)
@@ -84,9 +110,9 @@ struct ProfileView: View {
                     }
                 
                     SettingsRowView(imageName: "calendar", title: "Birthdate: \(user.birthdate) ", tintColor: Color(.systemGray))
-                }
+                }*/
                 
-                Section("Account") {
+               /** Section("Account") {
                     Button{
                         viewModel.signOut()
                     } label: {
@@ -112,19 +138,19 @@ struct ProfileView: View {
                             }))
                     }
                     
-                }
+                }*/
     
-            }.background(Color("CardBG"))
+            
         }
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
+struct TUMAMA_Previews: PreviewProvider {
     static var previews: some View {
         let authViewModel = AuthViewModel()
         authViewModel.currentUser = User.MOCK_USER
         
-        return ProfileView()
+        return TUMAMA()
             .environmentObject(authViewModel)
     }
 }

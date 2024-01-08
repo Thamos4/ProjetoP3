@@ -22,10 +22,10 @@ class ArticleManager{
         articlesCollection.document(articleId)
     }
     
-    func createArticle (trackId: String, author: String, summary: String) async throws{
+    func createArticle (trackId: String, title: String, author: String, summary: String) async throws{
         let newArticleRef = articlesCollection.document()
         let id = newArticleRef.documentID
-        let newArticle = Article(id: id, trackId: trackId, author: author, summary: summary)
+        let newArticle = Article(id: id, trackId: trackId, title: title, author: author, summary: summary)
         try newArticleRef.setData(from: newArticle)
     }
     
@@ -53,12 +53,15 @@ class ArticleManager{
         }
     }
     
-    func addComment(articleId: String, userId: String, content: String) async throws
-    {
+    func addComment(articleId: String, userId: String, content: String) async throws{
         let newCommentRef = commentsCollection.document()
         let id = newCommentRef.documentID
         let newComment = articleComment(id: id, articleId: articleId, userId: userId, content: content)
         try newCommentRef.setData(from: newComment)
+    }
+    
+    func searchArticleByTitle(articleTitle: String) async throws {
+        
     }
 }
 

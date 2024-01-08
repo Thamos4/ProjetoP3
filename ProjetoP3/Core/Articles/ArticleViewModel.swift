@@ -12,12 +12,12 @@ import SwiftUI
 class ArticlesViewModel: ObservableObject{
     @Published private(set) var articles: [Article] = []
     
-    func createArticle(trackId: String, author: String, summary: String) async throws {
-        try await ArticleManager.shared.createArticle(trackId: trackId, author: author, summary: summary)
+    func createArticle(trackId: String, title: String, author: String, summary: String) async throws {
+        try await ArticleManager.shared.createArticle(trackId: trackId, title: title, author: author, summary: summary)
     }
     
-    func updateArticle(id: String, trackId: String, author: String, summary: String) async throws{
-        let newArticle = Article(id:id, trackId: trackId, author: author, summary: summary)
+    func updateArticle(id: String, trackId: String, title: String, author: String, summary: String) async throws{
+        let newArticle = Article(id:id, trackId: trackId, title: title, author: author, summary: summary)
         try await ArticleManager.shared.updateArticle(article: newArticle)
     }
     
@@ -28,6 +28,10 @@ class ArticlesViewModel: ObservableObject{
     func addComment(articleId: String, userId: String, content: String) async throws {
         try await ArticleManager.shared.addComment(articleId: articleId, userId: userId, content: content)
     }
+    
+    func searchArticle(articleName: String) async throws{
+        articles = articles.filter({ article in
+            return article.title.lowercased().contains(articleName.lowercased())
+        })
+    }
 }
-
-

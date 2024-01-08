@@ -14,54 +14,58 @@ struct ConferenceContainerView: View {
     @State private var showAlert = false
     var body: some View {
         VStack(alignment: .leading, spacing: 15){
-            HStack {
-                Text("From: \(conference.beginDate)")
-                    .font(.caption)
-                    .foregroundColor(Color(.white))
-                    .clipShape(Capsule())
-                
-                Spacer()
-                
-                Text("To: \(conference.endDate)")
-                    .font(.caption)
-                    .foregroundColor(Color(.white))
-                    .clipShape(Capsule())
-                
-            }.padding(.vertical, 6)
-            
-            Text(conference.name)
-                .font(.title3)
-                .foregroundColor(Color(.white))
-                .bold()
-            
-            Text(conference.description)
-                .font(.headline)
-                .foregroundColor(Color(.white))
-                .bold()
-
+            NavigationLink(destination: ConferenceView(conference: conference)) {
+                VStack {
+                    HStack {
+                        Text("From: \(conference.beginDate)")
+                            .font(.caption)
+                            .foregroundColor(Color(.white))
+                            .clipShape(Capsule())
+                        
+                        Spacer()
+                        
+                        Text("To: \(conference.endDate)")
+                            .font(.caption)
+                            .foregroundColor(Color(.white))
+                            .clipShape(Capsule())
+                        
+                    }.padding(.vertical, 6)
+                    
+                    VStack(alignment: .leading, spacing: 12){
+                        Text(conference.name)
+                            .font(.title3)
+                            .foregroundColor(Color(.white))
+                            .bold()
+                        
+                        Text(conference.description)
+                            .font(.headline)
+                            .foregroundColor(Color(.white))
+                            .bold()
+                    }.frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
             
             HStack{
-                
                 if let user = viewModel.currentUser, user.role == .admin {
                     Button {
                         print("Lol123")
                     } label: {
                         Image(systemName: "pencil")
-                        .foregroundColor(Color(.white))
-                        .font(.system(size: 13))
+                            .foregroundColor(Color(.white))
+                            .font(.system(size: 13))
                     }
                     Button {
                         self.showAlert = true
                     } label: {
                         Image(systemName: "trash")
-                        .foregroundColor(Color(.red))
-                        .font(.system(size: 13))
+                            .foregroundColor(Color(.red))
+                            .font(.system(size: 13))
                     }.alert(isPresented: $showAlert) {
                         Alert(title: Text("Delete Conference?"),
                               message: Text("Do you really want to delete this conference? "),
                               primaryButton: .default(Text("Yes"), action:{
                             self.showAlert = false
-                          
+                            
                             Task {
                                 try await conferenceViewModel.deleteConference(id: conference.id)
                             }
@@ -71,7 +75,7 @@ struct ConferenceContainerView: View {
                             self.showAlert = false
                         }))
                     }
-
+                    
                 }
             }
         }
@@ -81,8 +85,8 @@ struct ConferenceContainerView: View {
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .padding()
         .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
-
-
+        
+        
     }
 }
 

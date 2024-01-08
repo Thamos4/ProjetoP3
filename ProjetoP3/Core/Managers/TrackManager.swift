@@ -21,10 +21,10 @@ class TrackManager{
         tracksCollection.document(trackId)
     }
     
-    func createTrack (name: String, description: String) async throws{
+    func createTrack (name: String, description: String, conferenceId: String) async throws{
         let newTrackRef = tracksCollection.document()
         let id = newTrackRef.documentID
-        let newTrack = Track(id: id, name: name, description: description)
+        let newTrack = Track(id: id, name: name, description: description, conferenceId: conferenceId)
         try newTrackRef.setData(from: newTrack)
     }
     
@@ -46,5 +46,9 @@ class TrackManager{
         }catch{
             print("DEBUG: Made an oopsie deleting track u.u")
         }
+    }
+    
+    func getAllTracksForConferenceId(conferenceId: String) async throws -> [Track]{
+        try await tracksCollection.whereField("conferenceId", isEqualTo: conferenceId).getDocuments(as: Track.self)
     }
 }

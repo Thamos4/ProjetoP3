@@ -8,7 +8,8 @@
 import Foundation
 
 struct Track: Identifiable, Codable {
-  let id: String
-  let name: String
-  let description: String
+    let id: String
+    let name: String
+    let description: String
+    let conferenceId: String
 }

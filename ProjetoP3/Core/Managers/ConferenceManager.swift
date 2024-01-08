@@ -27,15 +27,19 @@ class ConferenceManager {
         try newConferenceRef.setData(from: newConference)
     }
     
+    func updateConference(conference: Conference) async throws {
+        try conferenceDocument(conferenceId: conference.id).setData(from: conference, merge: true)
+    }
+    
     func getAllConferences() async throws -> [Conference]{
         try await conferencesCollection.getDocuments(as: Conference.self)
     }
     
-    func deleteConference(id: String) async throws {
+    func deleteConference(conferenceId: String) async throws{
         do{
-            try await conferenceDocument(conferenceId: id).delete()
+            try await conferenceDocument(conferenceId: conferenceId).delete()
         }catch{
-            print("DEBUG: Error Deleting")
+            print("DEBUG: Made an oopsie deleting conference u.u")
         }
     }
 }

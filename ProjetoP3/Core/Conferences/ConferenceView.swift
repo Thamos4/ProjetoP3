@@ -10,8 +10,11 @@ import SwiftUI
 struct ConferenceView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @StateObject var conferenceViewModel = ConferenceViewModel() 
+    
     @State private var conferenceDays: [Date] = []
     @State private var currentDay: Date = Date()
+    @Namespace var animation
+    
     let conference: Conference
     
     func isToday(date: Date) -> Bool {
@@ -61,7 +64,6 @@ struct ConferenceView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10){
                     ForEach(conferenceDays, id: \.self){ day in
-                        
                         VStack(spacing: 10) {
                             Text(conferenceViewModel.extractDate(date: day, format: "DD"))
                                 .font(.system(size: 15))
@@ -76,13 +78,24 @@ struct ConferenceView: View {
                                 .opacity(isToday(date: day) ? 1 : 0)
                             
                         }
-                        .foregroundColor(.white)
+                        .foregroundStyle(isToday(date: day) ? .primary : .secondary)
+                        .foregroundColor(isToday(date: day) ? .white : .black)
                         .frame(width: 45, height: 90)
                         .background(
                             ZStack{
-                                Capsule().fill(.black)
+                                if isToday(date: day) {
+                                    Capsule()
+                                        .fill(.black)
+                                        .matchedGeometryEffect(id: "CURRENTDAY", in: animation)
+                                }
                             }
                         )
+                        .contentShape(Capsule())
+                        .onTapGesture {
+                            withAnimation {
+                                currentDay = day
+                            }
+                        }
                     }
                     
                 }.onAppear {

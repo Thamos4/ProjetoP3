@@ -14,10 +14,12 @@ struct MainTabView: View {
             TabView{
                 Home()
                     .tabItem {Label("Home", systemImage: "house")}
-
+                
+                ArticleSearchView()
+                    .tabItem {Label("Search", systemImage: "magnifyingglass")}
+                
                 ProfileView()
                     .tabItem {Label("Profile", systemImage: "person")}
-
 
                 if let user = authViewModel.currentUser, user.role == .admin {
 

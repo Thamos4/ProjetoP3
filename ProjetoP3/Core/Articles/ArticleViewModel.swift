@@ -10,7 +10,9 @@ import SwiftUI
 
 @MainActor
 class ArticleViewModel: ObservableObject{
-    @Published private(set) var articles: [Article] = []
+    @Published var articles: [Article] = []{
+        didSet{ Task { try await getAllArticles()}}
+    }
     
     func createArticle(trackId: String, title: String, author: String, summary: String) async throws {
         try await ArticleManager.shared.createArticle(trackId: trackId, title: title, author: author, summary: summary)
@@ -29,8 +31,12 @@ class ArticleViewModel: ObservableObject{
         try await ArticleManager.shared.addComment(articleId: articleId, userId: userId, content: content)
     }
     
-    func searchArticle(articleName: String) async throws{
-        articles = articles.filter({ article in
+    func getAllArticles() async throws {
+        try await articles =  ArticleManager.shared.getAllArticles()
+    }
+    
+    func searchArticle(articleName: String, articlesList: [Article]) async throws{
+        articles = articlesList.filter({ article in
             return article.title.lowercased().contains(articleName.lowercased())
         })
     }

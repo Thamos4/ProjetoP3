@@ -13,6 +13,7 @@ struct ConferenceView: View {
     
     @State private var conferenceDays: [Date] = []
     @State private var currentDay: Date = Date()
+    @State private var showTrackView = false
     @Namespace var animation
     
     let conference: Conference
@@ -47,8 +48,10 @@ struct ConferenceView: View {
                 
                 if let user = viewModel.currentUser, user.role == .admin {
                     HStack {
-                        Image(systemName: "plus")
-                        Text("Add Article")
+                        Button(action: { showTrackView = true }) {
+                            Image(systemName: "plus")
+                            Text("Add Track")
+                        }
                     }
                     .foregroundColor(.white)
                     .padding(.horizontal)
@@ -56,6 +59,10 @@ struct ConferenceView: View {
                     .background(Color("TaskBG"))
                     .clipShape(Capsule())
                     .font(.system(size: 14))
+                    .navigationDestination(isPresented: $showTrackView) {
+                        TrackView(conferenceId: conference.id)
+                            .navigationBarBackButtonHidden(true)
+                    }
                 }
             }.padding(.horizontal)
                 .padding(.top, 12)

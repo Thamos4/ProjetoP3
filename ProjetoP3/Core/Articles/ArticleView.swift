@@ -11,7 +11,7 @@
 //    @State private var trackId = ""
 //    @State private var author = ""
 //    @State private var summary = ""
-//    @StateObject private var viewModel = ArticlesViewModel()
+//    @StateObject private var viewModel = ArticleViewModel()
 //
 //    @State private var isError = false
 //

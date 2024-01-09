@@ -46,6 +46,9 @@
 		35D12F412B4B38EA00361B02 /* ConferenceContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35D12F402B4B38EA00361B02 /* ConferenceContainerView.swift */; };
 		35EF62C32B45698000DF0E5F /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35EF62C22B45698000DF0E5F /* MainTabView.swift */; };
 		35EF62C52B456B0F00DF0E5F /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35EF62C42B456B0F00DF0E5F /* Home.swift */; };
+		35F7DC4C2B4D76F5003F7BAF /* ArticleSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F7DC4B2B4D76F5003F7BAF /* ArticleSearchView.swift */; };
+		35F7DC4E2B4D7AC8003F7BAF /* AddArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F7DC4D2B4D7AC8003F7BAF /* AddArticleView.swift */; };
+		35F7DC502B4D7B6D003F7BAF /* AddTrackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35F7DC4F2B4D7B6D003F7BAF /* AddTrackView.swift */; };
 		5780FD632B4C236F00D066B7 /* ScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5780FD622B4C236F00D066B7 /* ScheduleManager.swift */; };
 		5780FD652B4C238100D066B7 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5780FD642B4C238100D066B7 /* Schedule.swift */; };
 		5780FD682B4C24B900D066B7 /* ScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5780FD672B4C24B900D066B7 /* ScheduleView.swift */; };
@@ -89,6 +92,9 @@
 		35D12F402B4B38EA00361B02 /* ConferenceContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConferenceContainerView.swift; sourceTree = "<group>"; };
 		35EF62C22B45698000DF0E5F /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		35EF62C42B456B0F00DF0E5F /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		35F7DC4B2B4D76F5003F7BAF /* ArticleSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleSearchView.swift; sourceTree = "<group>"; };
+		35F7DC4D2B4D7AC8003F7BAF /* AddArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArticleView.swift; sourceTree = "<group>"; };
+		35F7DC4F2B4D7B6D003F7BAF /* AddTrackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTrackView.swift; sourceTree = "<group>"; };
 		5780FD622B4C236F00D066B7 /* ScheduleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleManager.swift; sourceTree = "<group>"; };
 		5780FD642B4C238100D066B7 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		5780FD672B4C24B900D066B7 /* ScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleView.swift; sourceTree = "<group>"; };
@@ -268,6 +274,8 @@
 				354B56F22B4AC5D9008AD48C /* ArticleViewModel.swift */,
 				35D12F1D2B4AF92500361B02 /* ArticleView.swift */,
 				35D12F222B4AFE8D00361B02 /* ArticlesView.swift */,
+				35F7DC4B2B4D76F5003F7BAF /* ArticleSearchView.swift */,
+				35F7DC4D2B4D7AC8003F7BAF /* AddArticleView.swift */,
 			);
 			path = Articles;
 			sourceTree = "<group>";
@@ -287,6 +295,7 @@
 			children = (
 				35D12F3C2B4B2F2200361B02 /* TrackView.swift */,
 				35D12F3E2B4B2F2C00361B02 /* TrackViewModel.swift */,
+				35F7DC4F2B4D7B6D003F7BAF /* AddTrackView.swift */,
 			);
 			path = Tracks;
 			sourceTree = "<group>";
@@ -405,11 +414,13 @@
 				358810C72B49DCB3001A57DF /* UserManager.swift in Sources */,
 				350AC7EC2B2CF9BB00DA13EA /* ButtonView.swift in Sources */,
 				35D12F412B4B38EA00361B02 /* ConferenceContainerView.swift in Sources */,
+				35F7DC4C2B4D76F5003F7BAF /* ArticleSearchView.swift in Sources */,
 				35EF62C52B456B0F00DF0E5F /* Home.swift in Sources */,
 				35D12F282B4B001A00361B02 /* ConferenceManager.swift in Sources */,
 				358159D62B2D27B00023428C /* SettingsRowView.swift in Sources */,
 				35D12F3F2B4B2F2C00361B02 /* TrackViewModel.swift in Sources */,
 				358159D82B2D2C530023428C /* User.swift in Sources */,
+				35F7DC502B4D7B6D003F7BAF /* AddTrackView.swift in Sources */,
 				35D12F3B2B4B2F0A00361B02 /* TrackManager.swift in Sources */,
 				354B56F32B4AC5D9008AD48C /* ArticleViewModel.swift in Sources */,
 				35D12F212B4AFAB800361B02 /* ArticleComment.swift in Sources */,
@@ -418,6 +429,7 @@
 				3582B0022B2B665A00F4D489 /* ContentView.swift in Sources */,
 				358159D42B2D25D30023428C /* ProfileView.swift in Sources */,
 				350AC7E92B2CF77700DA13EA /* RegistrationView.swift in Sources */,
+				35F7DC4E2B4D7AC8003F7BAF /* AddArticleView.swift in Sources */,
 				35D12F1E2B4AF92500361B02 /* ArticleView.swift in Sources */,
 				5780FD6A2B4C24C700D066B7 /* ScheduleViewModel.swift in Sources */,
 				5780FD632B4C236F00D066B7 /* ScheduleManager.swift in Sources */,

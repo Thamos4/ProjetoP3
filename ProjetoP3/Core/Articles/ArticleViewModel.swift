@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 @MainActor
-class ArticlesViewModel: ObservableObject{
+class ArticleViewModel: ObservableObject{
     @Published private(set) var articles: [Article] = []
     
     func createArticle(trackId: String, title: String, author: String, summary: String) async throws {

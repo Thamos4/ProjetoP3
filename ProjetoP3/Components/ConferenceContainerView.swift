@@ -43,13 +43,14 @@ struct ConferenceContainerView: View {
             HStack{
                 
                 if let user = viewModel.currentUser, user.role == .admin {
-                    Button {
-                        print("Lol123")
-                    } label: {
+//                    Button {
+//                        print("Lol123")
+//                    }
+                    NavigationLink(destination: AddTrackView(conferenceId: conference.id), label:{
                         Image(systemName: "pencil")
                         .foregroundColor(Color(.white))
                         .font(.system(size: 13))
-                    }
+                    })
                     Button {
                         self.showAlert = true
                     } label: {

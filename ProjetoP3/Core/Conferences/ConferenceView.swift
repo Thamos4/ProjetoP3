@@ -7,16 +7,18 @@
 
 import SwiftUI
 
-struct DateWrapper: Identifiable {
-    var id: Date { date }
-    var date: Date
-}
-
 struct ConferenceView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @StateObject var conferenceViewModel = ConferenceViewModel() 
-    @State private var conferenceDays: [DateWrapper]? = nil
+    @State private var conferenceDays: [Date] = []
+    @State private var currentDay: Date = Date()
     let conference: Conference
+    
+    func isToday(date: Date) -> Bool {
+        let calendar = Calendar.current
+        
+        return calendar.isDate(currentDay, inSameDayAs: date)
+    }
    
     var body: some View {
         VStack {
@@ -56,37 +58,40 @@ struct ConferenceView: View {
                 .padding(.top, 12)
             
         
-            
-            HStack(spacing: 15){
-                if let days = conferenceDays {
-                    ForEach(days){ day in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10){
+                    ForEach(conferenceDays, id: \.self){ day in
                         
                         VStack(spacing: 10) {
-                            Text(conferenceViewModel.extractDate(date: day.date, format: "DD"))
+                            Text(conferenceViewModel.extractDate(date: day, format: "DD"))
+                                .font(.system(size: 15))
+                                .fontWeight(.semibold)
                             
-                            Text(conferenceViewModel.extractDate(date: day.date, format: "MMM"))
+                            Text(conferenceViewModel.extractDate(date: day, format: "MMM"))
+                                .font(.system(size: 14))
+                            
+                            Circle()
+                                .fill(.white)
+                                .frame(width: 8, height: 8)
+                                .opacity(isToday(date: day) ? 1 : 0)
                             
                         }
                         .foregroundColor(.white)
-                        .frame(width: 55, height: 90)
+                        .frame(width: 45, height: 90)
                         .background(
                             ZStack{
-                                Capsule().fill(Color("TaskBG"))
+                                Capsule().fill(.black)
                             }
                         )
                     }
-                }
-            }.onAppear {
-                self.conferenceDays = conferenceViewModel.datesInRange(startDate: conference.beginDate, endDate: conference.endDate)
-                
-                print(self.$conferenceDays)
-            }.padding(.top, 24)
-                .padding(.horizontal)
+                    
+                }.onAppear {
+                    self.conferenceDays = conferenceViewModel.datesInRange(startDate: conference.beginDate, endDate: conference.endDate)
+                }.padding(.top, 24)
+                    .padding(.horizontal)
+            }
             
-            
-            
-            
-                 Spacer()
+            Spacer()
         }.padding(.top, 12)
         .padding(.horizontal)
     }

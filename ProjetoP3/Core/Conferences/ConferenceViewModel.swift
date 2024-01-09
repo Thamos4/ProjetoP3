@@ -44,7 +44,7 @@ class ConferenceViewModel: ObservableObject{
         return formatter.string(from: date)
     }
     
-    func datesInRange(startDate: String, endDate: String) -> [DateWrapper] {
+    func datesInRange(startDate: String, endDate: String) -> [Date] {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy"
 
@@ -53,14 +53,15 @@ class ConferenceViewModel: ObservableObject{
             return []
         }
 
-        var dates: [DateWrapper] = []
+        var dates: [Date] = []
         var currentDate = startDate
 
         while currentDate <= endDate {
-            dates.append(DateWrapper(date: currentDate))
+            dates.append(currentDate)
             currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
         }
         
         return dates
     }
+
 }

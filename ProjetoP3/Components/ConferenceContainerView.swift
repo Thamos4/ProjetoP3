@@ -14,7 +14,10 @@ struct ConferenceContainerView: View {
     @State private var showAlert = false
     var body: some View {
         VStack(alignment: .leading, spacing: 15){
-            NavigationLink(destination: ConferenceView(conference: conference)) {
+            NavigationLink(destination: ConferenceView(conference: conference)
+                .navigationBarBackButtonHidden(true)
+            )
+            {
                 VStack {
                     HStack {
                         Text("From: \(conference.beginDate)")

@@ -36,4 +36,31 @@ class ConferenceViewModel: ObservableObject{
         try await ConferenceManager.shared.deleteConference(conferenceId: id)
         conferences.removeAll(where: {$0.id == id})
     }
+    
+    func extractDate(date: Date, format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        
+        return formatter.string(from: date)
+    }
+    
+    func datesInRange(startDate: String, endDate: String) -> [DateWrapper] {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+
+        guard let startDate = dateFormatter.date(from: startDate),
+              let endDate = dateFormatter.date(from: endDate) else {
+            return []
+        }
+
+        var dates: [DateWrapper] = []
+        var currentDate = startDate
+
+        while currentDate <= endDate {
+            dates.append(DateWrapper(date: currentDate))
+            currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
+        }
+        
+        return dates
+    }
 }

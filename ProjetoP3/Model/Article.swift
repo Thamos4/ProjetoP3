@@ -13,4 +13,13 @@ struct Article: Identifiable, Codable {
     let title: String
     let author: String
     let summary: String
+//    let day: String
+//    let hours: String
+//    let pdfPath: String
+}
+
+// Mock Article
+
+extension Article{
+    static var MOCK_ARTICLE = Article(id: NSUUID().uuidString, trackId: "whoknows", title: "MOCK TITLE", author: "MOCK AUTHOR", summary: "MOCK SUMMARY")
 }

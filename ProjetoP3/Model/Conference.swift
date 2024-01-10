@@ -17,5 +17,5 @@ struct Conference: Identifiable, Codable {
 // Mock Conference
 
 extension Conference{
-    static var MOCK_CONFERENCE = Conference(id: NSUUID().uuidString, name: "Conferencia 1", beginDate: "14-01-2024", endDate: "15-01-2024", description: "Conferencia Cientifica epica")
+    static var MOCK_CONFERENCE = Conference(id: NSUUID().uuidString, name: "Conferencia 1", beginDate: "08-01-2024", endDate: "13-01-2024", description: "Conferencia Cientifica epica")
 }

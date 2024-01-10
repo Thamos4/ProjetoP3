@@ -1,13 +1,13 @@
 //
-//  TrackView.swift
+//  AddTrackView.swift
 //  ProjetoP3
 //
-//  Created by user243107 on 1/7/24.
+//  Created by user243107 on 1/9/24.
 //
 
 import SwiftUI
 
-struct TrackView: View {
+struct AddTrackView: View {
     @State private var name = ""
     @State private var description = ""
     @State private var goHome = false
@@ -29,18 +29,25 @@ struct TrackView: View {
                 .shadow(radius: 3)
                 .edgesIgnoringSafeArea(.all)
                 
-                HStack {
+                HStack{
                     Spacer()
-                    VStack(alignment: .leading) {
-                        Text("New Track")
+                    VStack(alignment: .center) {
+                        Image(systemName: "arrow.left")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .onTapGesture {
+                                dismiss()
+                            }
+                            .foregroundColor(.white)
+                        
+                        Text(name.isEmpty ? "New Track" : name)
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(Color.white)
-                            .padding(.trailing)
+                            .padding(.horizontal)
+                            .padding(.top, 50)
                         Spacer()
                     }
-                    .padding(.leading, 25)
-                    .padding(.top, 75)
+                    .padding(.horizontal)
                     Spacer()
                 }
                 VStack(spacing: 40){
@@ -81,7 +88,7 @@ struct TrackView: View {
 }
                   
           
-extension TrackView: AuthenticationFormProtocol {
+extension AddTrackView: AuthenticationFormProtocol {
     var formIsValid: Bool {
         return !name.isEmpty
         && !description.isEmpty
@@ -89,8 +96,8 @@ extension TrackView: AuthenticationFormProtocol {
     
 }
 
-struct TrackView_Previews: PreviewProvider {
+struct AddTrackView_Previews: PreviewProvider {
     static var previews: some View {
-        TrackView(conferenceId: NSUUID().uuidString)
+        AddTrackView(conferenceId:"test")
     }
 }

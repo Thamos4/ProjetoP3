@@ -57,13 +57,8 @@ struct Home: View {
                             
                             VStack {
                                 if user.role == .admin {
-                                    Button(action: { showWelcomeView = true }) {
-                                        Text("Add Conference")
-                                            .foregroundColor(.white)
-                                            .padding(.horizontal)
-                                            .padding(.vertical,8)
-                                            .background(Color("TaskBG"))
-                                            .clipShape(Capsule())
+                                    AddButtonView(label: "Add Conference"){
+                                        showWelcomeView = true
                                     }
                                 }
                                 

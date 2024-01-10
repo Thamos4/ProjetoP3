@@ -13,8 +13,12 @@ struct ConferenceView: View {
     
     @State private var conferenceDays: [Date] = []
     @State private var currentDay: Date = Date()
+    
     @State private var showTrackView = false
+    @State private var showArticleView = false
+    
     @Namespace var animation
+    @Environment(\.dismiss) var dismiss
     
     let conference: Conference
     
@@ -27,12 +31,13 @@ struct ConferenceView: View {
     var body: some View {
         VStack {
             HStack{
-                NavigationLink(destination: Home()
-                    .navigationBarBackButtonHidden(true)) {
-                    Image(systemName: "arrow.left")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    }.foregroundColor(.black)
-                
+
+                Image(systemName: "arrow.left")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .onTapGesture {
+                        dismiss()
+                    }
+          
                 Image(systemName: "magnifyingglass")
                
                 
@@ -47,18 +52,9 @@ struct ConferenceView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 
                 if let user = viewModel.currentUser, user.role == .admin {
-                    HStack {
-                        Button(action: { showTrackView = true }) {
-                            Image(systemName: "plus")
-                            Text("Add Track")
-                        }
+                    AddButtonView(label: "Add Track"){
+                        showTrackView = true
                     }
-                    .foregroundColor(.white)
-                    .padding(.horizontal)
-                    .padding(.vertical,8)
-                    .background(Color("TaskBG"))
-                    .clipShape(Capsule())
-                    .font(.system(size: 14))
                     .navigationDestination(isPresented: $showTrackView) {
                         AddTrackView(conferenceId: conference.id)
                             .navigationBarBackButtonHidden(true)
@@ -67,7 +63,7 @@ struct ConferenceView: View {
             }.padding(.horizontal)
                 .padding(.top, 12)
             
-        
+            //MARK: Conference days
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 10){
                     ForEach(conferenceDays, id: \.self){ day in
@@ -111,9 +107,26 @@ struct ConferenceView: View {
                     .padding(.horizontal)
             }
             
+            //MARK: Articles
+            VStack {
+                HStack() {
+                    if let user = viewModel.currentUser, user.role == .admin {
+                        AddButtonView(label: "Add Article"){
+                            showTrackView = true
+                        }
+                        .navigationDestination(isPresented: $showArticleView) {
+                            AddArticleView()
+                                .navigationBarBackButtonHidden(true)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                    }
+                }
+            }.padding(.horizontal)
+            
             Spacer()
         }.padding(.top, 12)
         .padding(.horizontal)
+        
     }
 }
 

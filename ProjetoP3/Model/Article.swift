@@ -13,4 +13,7 @@ struct Article: Identifiable, Codable {
     let title: String
     let author: String
     let summary: String
+//    let day: String
+//    let hours: String
+//    let pdfPath: String
 }

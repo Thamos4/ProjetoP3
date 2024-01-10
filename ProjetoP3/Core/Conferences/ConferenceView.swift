@@ -60,7 +60,7 @@ struct ConferenceView: View {
                     .clipShape(Capsule())
                     .font(.system(size: 14))
                     .navigationDestination(isPresented: $showTrackView) {
-                        TrackView(conferenceId: conference.id)
+                        AddTrackView(conferenceId: conference.id)
                             .navigationBarBackButtonHidden(true)
                     }
                 }

@@ -9,31 +9,33 @@ import SwiftUI
 
 struct ArticleSearchView: View {
     @State private var search = ""
-    @State private var starterArticles: [Article] = []
+    @State private var searchedArticles: [Article] = []
     @StateObject private var viewModel = ArticleViewModel()
     var body: some View {
         NavigationStack{
             VStack{
                 InputView(imageName: "magnifyingglass", placeholder: "Search", text: $search)
                     .onChange(of: search) { newSearch in
-                        Task {
-                            do{
-                                try await viewModel.searchArticle(articleName: newSearch, articlesList: starterArticles)
-                            } catch {
-                                print("Oopsie made searching for articles ;-;")
+                        Task{
+                            
+                            searchedArticles = viewModel.articles
+                            if newSearch != "" {
+                                try await viewModel.searchArticle(articleTitle: newSearch)
+                                searchedArticles = viewModel.articles
                             }
                         }
                     }
                 ScrollView{
                     VStack{
-                        if (search == "" && starterArticles.count > 0){
-                            ForEach(starterArticles) { article in
-                                ArticleContainerView(article: article)
-                            }
-                        }else if(viewModel.articles.count > 0) {
-                            ForEach(viewModel.articles) { article in
+                        if(searchedArticles.count > 0) {
+                            ForEach(searchedArticles) { article in
                                ArticleContainerView(article: article)
                             }
+                        }else if(viewModel.articles.count > 0){
+                            Text("No Articles match your search")
+                                .font(.system(size: 25))
+                                .padding(.top, 5)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         } else {
                             Text("No Available Articles")
                                 .font(.system(size: 25))
@@ -45,12 +47,9 @@ struct ArticleSearchView: View {
             }
         }
         .onAppear{
-            print("VIEW APPEARED")
             Task {
-                print("ENTERED TASK")
                 try await viewModel.getAllArticles()
-                print("EXECUTED TRY AWAIT")
-                starterArticles = viewModel.articles
+                searchedArticles = viewModel.articles
                 
             }
         }

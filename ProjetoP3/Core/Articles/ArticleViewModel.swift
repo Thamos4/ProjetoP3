@@ -31,13 +31,13 @@ class ArticleViewModel: ObservableObject{
         try await ArticleManager.shared.addComment(articleId: articleId, userId: userId, content: content)
     }
     
-    func getAllArticles() async throws {
+    func getAllArticles() async throws{
         try await articles =  ArticleManager.shared.getAllArticles()
     }
     
-    func searchArticle(articleName: String, articlesList: [Article]) async throws{
-        articles = articlesList.filter({ article in
-            return article.title.lowercased().contains(articleName.lowercased())
+    func searchArticle(articleTitle: String) async throws{
+        articles = articles.filter({ article in
+            return article.title.lowercased().contains(articleTitle.lowercased())
         })
     }
 }

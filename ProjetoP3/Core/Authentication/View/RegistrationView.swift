@@ -42,7 +42,7 @@ struct RegistrationView: View {
                
                     VStack(alignment: .leading){
                         HStack{ Spacer() }
-                        Text("Hello.")
+                        Text("New here?.")
                             .font(.largeTitle)
                             .fontWeight(.semibold)
                         Text("Create your account.")

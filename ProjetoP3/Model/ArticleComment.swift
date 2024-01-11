@@ -14,3 +14,8 @@ struct articleComment: Identifiable, Codable {
     let content: String
 }
 
+//MOCK COMMENT
+
+extension articleComment{
+    static var MOCK_COMMENT = articleComment(id: NSUUID().uuidString, articleId: NSUUID().uuidString, userId: NSUUID().uuidString, content: "EXAMPLE OF A COMMENT INCLUDED IN THE MOCK_COMMENT IN THE DECLARATION OF THE STRUCT ARTICLECOMMENT")
+}

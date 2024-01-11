@@ -112,7 +112,7 @@ struct ConferenceView: View {
                 HStack() {
                     if let user = viewModel.currentUser, user.role == .admin {
                         AddButtonView(label: "Add Article"){
-                            showTrackView = true
+                            showArticleView = true
                         }
                         .navigationDestination(isPresented: $showArticleView) {
                             AddArticleView()

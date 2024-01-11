@@ -10,8 +10,6 @@ import SwiftUI
 struct AddArticleView: View {
     @State private var name = ""
     @State private var description = ""
-    @State private var beginDate = Date()
-    @State private var endDate = Date()
 //    @State private var goHome = false
     @StateObject private var viewModel = ArticleViewModel()
     

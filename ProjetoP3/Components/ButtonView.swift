@@ -47,9 +47,9 @@ struct ButtonView: View {
                 }
             }
             .foregroundColor(.white)
-            .frame(width: UIScreen.main.bounds.width - 100, height: 48)
+            .frame(width: UIScreen.main.bounds.width - 100, height: 50)
         }
-        .background(Color(.systemBlue))
+        .background(Color("TaskBG"))
         .cornerRadius(100)
         .padding(.top, 20)
         .disabled(isDisabled)

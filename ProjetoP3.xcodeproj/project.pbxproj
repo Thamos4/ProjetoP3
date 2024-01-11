@@ -14,6 +14,7 @@
 		351A6C882B2BC08500A8B4F0 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A6C872B2BC08500A8B4F0 /* InputView.swift */; };
 		351DAB912B3272BA00EB7624 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351DAB902B3272BA00EB7624 /* ForgotPasswordView.swift */; };
 		354B56F32B4AC5D9008AD48C /* ArticleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354B56F22B4AC5D9008AD48C /* ArticleViewModel.swift */; };
+		355D89E52B504D310052FF86 /* Containers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355D89E42B504D310052FF86 /* Containers.swift */; };
 		3577A5B72B4FED96006BC724 /* CommentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3577A5B62B4FED96006BC724 /* CommentManager.swift */; };
 		3577A5BA2B4FEE4A006BC724 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3577A5B92B4FEE4A006BC724 /* CommentViewModel.swift */; };
 		3577A5BC2B4FEF9D006BC724 /* CommentContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3577A5BB2B4FEF9D006BC724 /* CommentContainerView.swift */; };
@@ -66,6 +67,7 @@
 		351A6C872B2BC08500A8B4F0 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		351DAB902B3272BA00EB7624 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		354B56F22B4AC5D9008AD48C /* ArticleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewModel.swift; sourceTree = "<group>"; };
+		355D89E42B504D310052FF86 /* Containers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Containers.swift; sourceTree = "<group>"; };
 		3577A5B62B4FED96006BC724 /* CommentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentManager.swift; sourceTree = "<group>"; };
 		3577A5B92B4FEE4A006BC724 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		3577A5BB2B4FEF9D006BC724 /* CommentContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentContainerView.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				351A6C852B2BBF2A00A8B4F0 /* LoginView.swift */,
 				350AC7E82B2CF77700DA13EA /* RegistrationView.swift */,
 				351DAB902B3272BA00EB7624 /* ForgotPasswordView.swift */,
+				355D89E42B504D310052FF86 /* Containers.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				350AC7EC2B2CF9BB00DA13EA /* ButtonView.swift in Sources */,
 				35D12F412B4B38EA00361B02 /* ConferenceContainerView.swift in Sources */,
 				35F7DC4C2B4D76F5003F7BAF /* ArticleSearchView.swift in Sources */,
+				355D89E52B504D310052FF86 /* Containers.swift in Sources */,
 				35EF62C52B456B0F00DF0E5F /* Home.swift in Sources */,
 				35D12F282B4B001A00361B02 /* ConferenceManager.swift in Sources */,
 				3577A5BC2B4FEF9D006BC724 /* CommentContainerView.swift in Sources */,

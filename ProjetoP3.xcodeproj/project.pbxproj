@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		350AC7E92B2CF77700DA13EA /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350AC7E82B2CF77700DA13EA /* RegistrationView.swift */; };
 		350AC7EC2B2CF9BB00DA13EA /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350AC7EB2B2CF9BB00DA13EA /* ButtonView.swift */; };
+		3516B84A2B50DD08008150E4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3516B8492B50DD08008150E4 /* GoogleService-Info.plist */; };
 		351A6C862B2BBF2A00A8B4F0 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A6C852B2BBF2A00A8B4F0 /* LoginView.swift */; };
 		351A6C882B2BC08500A8B4F0 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A6C872B2BC08500A8B4F0 /* InputView.swift */; };
 		351DAB912B3272BA00EB7624 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351DAB902B3272BA00EB7624 /* ForgotPasswordView.swift */; };
@@ -54,12 +55,12 @@
 		882986CF2B50CA1300F63B38 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882986CE2B50CA1300F63B38 /* ContentView.swift */; };
 		882986D12B50CA4200F63B38 /* AddArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882986D02B50CA4200F63B38 /* AddArticleView.swift */; };
 		882986D32B50CB9000F63B38 /* ConferenceDaysView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882986D22B50CB9000F63B38 /* ConferenceDaysView.swift */; };
-		8837BEC02B4C9E41008871D8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8837BEBF2B4C9E41008871D8 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		350AC7E82B2CF77700DA13EA /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
 		350AC7EB2B2CF9BB00DA13EA /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		3516B8492B50DD08008150E4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		351A6C852B2BBF2A00A8B4F0 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		351A6C872B2BC08500A8B4F0 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		351DAB902B3272BA00EB7624 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
@@ -102,7 +103,6 @@
 		882986CE2B50CA1300F63B38 /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		882986D02B50CA4200F63B38 /* AddArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArticleView.swift; sourceTree = "<group>"; };
 		882986D22B50CB9000F63B38 /* ConferenceDaysView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConferenceDaysView.swift; sourceTree = "<group>"; };
-		8837BEBF2B4C9E41008871D8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,8 +241,8 @@
 				351A6C7F2B2BBE9100A8B4F0 /* Components */,
 				351A6C802B2BBEA200A8B4F0 /* Core */,
 				351A6C812B2BBEAA00A8B4F0 /* Model */,
+				3516B8492B50DD08008150E4 /* GoogleService-Info.plist */,
 				3582B0032B2B665A00F4D489 /* Assets.xcassets */,
-				8837BEBF2B4C9E41008871D8 /* GoogleService-Info.plist */,
 				3582B0052B2B665A00F4D489 /* Preview Content */,
 			);
 			path = ProjetoP3;
@@ -391,7 +391,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3582B0072B2B665A00F4D489 /* Preview Assets.xcassets in Resources */,
-				8837BEC02B4C9E41008871D8 /* GoogleService-Info.plist in Resources */,
+				3516B84A2B50DD08008150E4 /* GoogleService-Info.plist in Resources */,
 				3582B0042B2B665A00F4D489 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

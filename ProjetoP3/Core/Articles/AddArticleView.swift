@@ -15,7 +15,11 @@ struct AddArticleView: View {
     @State private var title = ""
     @State private var author = ""
     @State private var summary = ""
-    @State private var hour: Date = Date()
+    //Default time 9:30am
+    @State private var hour: Date = {
+        var calendar = Calendar.current
+        return calendar.date(bySettingHour: 8, minute: 30, second: 0, of: Date())!
+    }()
     
     @State private var selectedRoom: String = ""
     @State private var roomsList = ArticleRoom.allCases.map( { $0.rawValue } )

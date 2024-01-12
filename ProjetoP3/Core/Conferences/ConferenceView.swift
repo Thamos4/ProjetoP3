@@ -25,7 +25,7 @@ struct ConferenceView: View {
     
     var body: some View {
         if let user = viewModel.currentUser {
-            NavigationView {
+            NavigationStack {
                 VStack {
                     HStack{
                         Image(systemName: "arrow.left")

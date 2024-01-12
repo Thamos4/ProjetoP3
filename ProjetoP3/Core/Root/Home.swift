@@ -57,26 +57,27 @@ struct Home: View {
                             
                             VStack {
                                 if user.role == .admin {
-                                    AddButtonView(label: "Add Conference"){
-                                        showWelcomeView = true
-                                    }
+                                    NavigationButton(label: "Add Conference", icon: "plus", destination: AddConferenceView())
+                  
                                 }
                                 
-                            }
-                            .navigationDestination(isPresented: $showWelcomeView) {
-                                AddConferenceView()
                             }
                         }.padding(.horizontal)
                         
                         
                         if(conferenceViewModel.conferences.count > 0) {
                             ForEach(conferenceViewModel.conferences) { conference in
-                               ConferenceContainerView(conference: conference)
+                                NavigationLink(destination: ConferenceView(conference: conference)
+                                    .navigationBarBackButtonHidden(true)
+                                ){
+                                    ConferenceContainerView(conference: conference)
+                                }
                             }
                         } else {
-                            Text("No Available Conferencees")
+                            Text("No Available Conferences")
                                 .font(.system(size: 25))
                                 .padding(.top, 5)
+                                .padding(.horizontal)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                         }
 

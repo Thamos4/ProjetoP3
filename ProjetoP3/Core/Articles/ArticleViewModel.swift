@@ -14,12 +14,12 @@ class ArticleViewModel: ObservableObject{
         didSet{ Task { try await getAllArticles()}}
     }
     
-    func createArticle(trackId: String, title: String, author: String, summary: String) async throws {
-        try await ArticleManager.shared.createArticle(trackId: trackId, title: title, author: author, summary: summary)
+    func createArticle(trackId: String, conferenceId: String,title: String, author: String, summary: String, room: String) async throws {
+        try await ArticleManager.shared.createArticle(trackId: trackId, conferenceId: conferenceId,title: title, author: author, summary: summary, room: room)
     }
     
-    func updateArticle(id: String, trackId: String, title: String, author: String, summary: String) async throws{
-        let newArticle = Article(id:id, trackId: trackId, title: title, author: author, summary: summary)
+    func updateArticle(id: String, trackId: String, conferenceId: String,title: String, author: String, summary: String, room: String) async throws{
+        let newArticle = Article(id:id, trackId: trackId, conferenceId: conferenceId,title: title, author: author, summary: summary, room: room)
         try await ArticleManager.shared.updateArticle(article: newArticle)
     }
     

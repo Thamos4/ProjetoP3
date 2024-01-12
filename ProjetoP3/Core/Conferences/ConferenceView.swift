@@ -9,15 +9,10 @@ import SwiftUI
 
 struct ConferenceView: View {
     @EnvironmentObject var viewModel: AuthViewModel
-    @StateObject var conferenceViewModel = ConferenceViewModel() 
+    @StateObject var conferenceViewModel = ConferenceViewModel()
     
-    @State private var conferenceDays: [Date] = []
     @State private var currentDay: Date = Date()
     
-    @State private var showTrackView = false
-    @State private var showArticleView = false
-    
-    @Namespace var animation
     @Environment(\.dismiss) var dismiss
     
     let conference: Conference
@@ -27,108 +22,61 @@ struct ConferenceView: View {
         
         return calendar.isDate(currentDay, inSameDayAs: date)
     }
-   
+    
     var body: some View {
-        VStack {
-            HStack{
-
-                Image(systemName: "arrow.left")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .onTapGesture {
-                        dismiss()
-                    }
-          
-                Image(systemName: "magnifyingglass")
-               
-                
-            }.padding(.horizontal)
-            .padding(.bottom, 12)
-            .font(.system(size: 16))
-            
-            HStack {
-                Text(conference.name)
-                    .font(.title)
-                    .padding(.top, 5)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                
-                if let user = viewModel.currentUser, user.role == .admin {
-                    AddButtonView(label: "Add Track"){
-                        showTrackView = true
-                    }
-                    .navigationDestination(isPresented: $showTrackView) {
-                        AddTrackView(conferenceId: conference.id)
-                            .navigationBarBackButtonHidden(true)
-                    }
-                }
-            }.padding(.horizontal)
-                .padding(.top, 12)
-            
-            //MARK: Conference days
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10){
-                    ForEach(conferenceDays, id: \.self){ day in
-                        VStack(spacing: 10) {
-                            Text(conferenceViewModel.extractDate(date: day, format: "DD"))
-                                .font(.system(size: 15))
-                                .fontWeight(.semibold)
-                            
-                            Text(conferenceViewModel.extractDate(date: day, format: "MMM"))
-                                .font(.system(size: 14))
-                            
-                            Circle()
-                                .fill(.white)
-                                .frame(width: 8, height: 8)
-                                .opacity(isToday(date: day) ? 1 : 0)
-                            
-                        }
-                        .foregroundStyle(isToday(date: day) ? .primary : .secondary)
-                        .foregroundColor(isToday(date: day) ? .white : .black)
-                        .frame(width: 45, height: 90)
-                        .background(
-                            ZStack{
-                                if isToday(date: day) {
-                                    Capsule()
-                                        .fill(.black)
-                                        .matchedGeometryEffect(id: "CURRENTDAY", in: animation)
-                                }
+        if let user = viewModel.currentUser {
+            NavigationView {
+                VStack {
+                    HStack{
+                        Image(systemName: "arrow.left")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .onTapGesture {
+                                dismiss()
                             }
-                        )
-                        .contentShape(Capsule())
-                        .onTapGesture {
-                            withAnimation {
-                                currentDay = day
-                            }
-                        }
-                    }
+                        
+                        Image(systemName: "magnifyingglass")
+                        
+                        
+                    }.padding(.horizontal)
+                        .padding(.bottom, 12)
+                        .font(.system(size: 16))
                     
-                }.onAppear {
-                    self.conferenceDays = conferenceViewModel.datesInRange(startDate: conference.beginDate, endDate: conference.endDate)
-                }.padding(.top, 24)
-                    .padding(.horizontal)
-            }
-            
-            //MARK: Articles
-            VStack {
-                HStack() {
-                    if let user = viewModel.currentUser, user.role == .admin {
-                        AddButtonView(label: "Add Article"){
-                            showArticleView = true
+                    HStack {
+                        Text(conference.name)
+                            .font(.title)
+                            .padding(.top, 5)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        if user.role == .admin {
+                            NavigationButton(label: "Add Track", icon: "plus", destination: AddTrackView(conferenceId: conference.id))
                         }
-                        .navigationDestination(isPresented: $showArticleView) {
-                            AddArticleView()
-                                .navigationBarBackButtonHidden(true)
-                        }
-                        .frame(maxWidth: .infinity, alignment: .trailing)
                     }
-                }
-            }.padding(.horizontal)
-            
-            Spacer()
-        }.padding(.top, 12)
-        .padding(.horizontal)
-        
+                    .padding(.top, 12)
+                        
+                    //MARK: Conference days
+                        ConferenceDaysView(beginDate: conference.beginDate, endDate: conference.endDate, currentDay: $currentDay)
+                    
+                    VStack(spacing: 10) {
+                        //MARK: Articles
+                        if user.role == .admin {
+                            NavigationButton(label: "Add Article", icon: "plus", destination: AddArticleView(conferenceId: conference.id))
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .padding(.top, 12)
+                                
+                        }
+                    }
+                   
+
+                        
+                    Spacer()
+                }.padding(.horizontal, 18)
+            }
+        }
+
     }
 }
+
+
 
 struct ConferenceView_Previews: PreviewProvider {
     static var previews: some View {

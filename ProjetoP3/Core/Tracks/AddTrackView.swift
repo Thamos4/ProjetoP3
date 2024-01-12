@@ -10,7 +10,6 @@ import SwiftUI
 struct AddTrackView: View {
     @State private var name = ""
     @State private var description = ""
-    @State private var goHome = false
     @StateObject var trackViewModel = TrackViewModel()
     @Environment(\.dismiss) var dismiss
     
@@ -44,7 +43,7 @@ struct AddTrackView: View {
                             .fontWeight(.bold)
                             .foregroundColor(Color.white)
                             .padding(.horizontal)
-                            .padding(.top, 50)
+                            .padding(.top, 40)
                         Spacer()
                     }
                     .padding(.horizontal)
@@ -69,12 +68,12 @@ struct AddTrackView: View {
                                         
                 }
                 .padding(.horizontal)
-                .padding(.top, 5)
         
                 
 
             }
         }.toolbar(.hidden, for: .tabBar)
+        
     }
 }
                   

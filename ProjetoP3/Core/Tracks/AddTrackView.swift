@@ -57,7 +57,7 @@ struct AddTrackView: View {
                     TextField("Description", text: $description,  axis: .vertical)
                         .lineLimit(1...5)
                     
-                    ButtonView(label: "Create Conference", isDisabled: !formIsValid){
+                    ButtonView(label: "Create Track", isDisabled: !formIsValid){
                         Task {
                             try await trackViewModel.createTrack(name: name, description: description, conferenceId: conferenceId)
                            

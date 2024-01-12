@@ -33,4 +33,9 @@ class TrackViewModel: ObservableObject {
         }
         try await TrackManager.shared.deleteTrack(trackId: id)
     }
+    
+    func getTracksByConferenceId(conferenceId: String) async throws{
+        try await tracks = TrackManager.shared.getAllTracksForConferenceId(conferenceId: conferenceId)
+    }
+    
 }

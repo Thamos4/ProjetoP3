@@ -11,6 +11,7 @@ struct AddArticleView: View {
     let conferenceId: String
     @EnvironmentObject var viewModel: AuthViewModel
     @StateObject var conferenceViewModel = ConferenceViewModel()
+    @StateObject var trackViewModel = TrackViewModel()
     
     @State private var title = ""
     @State private var author = ""
@@ -23,9 +24,9 @@ struct AddArticleView: View {
     
     @State private var selectedRoom: String = ""
     @State private var roomsList = ArticleRoom.allCases.map( { $0.rawValue } )
-    
+    	
     @State private var selectedTrack: String = ""
-    @State private var trackList: [String] = []
+    @State private var trackList: [Track] = []
     
     @Environment(\.dismiss) var dismiss
     
@@ -88,7 +89,7 @@ struct AddArticleView: View {
                                 .font(.system(size: 14))
                         }
                     
-                        DropdownView(hint: "Select", options: roomsList, selection: $selectedTrack)
+                        DropdownView(hint: "Select", options: trackList, selection: $selectedTrack)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }.zIndex(1000)
                         
@@ -109,6 +110,12 @@ struct AddArticleView: View {
                     
                 }
                 .padding(.top, 50)
+            }
+            .onAppear{
+                Task{
+                    try await trackViewModel.getTracksByConferenceId(conferenceId: conferenceId)
+                    trackList = trackViewModel.tracks
+                }
             }
             .padding(.horizontal, 18)
 

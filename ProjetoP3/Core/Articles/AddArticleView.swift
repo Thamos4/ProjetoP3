@@ -15,7 +15,6 @@ struct AddArticleView: View {
     @State private var title = ""
     @State private var author = ""
     @State private var summary = ""
-    @State private var hour: Date = Date()
     
     @State private var selectedRoom: String = ""
     @State private var roomsList = ArticleRoom.allCases.map( { $0.rawValue } )
@@ -92,7 +91,7 @@ struct AddArticleView: View {
                     HStack {
                         Image(systemName: "clock")
                             .frame(width: 20, height: 20)
-                        DatePicker("Start Hour", selection: $hour, displayedComponents: .hourAndMinute)
+                      //  DatePicker("Start Hour", selection: $hour, displayedComponents: .date)
                     }
                     .font(.system(size: 14))
               

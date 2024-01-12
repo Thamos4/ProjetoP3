@@ -14,6 +14,10 @@
 		351A6C882B2BC08500A8B4F0 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351A6C872B2BC08500A8B4F0 /* InputView.swift */; };
 		351DAB912B3272BA00EB7624 /* ForgotPasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 351DAB902B3272BA00EB7624 /* ForgotPasswordView.swift */; };
 		354B56F32B4AC5D9008AD48C /* ArticleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 354B56F22B4AC5D9008AD48C /* ArticleViewModel.swift */; };
+		355D89E52B504D310052FF86 /* Containers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355D89E42B504D310052FF86 /* Containers.swift */; };
+		3577A5B72B4FED96006BC724 /* CommentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3577A5B62B4FED96006BC724 /* CommentManager.swift */; };
+		3577A5BA2B4FEE4A006BC724 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3577A5B92B4FEE4A006BC724 /* CommentViewModel.swift */; };
+		3577A5BC2B4FEF9D006BC724 /* CommentContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3577A5BB2B4FEF9D006BC724 /* CommentContainerView.swift */; };
 		357B8AC52B2F85E400A3612F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 357B8AC42B2F85E400A3612F /* FirebaseAuth */; };
 		357B8AC72B2F85E400A3612F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 357B8AC62B2F85E400A3612F /* FirebaseFirestore */; };
 		357B8AC92B2F85E400A3612F /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 357B8AC82B2F85E400A3612F /* FirebaseFirestoreSwift */; };
@@ -65,6 +69,10 @@
 		351A6C872B2BC08500A8B4F0 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		351DAB902B3272BA00EB7624 /* ForgotPasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordView.swift; sourceTree = "<group>"; };
 		354B56F22B4AC5D9008AD48C /* ArticleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewModel.swift; sourceTree = "<group>"; };
+		355D89E42B504D310052FF86 /* Containers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Containers.swift; sourceTree = "<group>"; };
+		3577A5B62B4FED96006BC724 /* CommentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentManager.swift; sourceTree = "<group>"; };
+		3577A5B92B4FEE4A006BC724 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
+		3577A5BB2B4FEF9D006BC724 /* CommentContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentContainerView.swift; sourceTree = "<group>"; };
 		357B8ACF2B2F865B00A3612F /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		358159D32B2D25D30023428C /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		358159D52B2D27B00023428C /* SettingsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
@@ -139,6 +147,8 @@
 				35F771102B4F36F500C7A701 /* NavigationButton.swift */,
 				882986CA2B5098DB00F63B38 /* DropdownView.swift */,
 				882986D22B50CB9000F63B38 /* ConferenceDaysView.swift */,
+				35F771102B4F36F500C7A701 /* AddButtonView.swift */,
+				3577A5BB2B4FEF9D006BC724 /* CommentContainerView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -146,6 +156,7 @@
 		351A6C802B2BBEA200A8B4F0 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				3577A5B82B4FEE2F006BC724 /* Comments */,
 				5780FD662B4C249F00D066B7 /* Schedule */,
 				35D12F392B4B242B00361B02 /* Tracks */,
 				35D12F262B4AFFFE00361B02 /* Conferences */,
@@ -199,6 +210,14 @@
 			path = Profile;
 			sourceTree = "<group>";
 		};
+		3577A5B82B4FEE2F006BC724 /* Comments */ = {
+			isa = PBXGroup;
+			children = (
+				3577A5B92B4FEE4A006BC724 /* CommentViewModel.swift */,
+			);
+			path = Comments;
+			sourceTree = "<group>";
+		};
 		357B8ACC2B2F862000A3612F /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -206,6 +225,7 @@
 				351A6C852B2BBF2A00A8B4F0 /* LoginView.swift */,
 				350AC7E82B2CF77700DA13EA /* RegistrationView.swift */,
 				351DAB902B3272BA00EB7624 /* ForgotPasswordView.swift */,
+				355D89E42B504D310052FF86 /* Containers.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -264,6 +284,7 @@
 				35D12F272B4B001A00361B02 /* ConferenceManager.swift */,
 				35D12F3A2B4B2F0A00361B02 /* TrackManager.swift */,
 				5780FD622B4C236F00D066B7 /* ScheduleManager.swift */,
+				3577A5B62B4FED96006BC724 /* CommentManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -409,6 +430,7 @@
 				5780FD652B4C238100D066B7 /* Schedule.swift in Sources */,
 				35D12F252B4AFF0C00361B02 /* Conference.swift in Sources */,
 				882986CB2B5098DB00F63B38 /* DropdownView.swift in Sources */,
+				3577A5B72B4FED96006BC724 /* CommentManager.swift in Sources */,
 				351DAB912B3272BA00EB7624 /* ForgotPasswordView.swift in Sources */,
 				882986D12B50CA4200F63B38 /* AddArticleView.swift in Sources */,
 				358810CA2B49DCD1001A57DF /* Article.swift in Sources */,
@@ -419,12 +441,15 @@
 				35D12F2D2B4B005B00361B02 /* ConferenceView.swift in Sources */,
 				351A6C882B2BC08500A8B4F0 /* InputView.swift in Sources */,
 				358159D22B2D22EF0023428C /* ProjetoP3App.swift in Sources */,
+				3577A5BA2B4FEE4A006BC724 /* CommentViewModel.swift in Sources */,
 				358810C72B49DCB3001A57DF /* UserManager.swift in Sources */,
 				350AC7EC2B2CF9BB00DA13EA /* ButtonView.swift in Sources */,
 				35D12F412B4B38EA00361B02 /* ConferenceContainerView.swift in Sources */,
 				35F7DC4C2B4D76F5003F7BAF /* ArticleSearchView.swift in Sources */,
+				355D89E52B504D310052FF86 /* Containers.swift in Sources */,
 				35EF62C52B456B0F00DF0E5F /* Home.swift in Sources */,
 				35D12F282B4B001A00361B02 /* ConferenceManager.swift in Sources */,
+				3577A5BC2B4FEF9D006BC724 /* CommentContainerView.swift in Sources */,
 				358159D62B2D27B00023428C /* SettingsRowView.swift in Sources */,
 				35D12F3F2B4B2F2C00361B02 /* TrackViewModel.swift in Sources */,
 				358159D82B2D2C530023428C /* User.swift in Sources */,

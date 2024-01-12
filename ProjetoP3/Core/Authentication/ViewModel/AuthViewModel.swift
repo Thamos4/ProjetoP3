@@ -17,6 +17,7 @@ protocol AuthenticationFormProtocol {
 
 @MainActor //Para o codigo correr na main thread
 class AuthViewModel: ObservableObject {
+    
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
     
@@ -48,6 +49,10 @@ class AuthViewModel: ObservableObject {
         try await Firestore.firestore().collection("users").document(user.id).setData(encodedUser)
             
         try await fetchUser()
+    }
+    
+    func getUser(id:String) async throws -> User{
+        try await UserManager.shared.getUser(userId: id)
     }
     
     func forgotPassword(email: String) async throws{

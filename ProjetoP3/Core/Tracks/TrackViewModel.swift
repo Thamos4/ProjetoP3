@@ -38,4 +38,7 @@ class TrackViewModel: ObservableObject {
         try await tracks = TrackManager.shared.getAllTracksForConferenceId(conferenceId: conferenceId)
     }
     
+    func trackAlreadyExists(name: String, conferenceId: String) async throws -> Bool{
+        return try await TrackManager.shared.trackAlreadyExists(name: name, conferenceId: conferenceId)
+    }
 }

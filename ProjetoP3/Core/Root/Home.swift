@@ -65,7 +65,7 @@ struct Home: View {
                         }.padding(.horizontal)
                         
                         
-                        if(conferenceViewModel.conferences.count > 0) {
+                        if(!conferenceViewModel.conferences.isEmpty) {
                             ForEach(conferenceViewModel.conferences) { conference in
                                 NavigationLink(destination: ConferenceView(conference: conference)
                                     .navigationBarBackButtonHidden(true)

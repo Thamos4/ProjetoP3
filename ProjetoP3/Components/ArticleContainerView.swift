@@ -10,6 +10,9 @@ import SwiftUI
 struct ArticleContainerView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @StateObject var articleViewModel = ArticleViewModel()
+    @StateObject var trackiewModel = TrackViewModel()
+    
+    @State private var track = ""
     
     let article: Article
     @State private var showAlert = false
@@ -42,7 +45,7 @@ struct ArticleContainerView: View {
                             .font(.system(size: 15))
                             .foregroundColor(Color(.white))
                         
-                        Text("Track: Informática")
+                        Text("Track: \(track.isEmpty ? "No Track": track)")
                             .font(.system(size: 15))
                             .foregroundColor(Color(.white))
                         
@@ -107,12 +110,16 @@ struct ArticleContainerView: View {
                 }
             }
             .padding()
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: 270)
             .background(Color("TaskBG"))
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .padding()
             .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
-        
+            .onAppear {
+                Task {
+                    track = try await trackiewModel.getTrackNameById(trackId: article.trackId)
+                }
+            }
         }
     }
 }

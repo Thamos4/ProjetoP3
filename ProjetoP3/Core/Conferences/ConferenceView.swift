@@ -10,8 +10,11 @@ import SwiftUI
 struct ConferenceView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @StateObject var conferenceViewModel = ConferenceViewModel()
+    @StateObject var articlesViewModel = ArticleViewModel()
     
     @State private var currentDay: Date = Date()
+    @State private var filteredArticles: [Article]?
+    @State private var articles: [Article] = []
     
     @Environment(\.dismiss) var dismiss
     
@@ -72,6 +75,10 @@ struct ConferenceView: View {
                         
                     Spacer()
                 }.padding(.horizontal, 18)
+            }.onAppear(){
+                Task {
+                    articles = articlesViewModel.getAllArticles()
+                }
             }
         }
 

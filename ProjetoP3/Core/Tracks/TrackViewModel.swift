@@ -38,4 +38,9 @@ class TrackViewModel: ObservableObject {
         try await tracks = TrackManager.shared.getAllTracksForConferenceId(conferenceId: conferenceId)
     }
     
+    func getTrackNameById(trackId: String) async throws -> String {
+        let track = try await TrackManager.shared.getTrack(trackId: trackId)
+        return track.name
+    }
+    
 }

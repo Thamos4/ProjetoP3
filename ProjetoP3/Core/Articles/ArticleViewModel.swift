@@ -46,7 +46,7 @@ class ArticleViewModel: ObservableObject{
         })
     }
     
-    func gettArticlesByConference(conferenceId: String) async throws -> [Article] {
+    func getArticlesByConference(conferenceId: String) async throws -> [Article] {
         try await articles = ArticleManager.shared.getAllArticlesForConferenceId(conferenceId: conferenceId)
         return articles
     }

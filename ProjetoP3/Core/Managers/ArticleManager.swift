@@ -22,10 +22,19 @@ class ArticleManager{
         articlesCollection.document(articleId)
     }
     
-    func createArticle (trackId: String, conferenceId: String,title: String, author: String, summary: String, room: String) async throws{
+    func createArticle (trackId: String, conferenceId: String,title: String, author: String, summary: String, room: String, startDate: String, startHour: String) async throws{
         let newArticleRef = articlesCollection.document()
         let id = newArticleRef.documentID
-        let newArticle = Article(id: id, trackId: trackId, conferenceId: conferenceId,title: title, author: author, summary: summary, room: room)
+        let newArticle = Article(id: id, 
+                                trackId: trackId,
+                                conferenceId: conferenceId,
+                                title: title,
+                                author: author,
+                                summary: summary,
+                                room: room,
+                                startDate: startDate,
+                                startHour: startHour)
+        
         try newArticleRef.setData(from: newArticle)
     }
     

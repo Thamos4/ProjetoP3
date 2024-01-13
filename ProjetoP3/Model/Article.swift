@@ -22,11 +22,21 @@ struct Article: Identifiable, Codable {
     let author: String
     let summary: String
     let room: String
+    let startDate: String
+    let startHour: String
 //    let pdfPath: String
 }
 
 // Mock Article
 
 extension Article{
-    static var MOCK_ARTICLE = Article(id: NSUUID().uuidString, trackId: NSUUID().uuidString, conferenceId: NSUUID().uuidString, title: "Artigo Épico", author: "José Saramago", summary: "Isto é uma descriçao bastante completa e totalmente honesta", room: "Room 1")
-}
+    static var MOCK_ARTICLE = Article(id: NSUUID().uuidString,
+                                      trackId: NSUUID().uuidString,
+                                      conferenceId: NSUUID().uuidString,
+                                      title: "Artigo Épico",
+                                      author: "José Saramago",
+                                      summary: "Isto é uma descriçao bastante completa e totalmente honesta",
+                                      room: "Room 1",
+                                      startDate: "23/03/2003",
+                                      startHour: "08:00")
+    }

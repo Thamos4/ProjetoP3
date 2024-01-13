@@ -9,13 +9,15 @@ import SwiftUI
 
 struct AddArticleView: View {
     let conferenceId: String
+    let startDay: Date
     @EnvironmentObject var viewModel: AuthViewModel
-    @StateObject var conferenceViewModel = ConferenceViewModel()
+    @StateObject var articleViewModel = ArticleViewModel()
     @StateObject var trackViewModel = TrackViewModel()
     
     @State private var title = ""
     @State private var author = ""
     @State private var summary = ""
+    @State private var trackId = ""
     //Default time 9:30am
     @State private var hour: Date = {
         var calendar = Calendar.current
@@ -26,9 +28,15 @@ struct AddArticleView: View {
     @State private var roomsList = ArticleRoom.allCases.map( { $0.rawValue } )
     	
     @State private var selectedTrack: String = ""
-    @State private var trackList: [Track] = []
+    @State private var trackOptions: [String] = []
     
     @Environment(\.dismiss) var dismiss
+    
+    func formatDate(date: Date, format: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = format
+        return formatter.string(from: date)
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -89,7 +97,7 @@ struct AddArticleView: View {
                                 .font(.system(size: 14))
                         }
                     
-                        DropdownView(hint: "Select", options: trackList, selection: $selectedTrack)
+                        DropdownView(hint: "Select", options: trackOptions, selection: $selectedTrack)
                             .frame(maxWidth: .infinity, alignment: .leading)
                     }.zIndex(1000)
                         
@@ -105,18 +113,37 @@ struct AddArticleView: View {
                     InputView(imageName: "pencil", placeholder: "Summary", text: $summary)
                     
                     ButtonView(label: "Create Article", isDisabled: !formIsValid){
-                            print("Let me go")
+                        Task {
+                            try await articleViewModel.createArticle(
+                                trackId: trackId,
+                                conferenceId: conferenceId,
+                                title: title,
+                                author: author,
+                                summary: summary,
+                                room: selectedRoom,
+                                startDate: formatDate(date: startDay, format: "dd/MM/yyyy"),
+                                startHour: formatDate(date: hour, format: "HH:mm"))
+                            
+                            
+                            dismiss()
+                        }
                     }
                     
                 }
-                .padding(.top, 50)
+                .padding(.top, 100)
             }
             .onAppear{
                 Task{
                     try await trackViewModel.getTracksByConferenceId(conferenceId: conferenceId)
-                    trackList = trackViewModel.tracks
+                    trackOptions = trackViewModel.tracks.map { track in track.name }
                 }
             }
+            .onChange(of: selectedTrack, perform: {
+                newValue in
+                if let foundTrack = trackViewModel.tracks.first(where: { $0.name == newValue }) {
+                    trackId = foundTrack.id
+                }
+            })
             .padding(.horizontal, 18)
 
         }.toolbar(.hidden, for: .tabBar)
@@ -131,6 +158,8 @@ extension AddArticleView: AuthenticationFormProtocol {
         && !selectedRoom.isEmpty
         && !selectedTrack.isEmpty
         && !summary.isEmpty
+        && !trackId.isEmpty
+        && !selectedTrack.isEmpty
     }
     
 }
@@ -139,7 +168,7 @@ struct AddArticleView_Previews: PreviewProvider {
     static var previews: some View {
         let authViewModel = AuthViewModel()
 
-        return AddArticleView(conferenceId: Conference.MOCK_CONFERENCE.id)
+        return AddArticleView(conferenceId: Conference.MOCK_CONFERENCE.id, startDay: Date())
             .environmentObject(authViewModel)
         
     }

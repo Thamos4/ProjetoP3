@@ -10,7 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     var body: some View {
-        if authViewModel.userSession != nil {
+        if $authViewModel.userSession != nil {
             TabView{
                 Home()
                     .tabItem {Label("Home", systemImage: "house")}
@@ -22,7 +22,6 @@ struct MainTabView: View {
                             Label("Dashboard", systemImage: "lock")
                         }
                 }
-                Containers().tabItem {Label("test", systemImage: "calendar")}
                 
                 ProfileView()
                     .tabItem {Label("Profile", systemImage: "person")}

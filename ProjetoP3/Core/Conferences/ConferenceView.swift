@@ -59,7 +59,9 @@ struct ConferenceView: View {
                     VStack(spacing: 10) {
                         //MARK: Articles
                         if user.role == .admin {
-                            NavigationButton(label: "Add Article", icon: "plus", destination: AddArticleView(conferenceId: conference.id))
+                            NavigationButton(label: "Add Article", icon: "plus", destination: AddArticleView(
+                                conferenceId: conference.id,
+                                startDay: currentDay))
                                 .frame(maxWidth: .infinity, alignment: .trailing)
                                 .padding(.top, 12)
                                 

@@ -13,19 +13,13 @@ struct ConferenceView: View {
     @StateObject var articlesViewModel = ArticleViewModel()
     
     @State private var currentDay: Date = Date()
-    @State private var filteredArticles: [Article]?
+    @State private var filteredArticles: [Article] = []
     
     @State private var articles: [Article] = []
-    
     @Environment(\.dismiss) var dismiss
     
     let conference: Conference
     
-    func isToday(date: Date) -> Bool {
-        let calendar = Calendar.current
-        
-        return calendar.isDate(currentDay, inSameDayAs: date)
-    }
     
     func dateFromString(dateString: String) -> Date? {
         let formatter = DateFormatter()
@@ -44,7 +38,7 @@ struct ConferenceView: View {
             let calendar = Calendar.current
             
             let filtered = self.articles.filter{
-                return calendar.isDate(dateFromString(dateString: $0.startDate)!, inSameDayAs: Date())
+                return calendar.isDate(dateFromString(dateString: $0.startDate)!, inSameDayAs: currentDay)
             }
             
             DispatchQueue.main.async {
@@ -58,7 +52,7 @@ struct ConferenceView: View {
     var body: some View {
         if let user = viewModel.currentUser {
             ScrollView(.vertical, showsIndicators: false) {
-               NavigationStack {
+                NavigationStack {
                     VStack {
                         HStack{
                             Image(systemName: "arrow.left")
@@ -104,7 +98,7 @@ struct ConferenceView: View {
                         
                         LazyVStack(spacing: 18){
                             if !articles.isEmpty {
-                                ForEach(articles) { article in
+                                ForEach(filteredArticles) { article in
                                     ArticleContainerView(article: article)
                                 }
                             } else {
@@ -119,19 +113,21 @@ struct ConferenceView: View {
                         
                         Spacer()
                     }.padding(.horizontal, 18)
+                        .onChange(of: currentDay, perform: { newValue in
+                            filterTodayArticles()
+                        })
                 }.onAppear(){
                     Task {
                         articles = try await articlesViewModel.getArticlesByConference(conferenceId: conference.id)
+                        filterTodayArticles()
                     }
                 }
-
+                
             }
         }
         
     }
-    
 }
-
 
 
 struct ConferenceView_Previews: PreviewProvider {

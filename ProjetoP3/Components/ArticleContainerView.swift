@@ -110,7 +110,7 @@ struct ArticleContainerView: View {
                 }
             }
             .padding()
-            .frame(maxWidth: 250)
+            .frame(maxWidth: 270)
             .background(Color("TaskBG"))
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .padding()

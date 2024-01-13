@@ -33,4 +33,8 @@ class TrackViewModel: ObservableObject {
         }
         try await TrackManager.shared.deleteTrack(trackId: id)
     }
+    
+    func trackAlreadyExists(name: String, conferenceId: String) async throws -> Bool{
+        return try await TrackManager.shared.trackAlreadyExists(name: name, conferenceId: conferenceId)
+    }
 }

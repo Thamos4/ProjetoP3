@@ -51,4 +51,10 @@ class TrackManager{
     func getAllTracksForConferenceId(conferenceId: String) async throws -> [Track]{
         try await tracksCollection.whereField("conferenceId", isEqualTo: conferenceId).getDocuments(as: Track.self)
     }
+    
+    func trackAlreadyExists(name: String, conferenceId: String)async throws -> Bool{
+        var trackList = try await getAllTracksForConferenceId(conferenceId: conferenceId).map {$0.name}
+        return trackList.contains(name)
+    }
+    
 }

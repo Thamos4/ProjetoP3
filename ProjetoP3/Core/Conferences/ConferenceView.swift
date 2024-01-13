@@ -99,7 +99,12 @@ struct ConferenceView: View {
                         LazyVStack(spacing: 18){
                             if !articles.isEmpty {
                                 ForEach(filteredArticles) { article in
-                                    ArticleContainerView(article: article)
+                                    
+                                    NavigationLink(destination: ArticleView(article: article)
+                                        .navigationBarBackButtonHidden(true)
+                                    ){
+                                        ArticleContainerView(article: article)
+                                    }
                                 }
                             } else {
                                 Text("No Available Articles")

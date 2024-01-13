@@ -51,11 +51,11 @@ struct DropdownView: View {
                 .frame(width: size.width, height: size.height)
                 .background(Color("HomeBG"))
                 .zIndex(10)
-                .contentShape(.rect)
+                .contentShape(Rectangle())
                 .onTapGesture {
                     index += 1
                     zIndex = index
-                    withAnimation(.snappy){
+                    withAnimation(){
                         showOptions.toggle()
                     }
                     
@@ -91,9 +91,9 @@ struct DropdownView: View {
                 .foregroundStyle(selection == option ? Color.primary : Color.gray)
                 .animation(.none, value: selection)
                 .frame(height: 20)
-                .contentShape(.rect)
+                .contentShape(Rectangle())
                 .onTapGesture {
-                    withAnimation(.snappy) {
+                    withAnimation() {
                         selection = option
                         showOptions = false
                     }

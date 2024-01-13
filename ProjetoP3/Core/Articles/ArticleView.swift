@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ArticleView: View {
+    @State
+        var progress: CGFloat = 0
+    
     @EnvironmentObject var userViewModel: AuthViewModel
     @StateObject var articleViewModel = ArticleViewModel()
     @StateObject var commentViewModel = CommentViewModel()
@@ -18,7 +21,7 @@ struct ArticleView: View {
     var body: some View {
         NavigationStack{
             VStack {
-                HStack{
+               /** HStack{
                     NavigationLink(destination: Home()
                         .navigationBarBackButtonHidden(true)) {
                         Image(systemName: "arrow.left")
@@ -31,69 +34,96 @@ struct ArticleView: View {
                 }.padding(.horizontal)
                 .padding(.bottom, 12)
                 .font(.system(size: 16))
-                
+                Spacer()*/
                 VStack{
                     HStack {
+                    NavigationLink(destination: MainTabView()
+                        .navigationBarBackButtonHidden(true)) {
+                            Image(systemName: "arrow.left")
+                        }
+                        .foregroundColor(.white)
+                        .font(.system(size: 22))
+                        Spacer()
+                        
                         Text(article.title)
-                            .font(.title)
-                            .padding(.top, 5)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }.padding(.horizontal)
-                        .padding(.top, 12)
+                            .font(.largeTitle)
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                        
+                        Image(systemName: "pencil")
+                            .font(.system(size: 32))
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 60)
                     HStack {
                         Image(systemName: "person.fill")
                             .frame(width: 20, height: 20)
                         Text(article.author)
-                            .font(.system(size: 14))
-                    }.padding(.horizontal)
-                    HStack {
+                            .font(.system(size: 18))
+                        Spacer()
                         Image(systemName: "door.right.hand.closed")
                             .frame(width: 20, height: 20)
                         Text(article.room)
-                            .font(.system(size: 14))
+                            .font(.system(size: 18))
                     }
-                    HStack {
-                        Image(systemName: "doc.text.fill")
-                            .frame(width: 20, height: 20)
-                        Text(article.summary)
-                            .font(.system(size: 14))
-                    }
-                    Spacer()
-                    HStack{
-                        InputView(imageName: "pencil", placeholder: "Write a question here", text: $newCommentContent)
-                        Button{
-                            Task {
-                                try await commentViewModel.addComment(articleId: article.id, userId: userViewModel.currentUser!.id,content: newCommentContent)
-                                newCommentContent = ""
-                                print("DEBUG: Pressed add comment button")
-                            }
-                        }label:{ Image(systemName: "paperplane")
-                                .font(.system(size: 20))
-                                .foregroundColor(.white)
-                                .padding(12)
-                                .background(Color.blue)
-                                .clipShape(Circle())
+                    .padding(.horizontal)
+                    .padding(.bottom, 40)
+                    .foregroundColor(.white)
+                   
+                        HStack {
+                            Image(systemName: "doc.text.fill")
+                                .frame(width: 30, height: 30)
+                                .padding(.leading, 15)
+                            Text(article.summary)
+                                .font(.system(size: 14))
+                                .padding()
                         }
-                        .disabled(!formIsValid)
-                        .opacity(!formIsValid ? 0.5 : 1.0)
-                    }
-                    
-                }.onAppear{
+                        .background(.white)
+                        .clipShape(Capsule())
+                        .padding(.horizontal, 10)
+                        .padding(.bottom, 40)
+                   
+                }
+                .background(Color("TaskBG"))
+                .frame(width: .infinity, height: 350)
+                .ignoresSafeArea()
+                .onAppear{
                     Task {
                         try await commentViewModel.getCommentsByArticleId(articleId:article.id)
                         currentCommentList = commentViewModel.comments
                     }
                 }
+                
+                Spacer()
+                HStack{
+                    InputView(imageName: "pencil", placeholder: "Write a question here", text: $newCommentContent)
+                    Button{
+                        Task {
+                            try await commentViewModel.addComment(articleId: article.id, userId: userViewModel.currentUser!.id,content: newCommentContent)
+                            newCommentContent = ""
+                            print("DEBUG: Pressed add comment button")
+                        }
+                    }label:{ Image(systemName: "paperplane")
+                            .font(.system(size: 20))
+                            .foregroundColor(.white)
+                            .padding(12)
+                            .background(Color.blue)
+                            .clipShape(Circle())
+                    }
+                    .disabled(!formIsValid)
+                    .opacity(!formIsValid ? 0.5 : 1.0)
+                }.padding(.horizontal)
             }
-            .padding(.top, 12)
-            .padding(.horizontal)
+            
             
             
             
             ForEach(currentCommentList){ comment in
                 CommentContainerView(comment: comment).environmentObject(userViewModel)
             }
-        }
+        }.toolbar(.hidden, for: .tabBar)
     }
 }
 

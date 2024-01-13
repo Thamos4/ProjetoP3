@@ -45,4 +45,9 @@ class ArticleViewModel: ObservableObject{
             return article.title.lowercased().contains(articleTitle.lowercased())
         })
     }
+    
+    func gettArticlesByConference(conferenceId: String) async throws -> [Article] {
+        try await articles = ArticleManager.shared.getAllArticlesForConferenceId(conferenceId: conferenceId)
+        return articles
+    }
 }

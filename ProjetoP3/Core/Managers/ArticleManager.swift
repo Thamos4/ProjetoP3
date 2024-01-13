@@ -54,6 +54,10 @@ class ArticleManager{
         try await articlesCollection.whereField("trackId", isEqualTo: trackId).getDocuments(as: Article.self)
     }
     
+    func getAllArticlesForConferenceId(conferenceId: String) async throws -> [Article] {
+        try await articlesCollection.whereField("conferenceId", isEqualTo: conferenceId).getDocuments(as: Article.self)
+    }
+    
     func deleteArticle(articleId: String) async throws -> Void{
         do{
             try await articleDocument(articleId: articleId).delete()

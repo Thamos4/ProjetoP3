@@ -77,7 +77,7 @@ struct ConferenceView: View {
                 }.padding(.horizontal, 18)
             }.onAppear(){
                 Task {
-                    articles = articlesViewModel.getAllArticles()
+                    articles = try await articlesViewModel.gettArticlesByConference(conferenceId: conference.id)
                 }
             }
         }

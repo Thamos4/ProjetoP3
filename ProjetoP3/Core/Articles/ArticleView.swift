@@ -21,20 +21,6 @@ struct ArticleView: View {
     var body: some View {
         NavigationStack{
             VStack {
-               /** HStack{
-                    NavigationLink(destination: Home()
-                        .navigationBarBackButtonHidden(true)) {
-                        Image(systemName: "arrow.left")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        }.foregroundColor(.black)
-                    
-    //                Image(systemName: "magnifyingglass")
-                   
-                    
-                }.padding(.horizontal)
-                .padding(.bottom, 12)
-                .font(.system(size: 16))
-                Spacer()*/
                 VStack{
                     HStack {
                     NavigationLink(destination: MainTabView()
@@ -87,7 +73,6 @@ struct ArticleView: View {
                    
                 }
                 .background(Color("TaskBG"))
-                .frame(width: .infinity, height: 350)
                 .ignoresSafeArea()
                 .onAppear{
                     Task {

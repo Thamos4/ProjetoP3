@@ -12,13 +12,22 @@ struct ArticleSearchView: View {
     @State private var search = ""
     @State private var searchedArticles: [Article] = []
     @StateObject private var viewModel = ArticleViewModel()
+    
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         NavigationStack{
             VStack{
+                Image(systemName: "arrow.left")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .onTapGesture {
+                        dismiss()
+                    }
+                    .padding(.bottom, 18)
+                
                 InputView(imageName: "magnifyingglass", placeholder: "Search", text: $search)
                     .onChange(of: search) { newSearch in
                         Task{
-                            
                             searchedArticles = viewModel.articles
                             if newSearch != "" {
                                 try await viewModel.searchArticle(articleTitle: newSearch)
@@ -47,6 +56,7 @@ struct ArticleSearchView: View {
                 }
             }
         }
+        .padding(.horizontal)
         .onAppear{
             Task {
                 searchedArticles = try await viewModel.getArticlesByConference(conferenceId: conference.id)

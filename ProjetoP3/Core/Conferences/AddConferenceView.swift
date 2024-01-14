@@ -37,16 +37,27 @@ struct AddConferenceView: View {
                 
                 HStack {
                     
-                    VStack() {
-                        Text(name.isEmpty ? "New Conference" : name)
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.white)
-                            .padding(.top, 50)
-                            .padding(.trailing, 15)
+                    HStack{
+                        Spacer()
+                        VStack(alignment: .center) {
+                            Image(systemName: "arrow.left")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .onTapGesture {
+                                    dismiss()
+                                }
+                                .foregroundColor(.white)
+                                .padding(.horizontal)
+                            
+                            Text(name.isEmpty ? "New Conference" : name)
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color.white)
+                                .padding(.horizontal)
+                                .padding(.top, 40)
+                            Spacer()
+                        }
                         Spacer()
                     }
-                    .padding()
                     
                     
                 }
@@ -77,10 +88,7 @@ struct AddConferenceView: View {
                     
                 }
                 .padding(.horizontal)
-                .padding(.top, 75)
-                
-        
-                
+                .padding(.top, 10)
 
             }
         }.toolbar(.hidden, for: .tabBar)

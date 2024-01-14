@@ -20,7 +20,6 @@ struct ConferenceView: View {
     
     let conference: Conference
     
-    
     func dateFromString(dateString: String, format: String) -> Date? {
         let formatter = DateFormatter()
         formatter.dateFormat = format
@@ -64,9 +63,10 @@ struct ConferenceView: View {
                                 .onTapGesture {
                                     dismiss()
                                 }
-                            NavigationLink(destination: ArticleSearchView(conference: conference)) {
+                            NavigationLink(destination: ArticleSearchView(conference: conference)
+                                .navigationBarBackButtonHidden(true)) {
                                 Image(systemName: "magnifyingglass")
-                                    .font(.title)
+                                    .foregroundColor(.black)
                             }
                             
                         }.padding(.horizontal)
@@ -87,6 +87,7 @@ struct ConferenceView: View {
                         
                         //MARK: Conference days
                         ConferenceDaysView(beginDate: conference.beginDate, endDate: conference.endDate, currentDay: $currentDay)
+                            .padding(.vertical, 18)
                         
                         VStack(spacing: 10) {
                             //MARK: Articles
@@ -104,12 +105,7 @@ struct ConferenceView: View {
                         LazyVStack(spacing: 18){
                             if !articles.isEmpty {
                                 ForEach(filteredArticles) { article in
-                                    
-                                    NavigationLink(destination: ArticleView(article: article)
-                                        .navigationBarBackButtonHidden(true)
-                                    ){
-                                        ArticleContainerView(article: article)
-                                    }
+                                    ArticleContainerView(article: article)
                                 }
                             } else {
                                 Text("No Available Articles")
@@ -121,6 +117,7 @@ struct ConferenceView: View {
                             
                         }
                         .padding(.horizontal, 5)
+                        .padding(.top, 12)
                         
                         Spacer()
                     }.padding(.horizontal)

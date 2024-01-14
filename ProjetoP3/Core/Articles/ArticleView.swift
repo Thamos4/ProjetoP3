@@ -26,10 +26,8 @@ struct ArticleView: View {
             VStack {
                 VStack{
                     HStack {
-
                         Image(systemName: "arrow.left")
                         .foregroundColor(.white)
-                        .font(.system(size: 22))
                         .onTapGesture {
                             dismiss()
                         }
@@ -41,15 +39,16 @@ struct ArticleView: View {
                         
                         Spacer()
                         
-                        NavigationLink(destination: EditArticleView(article: $article)){
+                        NavigationLink(destination: EditArticleView(article: $article)
+                            .navigationBarBackButtonHidden(true)){
                             Image(systemName: "pencil")
-                                .font(.system(size: 32))
+                                .font(.system(size: 18))
                                 .foregroundColor(.white)
                         }
                         
                     }
                     .padding(.horizontal)
-                    .padding(.top, 60)
+                    .padding(.top, 15)
                     HStack {
                         Image(systemName: "person.fill")
                             .frame(width: 20, height: 20)
@@ -62,25 +61,27 @@ struct ArticleView: View {
                             .font(.system(size: 18))
                     }
                     .padding(.horizontal)
-                    .padding(.bottom, 40)
                     .foregroundColor(.white)
                    
+                    VStack {
                         HStack {
-                            Image(systemName: "doc.text.fill")
-                                .frame(width: 30, height: 30)
-                                .padding(.leading, 15)
-                            Text(article.summary)
-                                .font(.system(size: 14))
-                                .padding()
-                        }
-                        .background(.white)
-                        .clipShape(Capsule())
-                        .padding(.horizontal, 10)
-                        .padding(.bottom, 40)
+                                Image(systemName: "doc.text.fill")
+                                    .padding(.leading)
+                                
+                                Text(article.summary)
+                                    .font(.system(size: 14))
+                                    .padding(.trailing, 12)
+                                    .padding(.leading, 0)
+                                    .padding(.vertical, 12)
+                            }
+                            .background(.white)
+                            .clipShape(Capsule())
+                            .padding(.top, 15)
+                    }.padding(.bottom, 30)
+
                    
                 }
                 .background(Color("TaskBG"))
-                .ignoresSafeArea()
                 .onAppear{
                     Task {
                         try await commentViewModel.getCommentsByArticleId(articleId:article.id)
@@ -91,18 +92,22 @@ struct ArticleView: View {
                 Spacer()
                 
                 ScrollView{
-                    VStack(alignment: .leading, spacing: 10){
+                    VStack(alignment: .leading){
                         ForEach(currentCommentList.reversed()){ comment in
                             CommentContainerView(comment: comment) {
                                 Task{
                                     try await commentViewModel.getCommentsByArticleId(articleId:comment.articleId)
-                                    currentCommentList = commentViewModel.comments                                }
+                                    currentCommentList = commentViewModel.comments                             
+                                }
                             }
+
                         }
                         .environmentObject(userViewModel)
-                    }
+                    }.frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.top, 12)
                 }
                 
+        
                 HStack{
                     InputView(imageName: "pencil", placeholder: "Write a question here", text: $newCommentContent)
                     Button{
@@ -110,7 +115,6 @@ struct ArticleView: View {
                             
                             try await currentCommentList.append(commentViewModel .addComment(articleId: article.id, userId: userViewModel.currentUser!.id,content: newCommentContent))
                             newCommentContent = ""
-                            print("DEBUG: Pressed add comment button")
                         }
                     }label:{ Image(systemName: "paperplane")
                             .font(.system(size: 20))
@@ -136,7 +140,10 @@ extension ArticleView: AuthenticationFormProtocol{
 struct ArticleView_Previews: PreviewProvider {
     static var previews: some View {
         
+        let authViewModel = AuthViewModel()
+        
         ArticleView(article: Article.MOCK_ARTICLE)
+            .environmentObject(authViewModel)
     }
 }
 

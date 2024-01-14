@@ -88,20 +88,20 @@ struct ConferenceDaysView: View {
                     
                 }.onAppear {
                     self.conferenceDays = datesInRange(startDate: beginDate, endDate: endDate)
-                }.padding(.top, 24)
-                .padding(.horizontal)
-
+                }
+            }
         }
     }
+
     
-    struct ConferenceDaysView_Previews: PreviewProvider {
-        static var previews: some View {
-            let conference = Conference.MOCK_CONFERENCE
+struct ConferenceDaysView_Previews: PreviewProvider {
+    static var previews: some View {
+        let conference = Conference.MOCK_CONFERENCE
+        
+        ConferenceDaysView(beginDate: conference.beginDate, endDate: conference.endDate, currentDay: .constant(Date()))
             
-            ConferenceDaysView(beginDate: conference.beginDate, endDate: conference.endDate, currentDay: .constant(Date()))
-                
-        }
     }
 }
+
 
 

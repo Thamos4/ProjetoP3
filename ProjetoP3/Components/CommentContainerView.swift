@@ -10,6 +10,7 @@ import SwiftUI
 struct CommentContainerView: View {
     @StateObject var commentViewModel = CommentViewModel()
     @EnvironmentObject var userViewModel: AuthViewModel
+    @State private var profileImage: String = ""
     
     let comment: articleComment
     var onDeleteComment: (()-> Void)?
@@ -23,16 +24,16 @@ struct CommentContainerView: View {
                     image
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 40, height: 40)
+                        .frame(width: 30, height: 30)
                         .cornerRadius(10)
                         .clipShape(Circle())
                 } else {
                     Image(systemName: "person")
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 40, height: 40)
+                        .frame(width: 30, height: 30)
                         .clipShape(Circle())
-                        .padding([.top, .trailing], 14)
+                        .padding(.trailing, 14)
                 }
                 Text(user.fullname)
                 if let user = userViewModel.currentUser, user.role == .admin {
@@ -52,7 +53,6 @@ struct CommentContainerView: View {
 
                             Task {
                                 try await commentViewModel.deleteComment(id:comment.id, articleId: comment.articleId)
-                                print("DEBUG: Selected comment: - ", comment.content)
                             }
                         }),
                               secondaryButton: .default(Text("No"), action:{
@@ -63,8 +63,9 @@ struct CommentContainerView: View {
                 }
             }
             Text(comment.content)
+                .padding(.leading, 38)
         }
-        .padding(20)
+        .padding(.horizontal)
         .onAppear{
             Task {
                 user = try await userViewModel.getUser(id: comment.userId)
@@ -73,13 +74,13 @@ struct CommentContainerView: View {
     }
 }
 
-//struct CommentContainerView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let userViewModel = AuthViewModel()
-//        
-//        userViewModel.currentUser = User.MOCK_USER
-//        
-//        return CommentContainerView(comment: articleComment.MOCK_COMMENT)
-//            .environmentObject(userViewModel)
-//    }
-//}
+struct CommentContainerView_Previews: PreviewProvider {
+    static var previews: some View {
+        let userViewModel = AuthViewModel()
+        
+        userViewModel.currentUser = User.MOCK_USER
+        
+        return CommentContainerView(comment: articleComment.MOCK_COMMENT)
+            .environmentObject(userViewModel)
+   }
+}

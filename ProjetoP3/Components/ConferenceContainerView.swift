@@ -18,8 +18,7 @@ struct ConferenceContainerView: View {
             HStack {
                 Text("From:\(conference.beginDate)")
                     .font(.caption)
-                    .padding(.vertical, 6)
-                    .padding(.horizontal, 6)
+                    .padding(.vertical, 4)
                     .background(.black.opacity(0.1))
                     .foregroundColor(Color(.white))
                     .clipShape(Capsule())
@@ -28,8 +27,8 @@ struct ConferenceContainerView: View {
                 
                 Text("To:\(conference.endDate)")
                     .font(.caption)
-                    .padding(.vertical, 6)
-                    .padding(.horizontal, 6)
+                    .padding(.vertical, 4)
+                    .padding(.horizontal, 4)
                     .background(.black.opacity(0.1))
                     .foregroundColor(Color(.white))
                     .clipShape(Capsule())

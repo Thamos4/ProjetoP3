@@ -47,7 +47,7 @@ struct RegistrationView: View {
                
                     VStack(alignment: .leading){
                         HStack{ Spacer() }
-                        Text("New here?.")
+                        Text("New here?")
                             .font(.largeTitle)
                             .fontWeight(.semibold)
                         Text("Create your account.")
@@ -131,6 +131,7 @@ struct RegistrationView: View {
                             Text("Already have an account?").foregroundColor(.black)
                             Text("Sign In")
                                 .fontWeight(.bold)
+                                .foregroundStyle(Color("TaskBG"))
                         }
                         .font(.system(size: 14))
                     }

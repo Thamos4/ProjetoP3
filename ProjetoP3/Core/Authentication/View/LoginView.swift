@@ -66,6 +66,7 @@ struct LoginView: View {
                             HStack {
                                 Text("Forgot Password?")
                                     .fontWeight(.semibold)
+                                    .foregroundStyle(Color("TaskBG"))
                             }
                             .font(.system(size: 13))
                             .frame(width: UIScreen.main.bounds.width - 32, alignment: .trailing)
@@ -101,6 +102,7 @@ struct LoginView: View {
                                 Text("Don't have an account?").foregroundColor(.black)
                                 Text("Sign up")
                                     .fontWeight(.bold)
+                                    .foregroundStyle(Color("TaskBG"))
                             }
                             .font(.system(size: 14))
                         }

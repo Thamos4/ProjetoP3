@@ -24,6 +24,11 @@ struct RegistrationView: View {
         return formatter.string(from: date)
     }
     
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegex = #"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"#
+        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
+        return emailPredicate.evaluate(with: email)
+    }
     var body: some View {
         VStack {
             //Blue stack (pode ser outro background depois)
@@ -123,7 +128,7 @@ struct RegistrationView: View {
 extension RegistrationView: AuthenticationFormProtocol {
     var formIsValid: Bool {
         return !email.isEmpty
-        && email.contains("@") //TODO: Add better email validation
+        && isValidEmail(email) //TODO: Add better email validation
         && !password.isEmpty
         && password.count > 5
         && confirmPassword == password

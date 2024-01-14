@@ -46,10 +46,11 @@ struct ConferenceContainerView: View {
   
             HStack{
                 if let user = viewModel.currentUser, user.role == .admin {
-                    
-                    Image(systemName: "pencil")
-                        .foregroundColor(Color(.white))
-                        .font(.system(size: 13))
+                    NavigationLink(destination: EditConferenceView(conference: conference)){
+                        Image(systemName: "pencil")
+                            .foregroundColor(Color(.white))
+                            .font(.system(size: 13))
+                    }
                     
                     Button {
                         self.showAlert = true

@@ -70,19 +70,11 @@ struct ProfileView: View {
                     
                     VStack(alignment: .leading, spacing: 10){
                         Text("General")
-                            .font(.system(size: 25))
-                            .padding(.vertical, 10)
-                       
-                        HStack(spacing: 12){
-                            Image(systemName: "envelope.fill")
-                                .imageScale(.small)
-                                .font(.title)
-                                .foregroundColor(Color(.systemGray))
-                            
-                            Text(user.email)
-                                .font(.title3)
-                                .foregroundColor(.black)
-                        }
+                            .font(.system(size: 15))
+                            .foregroundStyle(.gray)
+                    
+                        SettingsRowView(imageName: "envelope.fill", title: user.email, tintColor: Color(.systemGray))
+                        
                         Divider()
                         
                         HStack(spacing: 12){
@@ -94,23 +86,26 @@ struct ProfileView: View {
                             PhotosPicker(selection: $viewModel.selectedItem, matching: .images, photoLibrary: .shared()) {
 
                                 Text("Edit Image")
-                                    .font(.title3)
+                                    .font(.system(size: 18))
                                     .foregroundColor(.black)
                             }
                             
-                            
                         }
+                        
                         Divider()
                         SettingsRowView(imageName: "calendar", title: "\(user.birthdate) ", tintColor: Color(.systemGray))
                         
+                        
                         Text("Account")
-                            .font(.system(size: 25))
-                            .padding(.top, 20)
+                            .font(.system(size: 15))
+                            .foregroundStyle(.gray)
+                            .padding(.top, 15)
+                       
                         Button{
                             viewModel.signOut()
                         } label: {
                             SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign Out", tintColor: Color(.red))
-                        }.padding(.top, 10)
+                        }
                         
                         Divider()
                         
@@ -123,10 +118,9 @@ struct ProfileView: View {
                                   message: Text("Do you really want to delete your account? "),
                                   primaryButton: .default(Text("Yes"), action:{
                                
-                                Task {
-                                   try await viewModel.deleteAccount()
-                                }
-                               
+                                    Task {
+                                       try await viewModel.deleteAccount()
+                                    }
                                     
                                     showDeleteAlert = false
                                 }),

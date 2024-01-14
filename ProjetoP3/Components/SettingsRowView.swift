@@ -17,11 +17,11 @@ struct SettingsRowView: View {
         HStack(spacing: 12){
             Image(systemName: imageName)
                 .imageScale(.small)
-                .font(.largeTitle)
+                .font(.title)
                 .foregroundColor(tintColor)
             
             Text(title)
-                .font(.title3)
+                .font(.system(size: 18))
                 .foregroundColor(.black)
         }
     }

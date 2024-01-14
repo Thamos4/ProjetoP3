@@ -40,7 +40,6 @@ struct AdminDashboardView: View{
                         
                         ScrollView(.vertical, showsIndicators: false) {
                             VStack{
-                                Divider()
                                 ForEach(authViewModel.users) {user in
                                     HStack(alignment: .center){
                                         Text(user.fullname)

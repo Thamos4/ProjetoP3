@@ -15,35 +15,37 @@ struct ConferenceContainerView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 15){
-                VStack {
-                    HStack {
-                        Text("From: \(conference.beginDate)")
-                            .font(.caption)
-                            .foregroundColor(Color(.white))
-                            .clipShape(Capsule())
-                        
-                        Spacer()
-                        
-                        Text("To: \(conference.endDate)")
-                            .font(.caption)
-                            .foregroundColor(Color(.white))
-                            .clipShape(Capsule())
-                        
-                    }.padding(.vertical, 6)
-                    
-                    VStack(alignment: .leading, spacing: 12){
-                        Text(conference.name)
-                            .font(.title3)
-                            .foregroundColor(Color(.white))
-                            .bold()
-                        
-                        Text(conference.description)
-                            .font(.headline)
-                            .foregroundColor(Color(.white))
-                            .bold()
-                    }.frame(maxWidth: .infinity, alignment: .leading)
-                }
-  
+            HStack {
+                Text("From:\(conference.beginDate)")
+                    .font(.caption)
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 6)
+                    .background(.black.opacity(0.1))
+                    .foregroundColor(Color(.white))
+                    .clipShape(Capsule())
+                
+                Spacer()
+                
+                Text("To:\(conference.endDate)")
+                    .font(.caption)
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 6)
+                    .background(.black.opacity(0.1))
+                    .foregroundColor(Color(.white))
+                    .clipShape(Capsule())
+                
+            }
+            Text(conference.name)
+                .font(.title3)
+                .foregroundColor(Color(.white))
+                .bold()
+            
+            Text(conference.description)
+                .font(.headline)
+                .foregroundColor(Color(.white))
+                .bold()
+
+            
             HStack{
                 if let user = viewModel.currentUser, user.role == .admin {
                     

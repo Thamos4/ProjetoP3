@@ -29,34 +29,28 @@ struct AddConferenceView: View {
                     .ignoresSafeArea()
                 //header
                 Ellipse()
-                    .fill(Color("TaskBG"))
-                    .frame(width: geometry.size.width * 2.0, height: geometry.size.height * 0.50)
-                    .position(x: geometry.size.width / 2.35, y: geometry.size.height * 0.1)
-                    .shadow(radius: 3)
-                    .edgesIgnoringSafeArea(.all)
+                .fill(Color("TaskBG"))
+                .frame(width: geometry.size.width * 2.0, height: geometry.size.height * 0.5)
+                .position(x: geometry.size.width / 2, y: geometry.size.height * 0.04)
+                .shadow(radius: 3)
+                .edgesIgnoringSafeArea(.all)
                 
                 HStack {
-                    Spacer()
-                    VStack(alignment: .center) {
-                        Image(systemName: "arrow.left")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .onTapGesture {
-                                dismiss()
-                            }
-                            .foregroundColor(.white)
-                        
-                        Text(name.isEmpty ? "New Conference" : name)
+                    
+                    VStack() {
+                        Text("New Conference")
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(Color.white)
-                            .padding(.horizontal)
                             .padding(.top, 50)
+                            .padding(.trailing, 15)
                         Spacer()
                     }
-                    .padding(.horizontal)
-                    Spacer()
+                    .padding()
                     
-                    }
+                    
+                }
+                
                 VStack(spacing: 40){
                     InputView(imageName: "pencil", placeholder: "Task Name", text: $name)
                         .autocapitalization(.none)

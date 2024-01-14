@@ -33,40 +33,70 @@ struct AdminDashboardView: View{
     
     var body: some View {
         NavigationStack{
-            List {
-                ForEach(viewModel.users) {user in
+            GeometryReader { geometry in
+                ZStack{
+                    Color(.white)
+                        .ignoresSafeArea()
+                    
+                    Ellipse()
+                        .fill(Color("TaskBG"))
+                        .frame(width: geometry.size.width * 2.0, height: geometry.size.height * 0.50)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.1)
+                        .shadow(radius: 3)
+                        .edgesIgnoringSafeArea(.all)
+                    
+                    
                     VStack{
-                        Text(user.fullname)
-                        Text(user.role.rawValue)
-                        
-                        if(user.id != authViewModel.currentUser?.id){
-                            Button{
-                                Task {
-                                    try await viewModel.switchUserRole(userId: user.id)
-                                }
-                            }label: {
-                                Text("Switch Role")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .frame(width: 340, height: 50)
-                                    .background(Color("TaskBG"))
-                                    .clipShape(Capsule())
-                                    .padding()
-                            }
+                        VStack{
+                            Text("List of all Users")
+                                .font(.title)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                            
                         }
-
-
+                        .frame(height:150)
+                        .padding(.bottom, 50)
+                        
+                        Spacer()
+                        
+                        VStack{
+                            ForEach(viewModel.users) {user in
+                                HStack{
+                                    
+                                    Text(user.fullname)
+                                        .multilineTextAlignment(.leading)
+                                    Spacer()
+                                    if(user.id != authViewModel.currentUser?.id){
+                                        Button{
+                                            Task {
+                                                try await viewModel.switchUserRole(userId: user.id)
+                                            }
+                                        }label: {
+                                            Text("Switch Role")
+                                                .font(.headline)
+                                                .foregroundColor(.white)
+                                                .frame(width: 120, height: 30)
+                                                .background(Color("TaskBG"))
+                                                .clipShape(Capsule())
+                                                
+                                        }.padding(.vertical, 10)
+                                    }
+                                    
+                                }
+                                .overlay(Text(user.role.rawValue))
+                                .padding(.horizontal)
+                               
+                            }
+                        }.padding(.bottom, 300)
+                    }
+                    .task{
+                        try? await viewModel.getAllUsers()
                     }
                 }
-            }
-            .navigationTitle("List of all users")
-            .task{
-                try? await viewModel.getAllUsers()
             }
         }
     }
 }
-
 
 struct AdminDashboardView_Previews: PreviewProvider {
     static var previews: some View {

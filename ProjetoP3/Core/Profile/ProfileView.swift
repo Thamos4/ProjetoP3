@@ -12,7 +12,6 @@ struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var showDeleteAlert = false
 
-    
     var body: some View {
         if let user = viewModel.currentUser {
             List {
@@ -99,10 +98,10 @@ struct ProfileView: View {
                     }.alert(isPresented: $showDeleteAlert) {
                         Alert(title: Text("Delete Account"),
                               message: Text("Do you really want to delete your account? "),
-                              primaryButton: .default(Text("Yes"), action:{
-                            viewModel.deleteAccount(
-                                selfUser: true,
-                                user: viewModel.userSession!)
+                              primaryButton: .default(Text("Yes"), action: {
+                                Task {
+                                    try await viewModel.deleteAccount()
+                                }
                                 
                                 showDeleteAlert = false
                             }),

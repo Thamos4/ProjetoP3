@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct ArticleView: View {
-    @State
-        var progress: CGFloat = 0
+    @State var progress: CGFloat = 0
     
     @EnvironmentObject var userViewModel: AuthViewModel
     @StateObject var articleViewModel = ArticleViewModel()
@@ -17,33 +16,23 @@ struct ArticleView: View {
     @State private var currentCommentList: [articleComment] = []
     @State private var newCommentContent: String = ""
     @State private var showAlert = false
+    
+    @Environment(\.dismiss) var dismiss
+    
     let article: Article
    
     var body: some View {
         NavigationStack{
             VStack {
-               /** HStack{
-                    NavigationLink(destination: Home()
-                        .navigationBarBackButtonHidden(true)) {
-                        Image(systemName: "arrow.left")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        }.foregroundColor(.black)
-                    
-    //                Image(systemName: "magnifyingglass")
-                   
-                    
-                }.padding(.horizontal)
-                .padding(.bottom, 12)
-                .font(.system(size: 16))
-                Spacer()*/
                 VStack{
                     HStack {
-                    NavigationLink(destination: MainTabView()
-                        .navigationBarBackButtonHidden(true)) {
-                            Image(systemName: "arrow.left")
-                        }
+
+                        Image(systemName: "arrow.left")
                         .foregroundColor(.white)
                         .font(.system(size: 22))
+                        .onTapGesture {
+                            dismiss()
+                        }
                         Spacer()
                         
                         Text(article.title)
@@ -88,7 +77,6 @@ struct ArticleView: View {
                    
                 }
                 .background(Color("TaskBG"))
-                .frame(width: .infinity, height: 350)
                 .ignoresSafeArea()
                 .onAppear{
                     Task {

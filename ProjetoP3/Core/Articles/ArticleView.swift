@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct ArticleView: View {
-    @State
-        var progress: CGFloat = 0
+    @State var progress: CGFloat = 0
     
     @EnvironmentObject var userViewModel: AuthViewModel
     @StateObject var articleViewModel = ArticleViewModel()
     @StateObject var commentViewModel = CommentViewModel()
     @State private var currentCommentList: [articleComment] = []
     @State private var newCommentContent: String = ""
+    
+    @Environment(\.dismiss) var dismiss
+    
     let article: Article
    
     var body: some View {
@@ -23,12 +25,13 @@ struct ArticleView: View {
             VStack {
                 VStack{
                     HStack {
-                    NavigationLink(destination: MainTabView()
-                        .navigationBarBackButtonHidden(true)) {
-                            Image(systemName: "arrow.left")
-                        }
+
+                        Image(systemName: "arrow.left")
                         .foregroundColor(.white)
                         .font(.system(size: 22))
+                        .onTapGesture {
+                            dismiss()
+                        }
                         Spacer()
                         
                         Text(article.title)

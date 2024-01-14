@@ -20,11 +20,19 @@ class CommentManager {
         commentsCollection.document(commentId)
     }
     
-    func addComment(articleId: String, userId: String, content: String) async throws{
+    func formattedDate(date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy HH:mm:ss"
+        return formatter.string(from: date)
+    }
+    
+    func addComment(articleId: String, userId: String, content: String) async throws  -> articleComment {
         let newCommentRef = commentsCollection.document()
         let id = newCommentRef.documentID
-        let newComment = articleComment(id: id, articleId: articleId, userId: userId, content: content)
+        let newComment = articleComment(id: id, articleId: articleId, userId: userId, content: content, created_at: formattedDate(date: Date()))
         try newCommentRef.setData(from: newComment)
+        
+        return newComment
     }
     
     func getComment(commentId: String) async throws -> articleComment{

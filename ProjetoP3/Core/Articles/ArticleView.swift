@@ -20,6 +20,28 @@ struct ArticleView: View {
     @Environment(\.dismiss) var dismiss
     
     @State var article: Article
+    
+    
+    func dateFromString(dateString: String) -> Date? {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM/yyyy HH:mm:ss"
+        formatter.locale = Locale(identifier: "en_US_POSIX") // Set locale to ensure correct date parsing
+        
+        if let date = formatter.date(from: dateString) {
+            return date
+        } else {
+            return nil
+        }
+    }
+    
+    func filterCommentsByDate()  {
+        currentCommentList = currentCommentList.sorted {
+            comment1, comment2 in
+            return dateFromString(dateString: comment1.created_at)! < dateFromString(dateString: comment2.created_at)!
+        }
+            
+        
+    }
    
     var body: some View {
         NavigationStack{
@@ -86,6 +108,9 @@ struct ArticleView: View {
                     Task {
                         try await commentViewModel.getCommentsByArticleId(articleId:article.id)
                         currentCommentList = commentViewModel.comments
+                        
+                        filterCommentsByDate()
+
                     }
                 }
                 
@@ -97,7 +122,8 @@ struct ArticleView: View {
                             CommentContainerView(comment: comment) {
                                 Task{
                                     try await commentViewModel.getCommentsByArticleId(articleId:comment.articleId)
-                                    currentCommentList = commentViewModel.comments                             
+                                    currentCommentList = commentViewModel.comments 
+                                    
                                 }
                             }
 
@@ -113,7 +139,7 @@ struct ArticleView: View {
                     Button{
                         Task {
                             
-                            try await currentCommentList.append(commentViewModel .addComment(articleId: article.id, userId: userViewModel.currentUser!.id,content: newCommentContent))
+                            try await currentCommentList.append(commentViewModel.addComment(articleId: article.id, userId: userViewModel.currentUser!.id,content: newCommentContent))
                             newCommentContent = ""
                         }
                     }label:{ Image(systemName: "paperplane")

@@ -9,6 +9,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+
 @MainActor
 class ArticleManager{
     
@@ -66,17 +67,6 @@ class ArticleManager{
         }
     }
     
-    func addComment(articleId: String, userId: String, content: String) async throws -> articleComment{
-        let newCommentRef = commentsCollection.document()
-        let id = newCommentRef.documentID
-        let newComment = articleComment(id: id, articleId: articleId, userId: userId, content: content)
-        try newCommentRef.setData(from: newComment)
-        return newComment
-    }
-    
-    func searchArticleByTitle(articleTitle: String) async throws {
-        
-    }
 }
 
 extension Query {

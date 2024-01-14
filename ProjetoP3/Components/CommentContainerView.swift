@@ -38,27 +38,17 @@ struct CommentContainerView: View {
                 Text(user.fullname)
                 if let user = userViewModel.currentUser, user.role == .admin {
                     Button {
+                        onDeleteComment?()
+                        
+                        Task {
+                            try await commentViewModel.deleteComment(id:comment.id, articleId: comment.articleId)
+                        }
                         self.showAlert = true
                     } label: {
                         Image(systemName: "trash")
                             .foregroundColor(Color(.red))
                             .font(.system(size: 13))
-                    }.alert(isPresented: $showAlert) {
-                        Alert(title: Text("Delete Comment?"),
-                              message: Text("Do you really want to delete this comment? "),
-                              primaryButton: .default(Text("Yes"), action:{
-                            onDeleteComment?()
-                            self.showAlert = false
-
-                            Task {
-                                try await commentViewModel.deleteComment(id:comment.id, articleId: comment.articleId)
-                            }
-                        }),
-                              secondaryButton: .default(Text("No"), action:{
-                            self.showAlert = false
-                        }))
                     }
-                    
                 }
             }
             Text(comment.content)

@@ -109,6 +109,13 @@ class AuthViewModel: ObservableObject {
         self.profileImage = Image(uiImage: uiImage)
     }
     
+    func loadImage(user: User) async throws -> Image {
+        let data = try await StoreManager.shared.getData(userId: user.id, path: user.profileImagePath)
+        let uiImage = UIImage(data: data)
+        return Image(uiImage: uiImage!)
+    }
+
+    
     func updateProfileImage(userId: String, path: String) async throws {
         try await Firestore.firestore().collection("users").document(userId).setData(["profileImagePath": path], merge: true)
     }

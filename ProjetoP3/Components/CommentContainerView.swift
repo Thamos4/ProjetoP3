@@ -10,7 +10,7 @@ import SwiftUI
 struct CommentContainerView: View {
     @StateObject var commentViewModel = CommentViewModel()
     @EnvironmentObject var userViewModel: AuthViewModel
-    @State private var profileImage: String = ""
+    @State private var profileImage: Image?
     
     let comment: articleComment
     var onDeleteComment: (()-> Void)?
@@ -20,7 +20,7 @@ struct CommentContainerView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 10){
             HStack{
-                if let image = userViewModel.profileImage {
+                if let image = profileImage {
                     image
                         .resizable()
                         .scaledToFill()
@@ -37,7 +37,6 @@ struct CommentContainerView: View {
                 }
                 Text(user.fullname)
                 if let user = userViewModel.currentUser, user.role == .admin {
-                    
                     Button {
                         self.showAlert = true
                     } label: {
@@ -69,6 +68,7 @@ struct CommentContainerView: View {
         .onAppear{
             Task {
                 user = try await userViewModel.getUser(id: comment.userId)
+                profileImage = try await userViewModel.loadImage(user: user)
             }
         }
     }

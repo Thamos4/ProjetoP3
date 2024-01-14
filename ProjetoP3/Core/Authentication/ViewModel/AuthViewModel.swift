@@ -20,6 +20,7 @@ class AuthViewModel: ObservableObject {
     
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
+    @Published var users: [User] = []
     
     @Published var profileImage: Image?
     @Published var selectedItem: PhotosPickerItem? {
@@ -110,5 +111,15 @@ class AuthViewModel: ObservableObject {
         try await Firestore.firestore().collection("users").document(userId).setData(["profileImagePath": path], merge: true)
     }
     
-
+    func getAllUsers() async throws{
+        self.users = try await UserManager.shared.getAllUsers()
+    }
+    
+    func switchUserRole(userId: String) async throws{
+        try await UserManager.shared.switchUserRole(userId: userId)
+        
+        if let index = users.firstIndex(where: { $0.id == userId }) {
+            users[index].role.toggle()
+        }
+    }
 }

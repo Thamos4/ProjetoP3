@@ -33,12 +33,9 @@ struct ForgotPasswordView: View {
                 
                 
                     VStack {
-                        VStack(alignment: .leading){
+                        VStack(alignment: .center){
                             HStack{ Spacer() }
-                            Text("Forgot your password?.")
-                                .font(.largeTitle)
-                                .fontWeight(.semibold)
-                            Text("Recover it now.")
+                            Text("Recover your password?")
                                 .font(.title)
                                 .fontWeight(.semibold)
                         }
@@ -52,7 +49,7 @@ struct ForgotPasswordView: View {
                             
                         }
                         .padding(.horizontal)
-                        .padding(.top, 120)
+                        .padding(.top, 80)
                         
                         ButtonView(label: "SEND RESET LINK", icon: "arrow.right", iconOnLeft: false, isDisabled: !formIsValid){
                             Task {

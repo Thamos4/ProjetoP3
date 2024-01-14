@@ -38,7 +38,7 @@ struct AddConferenceView: View {
                 HStack {
                     
                     VStack() {
-                        Text("New Conference")
+                        Text(name.isEmpty ? "New Conference" : name)
                             .font(.title)
                             .fontWeight(.bold)
                             .foregroundColor(Color.white)

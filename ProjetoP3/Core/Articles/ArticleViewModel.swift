@@ -24,8 +24,9 @@ class ArticleViewModel: ObservableObject{
                                                       startHour: startHour)
     }
     
-    func updateArticle(article: Article) async throws{
-        try await ArticleManager.shared.updateArticle(article: article)
+    func updateArticle(id: String, trackId: String, conferenceId: String,title: String, author: String, summary: String, room: String, startDate: String, startHour: String) async throws{
+        let newArticle = Article(id: id, trackId: trackId, conferenceId: conferenceId, title: title, author: author, summary: summary, room: room, startDate: startDate, startHour: startHour)
+        try await ArticleManager.shared.updateArticle(article: newArticle)
     }
     
     func deleteArticle(id: String) async throws {
@@ -45,5 +46,9 @@ class ArticleViewModel: ObservableObject{
     func getArticlesByConference(conferenceId: String) async throws -> [Article] {
         try await articles = ArticleManager.shared.getAllArticlesForConferenceId(conferenceId: conferenceId)
         return articles
+    }
+    
+    func getArticleById(articleId: String) async throws -> Article{
+        try await ArticleManager.shared.getArticle(articleId: articleId)
     }
 }

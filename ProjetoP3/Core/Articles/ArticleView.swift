@@ -19,7 +19,7 @@ struct ArticleView: View {
     
     @Environment(\.dismiss) var dismiss
     
-    let article: Article
+    @State var article: Article
    
     var body: some View {
         NavigationStack{
@@ -41,9 +41,12 @@ struct ArticleView: View {
                         
                         Spacer()
                         
-                        Image(systemName: "pencil")
-                            .font(.system(size: 32))
-                            .foregroundColor(.white)
+                        NavigationLink(destination: EditArticleView(article: $article)){
+                            Image(systemName: "pencil")
+                                .font(.system(size: 32))
+                                .foregroundColor(.white)
+                        }
+                        
                     }
                     .padding(.horizontal)
                     .padding(.top, 60)

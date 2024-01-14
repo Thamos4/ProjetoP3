@@ -33,7 +33,7 @@ struct ArticleContainerView: View {
                         HStack {
                             Image(systemName: "clock")                .frame(width: 20, height: 20)
                                 .foregroundColor(.white)
-                            Text("8:00")
+                            Text(article.startHour)
                                 .foregroundColor(Color(.white))
                         }
 

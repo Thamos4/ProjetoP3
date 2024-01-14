@@ -9,20 +9,29 @@ import SwiftUI
 
 struct EditConferenceView: View {
     let conference: Conference
-    @State private var name = ""
-    @State private var description = ""
-    @State private var beginDate = Date()
-    @State private var endDate = Date()
+    @State private var name: String
+    @State private var description: String
+    @State private var beginDate: Date
+    @State private var endDate: Date
     @State private var goHome = false
     @StateObject private var viewModel = ConferenceViewModel()
     @Environment(\.dismiss) var dismiss
     
     init(conference: Conference) {
         self.conference = conference
-        self.name = conference.name
-        self.description = conference.description
-        self.beginDate = dateFromFormattedString(conference.beginDate) ?? Date()
-        self.endDate = dateFromFormattedString(conference.endDate) ?? Date()
+        _name = State(initialValue: conference.name)
+        _description = State(initialValue: conference.description)
+        _beginDate = State(initialValue: Date())
+        _endDate = State(initialValue: Date())
+        if let formattedBeginDate = dateFromFormattedString(conference.beginDate){
+            _beginDate = State(initialValue: formattedBeginDate)
+        }
+        
+        if let formattedEndDate = dateFromFormattedString(conference.endDate){
+            _endDate = State(initialValue: formattedEndDate)
+        }
+        
+        
     }
     
     func dateFromFormattedString(_ formattedString: String) -> Date? {

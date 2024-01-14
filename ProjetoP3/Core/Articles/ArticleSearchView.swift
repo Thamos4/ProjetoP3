@@ -39,7 +39,11 @@ struct ArticleSearchView: View {
                     VStack{
                         if(searchedArticles.count > 0) {
                             ForEach(searchedArticles) { article in
-                               ArticleContainerView(article: article)
+                               ArticleContainerView(article: article){
+                                   Task {
+                                       searchedArticles = try await viewModel.getArticlesByConference(conferenceId: conference.id)
+                                   }
+                               }
                             }
                         }else if(viewModel.articles.count > 0){
                             Text("No Articles match your search")

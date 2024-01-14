@@ -43,7 +43,6 @@ struct CommentContainerView: View {
                         Task {
                             try await commentViewModel.deleteComment(id:comment.id, articleId: comment.articleId)
                         }
-                        self.showAlert = true
                     } label: {
                         Image(systemName: "trash")
                             .foregroundColor(Color(.red))

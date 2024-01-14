@@ -39,7 +39,6 @@ struct ArticleView: View {
             comment1, comment2 in
             return dateFromString(dateString: comment1.created_at)! < dateFromString(dateString: comment2.created_at)!
         }
-            
         
     }
    

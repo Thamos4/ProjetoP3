@@ -13,9 +13,9 @@ struct ArticleContainerView: View {
     @StateObject var trackiewModel = TrackViewModel()
     
     @State private var track = ""
-    
     let article: Article
-    @State private var showAlert = false
+    let onDeleteArticle: () -> Void
+
     var body: some View {
         if let user = viewModel.currentUser {
             HStack {
@@ -103,25 +103,15 @@ struct ArticleContainerView: View {
                                 .font(.system(size: 13))
                             
                             Button {
-                                self.showAlert = true
+                                Task {
+                                    try await articleViewModel.deleteArticle(id: article.id)
+                                    onDeleteArticle()
+                                }
+
                             } label: {
                                 Image(systemName: "trash")
                                     .foregroundColor(Color(.red))
                                     .font(.system(size: 13))
-                            }.alert(isPresented: $showAlert) {
-                                Alert(title: Text("Delete Article?"),
-                                      message: Text("Do you really want to delete this article? "),
-                                      primaryButton: .default(Text("Yes"), action:{
-                                    self.showAlert = false
-                                    
-                                    Task {
-                                        try await articleViewModel.deleteArticle(id: article.id)
-                                    }
-                                }),
-                                      secondaryButton: .default(Text("No"), action:{
-                                    
-                                    self.showAlert = false
-                                }))
                             }
                         }
                         .padding(.top, 1)
@@ -148,7 +138,7 @@ struct ArticleContainerView_Previews: PreviewProvider {
         let authViewModel = AuthViewModel()
         authViewModel.currentUser = User.MOCK_USER
         
-        return ArticleContainerView(article: Article.MOCK_ARTICLE)
+        return ArticleContainerView(article: Article.MOCK_ARTICLE, onDeleteArticle: {})
             .environmentObject(authViewModel)
     }
 }

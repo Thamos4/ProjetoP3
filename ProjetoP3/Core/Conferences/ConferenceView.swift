@@ -105,7 +105,12 @@ struct ConferenceView: View {
                         LazyVStack(spacing: 18){
                             if !articles.isEmpty {
                                 ForEach(filteredArticles) { article in
-                                    ArticleContainerView(article: article)
+                                    ArticleContainerView(article: article){
+                                        Task {
+                                            articles = try await articlesViewModel.getArticlesByConference(conferenceId: conference.id)
+                                            filterTodayArticles()
+                                        }
+                                    }
                                 }
                             } else {
                                 Text("No Available Articles")

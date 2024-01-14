@@ -8,6 +8,7 @@ import Foundation
 import SwiftUI
 
 struct ArticleSearchView: View {
+    let conference: Conference
     @State private var search = ""
     @State private var searchedArticles: [Article] = []
     @StateObject private var viewModel = ArticleViewModel()
@@ -48,17 +49,16 @@ struct ArticleSearchView: View {
         }
         .onAppear{
             Task {
-                try await viewModel.getAllArticles()
-                searchedArticles = viewModel.articles
+                searchedArticles = try await viewModel.getArticlesByConference(conferenceId: conference.id)
                 
             }
         }
     }
 }
 
-struct ArticleSearchView_Previews: PreviewProvider {
-    static var previews: some View {
-        
-        ArticleSearchView()
-    }
-}
+//struct ArticleSearchView_Previews: PreviewProvider {
+//    static var previews: some View {
+//
+//        ArticleSearchView()
+//    }
+//}

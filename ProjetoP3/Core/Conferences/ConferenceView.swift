@@ -64,9 +64,10 @@ struct ConferenceView: View {
                                 .onTapGesture {
                                     dismiss()
                                 }
-                            
-                            Image(systemName: "magnifyingglass")
-                            
+                            NavigationLink(destination: ArticleSearchView(conference: conference)) {
+                                Image(systemName: "magnifyingglass")
+                                    .font(.title)
+                            }
                             
                         }.padding(.horizontal)
                             .padding(.bottom, 12)

@@ -16,9 +16,10 @@ struct ArticleView: View {
     @State private var currentCommentList: [articleComment] = []
     @State private var newCommentContent: String = ""
     
+    
     @Environment(\.dismiss) var dismiss
     
-    let article: Article
+    @State var article: Article
    
     var body: some View {
         NavigationStack{
@@ -40,9 +41,12 @@ struct ArticleView: View {
                         
                         Spacer()
                         
-                        Image(systemName: "pencil")
-                            .font(.system(size: 32))
-                            .foregroundColor(.white)
+                        NavigationLink(destination: EditArticleView(article: $article)){
+                            Image(systemName: "pencil")
+                                .font(.system(size: 32))
+                                .foregroundColor(.white)
+                        }
+                        
                     }
                     .padding(.horizontal)
                     .padding(.top, 60)
@@ -85,11 +89,26 @@ struct ArticleView: View {
                 }
                 
                 Spacer()
+                
+                ScrollView{
+                    VStack(alignment: .leading, spacing: 10){
+                        ForEach(currentCommentList.reversed()){ comment in
+                            CommentContainerView(comment: comment) {
+                                Task{
+                                    try await commentViewModel.getCommentsByArticleId(articleId:comment.articleId)
+                                    currentCommentList = commentViewModel.comments                                }
+                            }
+                        }
+                        .environmentObject(userViewModel)
+                    }
+                }
+                
                 HStack{
                     InputView(imageName: "pencil", placeholder: "Write a question here", text: $newCommentContent)
                     Button{
                         Task {
-                            try await commentViewModel.addComment(articleId: article.id, userId: userViewModel.currentUser!.id,content: newCommentContent)
+                            
+                            try await currentCommentList.append(commentViewModel .addComment(articleId: article.id, userId: userViewModel.currentUser!.id,content: newCommentContent))
                             newCommentContent = ""
                             print("DEBUG: Pressed add comment button")
                         }
@@ -104,20 +123,13 @@ struct ArticleView: View {
                     .opacity(!formIsValid ? 0.5 : 1.0)
                 }.padding(.horizontal)
             }
-            
-            
-            
-            
-            ForEach(currentCommentList){ comment in
-                CommentContainerView(comment: comment).environmentObject(userViewModel)
-            }
         }.toolbar(.hidden, for: .tabBar)
     }
 }
 
 extension ArticleView: AuthenticationFormProtocol{
     var formIsValid: Bool{
-        return newCommentContent.count > 5
+        return !newCommentContent.isEmpty
     }
 }
 

@@ -7,18 +7,18 @@
 
 import SwiftUI
 
-struct Containers: View {
-   
-    
-    var body: some View {
-        
-        
-        CommentContainerView(comment: articleComment.MOCK_COMMENT)
-    }
-}
-
-struct Containers_Previews: PreviewProvider {
-    static var previews: some View {
-        Containers()
-    }
-}
+//struct Containers: View {
+//   
+//    
+//    var body: some View {
+//        
+//        
+//        CommentContainerView(comment: articleComment.MOCK_COMMENT)
+//    }
+//}
+//
+//struct Containers_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Containers()
+//    }
+//}

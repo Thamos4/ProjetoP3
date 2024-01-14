@@ -21,9 +21,9 @@ struct ConferenceView: View {
     let conference: Conference
     
     
-    func dateFromString(dateString: String) -> Date? {
+    func dateFromString(dateString: String, format: String) -> Date? {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
+        formatter.dateFormat = format
         formatter.locale = Locale(identifier: "en_US_POSIX") // Set locale to ensure correct date parsing
         
         if let date = formatter.date(from: dateString) {
@@ -38,8 +38,12 @@ struct ConferenceView: View {
             let calendar = Calendar.current
             
             let filtered = self.articles.filter{
-                return calendar.isDate(dateFromString(dateString: $0.startDate)!, inSameDayAs: currentDay)
+                return calendar.isDate(dateFromString(dateString: $0.startDate, format: "dd/MM/yyyy")!, inSameDayAs: currentDay)
             }
+            
+                .sorted { article1, article2 in
+                    return dateFromString(dateString: article2.startHour, format: "HH:mm")! > dateFromString(dateString: article1.startHour, format: "HH:mm")!
+                }
             
             DispatchQueue.main.async {
                 withAnimation {
@@ -115,9 +119,10 @@ struct ConferenceView: View {
                             }
                             
                         }
+                        .padding(.horizontal, 5)
                         
                         Spacer()
-                    }.padding(.horizontal, 18)
+                    }.padding(.horizontal)
                         .onChange(of: currentDay, perform: { newValue in
                             filterTodayArticles()
                         })

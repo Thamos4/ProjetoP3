@@ -7,13 +7,25 @@
 
 import SwiftUI
 
+enum Tab {
+    case home, profile, dashboard
+}
+
 struct MainTabView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
+    
+    @State private var selectedTab: Tab = .home
+    
+    func updateSelectedTab(tab: Tab) {
+        selectedTab = tab
+    }
+    
     var body: some View {
         if $authViewModel.userSession.wrappedValue != nil {
-            TabView{
-                Home()
+            TabView(selection: $selectedTab){
+                Home(selectedTab: $selectedTab)
                     .tabItem {Label("Home", systemImage: "house")}
+                    .tag(Tab.home)
 
                 if let user = authViewModel.currentUser, user.role == .admin {
                     
@@ -21,10 +33,12 @@ struct MainTabView: View {
                         .tabItem {
                             Label("Dashboard", systemImage: "lock")
                         }
+                        .tag(Tab.dashboard)
                 }
                 
-                ProfileView()
+                ProfileView(selectedTab: $selectedTab)
                     .tabItem {Label("Profile", systemImage: "person")}
+                    .tag(Tab.profile)
                 
             }
         } else {
@@ -35,6 +49,8 @@ struct MainTabView: View {
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
-        MainTabView()
+        let authViewModel = AuthViewModel()
+        return MainTabView()
+            .environmentObject(authViewModel)
     }
 }

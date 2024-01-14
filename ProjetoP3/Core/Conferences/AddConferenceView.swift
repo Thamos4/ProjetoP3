@@ -69,7 +69,7 @@ struct AddConferenceView: View {
                                                                  endDate: formattedDate(date: endDate),
                                                                  description: description)
                             
-                            self.goHome = true
+                            dismiss()
                         }
                         
                     }
@@ -78,9 +78,7 @@ struct AddConferenceView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top, 75)
-                .navigationDestination(isPresented: $goHome) {
-                    Home()
-                }
+                
         
                 
 

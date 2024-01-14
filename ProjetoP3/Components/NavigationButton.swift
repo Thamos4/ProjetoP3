@@ -30,6 +30,6 @@ struct NavigationButton<Destination: View>: View {
 
 struct AddButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationButton(label: "Add Task", icon: "plus",destination: Home())
+        NavigationButton(label: "Add Task", icon: "plus",destination: Home(selectedTab: .constant(.home)))
     }
 }

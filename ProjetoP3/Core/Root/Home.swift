@@ -14,6 +14,7 @@ struct Home: View {
     @StateObject var conferenceViewModel = ConferenceViewModel()
     @State private var isError = false
     @State private var showWelcomeView = false
+    @Binding var selectedTab: Tab
     
     var body: some View {
         if let user = viewModel.currentUser {
@@ -23,25 +24,29 @@ struct Home: View {
                         .ignoresSafeArea()
                     ScrollView {
                         VStack(alignment: .leading){
-                            HStack{
-                                Spacer()
-                                if let image = viewModel.profileImage {
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 40, height: 40)
-                                        .cornerRadius(10)
-                                        .clipShape(Circle())
-                                } else {
-                                    Image(systemName: "person")
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 40, height: 40)
-                                        .clipShape(Circle())
-                                        .padding([.top, .trailing], 14)
+                                HStack{
+                                    Spacer()
+                                    if let image = viewModel.profileImage {
+                                        image
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 40, height: 40)
+                                            .cornerRadius(10)
+                                            .clipShape(Circle())
+                                    } else {
+                                        Image(systemName: "person")
+                                            .resizable()
+                                            .scaledToFill()
+                                            .frame(width: 40, height: 40)
+                                            .clipShape(Circle())
+                                            .padding([.top, .trailing], 14)
+                                    }
+                                    
+                                }.padding(.horizontal)
+                                .onTapGesture {
+                                    selectedTab = .profile
                                 }
-                                
-                            }.padding(.horizontal)
+
                             HStack{
                                 Text("Welcome")
                                     .font(.system(size: 50))
@@ -102,7 +107,7 @@ struct Home_Previews: PreviewProvider {
         let authViewModel = AuthViewModel()
         authViewModel.currentUser = User.MOCK_USER
         
-        return Home()
+        return Home(selectedTab: .constant(.home))
             .environmentObject(authViewModel)
     }
 }

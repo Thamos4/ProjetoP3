@@ -15,7 +15,7 @@ struct ArticleView: View {
     @StateObject var commentViewModel = CommentViewModel()
     @State private var currentCommentList: [articleComment] = []
     @State private var newCommentContent: String = ""
-    @State private var showAlert = false
+    
     
     @Environment(\.dismiss) var dismiss
     
@@ -90,39 +90,13 @@ struct ArticleView: View {
                 ScrollView{
                     VStack(alignment: .leading, spacing: 10){
                         ForEach(currentCommentList){ comment in
-                            HStack{
-                                CommentContainerView(comment: comment).environmentObject(userViewModel)
-                                if let user = userViewModel.currentUser, user.role == .admin {
-                                    
-                                    Button {
-                                        self.showAlert = true
-                                    } label: {
-                                        Image(systemName: "trash")
-                                            .foregroundColor(Color(.red))
-                                            .font(.system(size: 13))
-                                    }.alert(isPresented: $showAlert) {
-                                        Alert(title: Text("Delete Comment?"),
-                                              message: Text("Do you really want to delete this comment? "),
-                                              primaryButton: .default(Text("Yes"), action:{
-                                            self.showAlert = false
-                                            
-                                            Task {
-                                                try await commentViewModel.deleteComment(id:comment.id, articleId: comment.articleId)
-                                                currentCommentList.removeAll(where: {$0.id == comment.id})
-                                                print("DEBUG: Deleting comment with content - ", comment.content)
-                                            }
-                                        }),
-                                              secondaryButton: .default(Text("No"), action:{
-                                            self.showAlert = false
-                                        }))
-                                    }
-                                    
-                                }
+                            CommentContainerView(comment: comment) {
+                                Task{
+                                    try await commentViewModel.getCommentsByArticleId(articleId:comment.articleId)
+                                    currentCommentList = commentViewModel.comments                                }
                             }
-                            
                         }
-                        
-                        
+                        .environmentObject(userViewModel)
                     }
                 }
                 

@@ -9,9 +9,7 @@ import Foundation
 
 @MainActor
 class CommentViewModel: ObservableObject {
-    @Published var comments: [articleComment] = []{
-        didSet{ Task { try await getAllComments()}}
-    }
+    @Published var comments: [articleComment] = []
     
     func addComment(articleId: String, userId: String, content: String) async throws -> articleComment{
         return try await ArticleManager.shared.addComment(articleId: articleId, userId: userId, content: content)

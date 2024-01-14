@@ -97,7 +97,7 @@ struct EditConferenceView: View {
                         Task {
                             try await viewModel.updateConference(id:conference.id, name: name, beginDate: formattedDate(date: beginDate), endDate: formattedDate(date: endDate), description: description)
                             
-                            self.goHome = true
+                            dismiss()
                         }
                         
                     }
@@ -106,11 +106,6 @@ struct EditConferenceView: View {
                 }
                 .padding(.horizontal)
                 .padding(.top, 75)
-                .navigationDestination(isPresented: $goHome) {
-                    Home()
-                }
-        
-                
 
             }
         }.toolbar(.hidden, for: .tabBar)

@@ -48,7 +48,7 @@ struct ConferenceContainerView: View {
             
             HStack{
                 if let user = viewModel.currentUser, user.role == .admin {
-                    NavigationLink(destination: EditConferenceView(conference: conference)){
+                    NavigationLink(destination: EditConferenceView(conference: conference).navigationBarBackButtonHidden(true)){
                         Image(systemName: "pencil")
                             .foregroundColor(Color(.white))
                             .font(.system(size: 13))

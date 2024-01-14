@@ -18,10 +18,10 @@ struct NavigationButton<Destination: View>: View {
                 Image(systemName: icon)
                 Text(label)
             }
-            .foregroundColor(.white)
+            .foregroundColor(.black)
             .padding(.horizontal)
             .padding(.vertical,8)
-            .background(Color("TaskBG"))
+            .background(Color("ButtonBG"))
             .clipShape(Capsule())
             .font(.system(size: 14))
         }

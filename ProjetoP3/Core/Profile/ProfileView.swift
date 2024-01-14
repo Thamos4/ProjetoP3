@@ -11,6 +11,7 @@ import PhotosUI
 struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var showDeleteAlert = false
+    @Binding var selectedTab: Tab
 
     var body: some View {
         if let user = viewModel.currentUser {
@@ -122,7 +123,7 @@ struct ProfileView_Previews: PreviewProvider {
         let authViewModel = AuthViewModel()
         authViewModel.currentUser = User.MOCK_USER
         
-        return ProfileView()
+        return ProfileView(selectedTab: .constant(.profile))
             .environmentObject(authViewModel)
     }
 }

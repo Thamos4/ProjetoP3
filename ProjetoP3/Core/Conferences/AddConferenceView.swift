@@ -29,34 +29,39 @@ struct AddConferenceView: View {
                     .ignoresSafeArea()
                 //header
                 Ellipse()
-                    .fill(Color("TaskBG"))
-                    .frame(width: geometry.size.width * 2.0, height: geometry.size.height * 0.50)
-                    .position(x: geometry.size.width / 2.35, y: geometry.size.height * 0.1)
-                    .shadow(radius: 3)
-                    .edgesIgnoringSafeArea(.all)
+                .fill(Color("TaskBG"))
+                .frame(width: geometry.size.width * 2.0, height: geometry.size.height * 0.5)
+                .position(x: geometry.size.width / 2, y: geometry.size.height * 0.04)
+                .shadow(radius: 3)
+                .edgesIgnoringSafeArea(.all)
                 
                 HStack {
-                    Spacer()
-                    VStack(alignment: .center) {
-                        Image(systemName: "arrow.left")
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .onTapGesture {
-                                dismiss()
-                            }
-                            .foregroundColor(.white)
-                        
-                        Text(name.isEmpty ? "New Conference" : name)
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(Color.white)
-                            .padding(.horizontal)
-                            .padding(.top, 50)
+                    
+                    HStack{
+                        Spacer()
+                        VStack(alignment: .center) {
+                            Image(systemName: "arrow.left")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .onTapGesture {
+                                    dismiss()
+                                }
+                                .foregroundColor(.white)
+                                .padding(.horizontal)
+                            
+                            Text(name.isEmpty ? "New Conference" : name)
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(Color.white)
+                                .padding(.horizontal)
+                                .padding(.top, 40)
+                            Spacer()
+                        }
                         Spacer()
                     }
-                    .padding(.horizontal)
-                    Spacer()
                     
-                    }
+                    
+                }
+                
                 VStack(spacing: 40){
                     InputView(imageName: "pencil", placeholder: "Task Name", text: $name)
                         .autocapitalization(.none)
@@ -75,7 +80,7 @@ struct AddConferenceView: View {
                                                                  endDate: formattedDate(date: endDate),
                                                                  description: description)
                             
-                            self.goHome = true
+                            dismiss()
                         }
                         
                     }
@@ -83,12 +88,7 @@ struct AddConferenceView: View {
                     
                 }
                 .padding(.horizontal)
-                .padding(.top, 75)
-                .navigationDestination(isPresented: $goHome) {
-                    Home()
-                }
-        
-                
+                .padding(.top, 10)
 
             }
         }.toolbar(.hidden, for: .tabBar)

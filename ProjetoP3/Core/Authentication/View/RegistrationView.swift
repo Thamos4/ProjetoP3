@@ -30,101 +30,116 @@ struct RegistrationView: View {
         return emailPredicate.evaluate(with: email)
     }
     var body: some View {
-        VStack {
-            //Blue stack (pode ser outro background depois)
-            VStack(alignment: .leading){
-                HStack{ Spacer() }
-                Text("Hello.")
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
-                Text("Create your account.")
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
-            }
-            .frame(height: 260)
-            .padding(.leading)
-            .background(Color(.systemCyan))
-            .foregroundColor(.white)
-            // form fields
-            VStack(spacing: 24){
-                InputView(imageName: "envelope",
-                          placeholder: "Email",
-                          text: $email )
-                    .autocapitalization(.none)
+        GeometryReader { geometry in
+            ZStack{
+                Color("HomeBG")
+                    .ignoresSafeArea()
                 
-                InputView(imageName: "person",
-                          placeholder: "Enter your full name",
-                          text: $fullname)
+                //Figura azul
+                Ellipse()
+                    .fill(Color("TaskBG"))
+                    .frame(width: geometry.size.width * 2.0, height: geometry.size.height * 0.50)
+                    .position(x: geometry.size.width / 2, y: geometry.size.height * 0.1)
+                    .shadow(radius: 3)
+                    .edgesIgnoringSafeArea(.all)
                 
-            DatePicker("Birthdate", selection: $birthdate, displayedComponents: .date)
-                
-                InputView(imageName: "lock",
-                          placeholder: "Enter your password",
-                          text: $password,
-                          isSecureField: true
-                        )
-                //isSecureField: true
-                ZStack(alignment: .trailing){
-                    InputView(imageName: "lock",
-                              placeholder: "Confirm your password",
-                              text: $confirmPassword,
-                              isSecureField: true
-                        )
-                            
+                VStack {
+               
+                    VStack(alignment: .leading){
+                        HStack{ Spacer() }
+                        Text("New here?")
+                            .font(.largeTitle)
+                            .fontWeight(.semibold)
+                        Text("Create your account.")
+                            .font(.largeTitle)
+                            .fontWeight(.semibold)
+                    }
+                    .frame(height: 100)
+                    .padding(.leading)
+                    .foregroundColor(.white)
                     
-                    if !password.isEmpty && !confirmPassword.isEmpty{
-                        if password == confirmPassword {
-                            Image(systemName: "checkmark.circle.fill")
-                                .imageScale(.large)
-                                .fontWeight(.bold)
-                                .foregroundColor(Color(.systemGreen))
-                        } else {
-                            Image(systemName: "xmark.circle.fill")
-                                .imageScale(.large)
-                                .fontWeight(.bold)
-                                .foregroundColor(Color(.systemRed))
+                    // form fields
+                    VStack(spacing: 24){
+                        InputView(imageName: "envelope",
+                                  placeholder: "Email",
+                                  text: $email )
+                        .autocapitalization(.none)
+                        
+                        InputView(imageName: "person",
+                                  placeholder: "Enter your full name",
+                                  text: $fullname)
+                        
+                        DatePicker("Birthdate", selection: $birthdate, displayedComponents: .date)
+                        
+                        InputView(imageName: "lock",
+                                  placeholder: "Enter your password",
+                                  text: $password,
+                                  isSecureField: true
+                        )
+                        //isSecureField: true
+                        ZStack(alignment: .trailing){
+                            InputView(imageName: "lock",
+                                      placeholder: "Confirm your password",
+                                      text: $confirmPassword,
+                                      isSecureField: true
+                            )
+                            
+                            
+                            if !password.isEmpty && !confirmPassword.isEmpty{
+                                if password == confirmPassword {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .imageScale(.large)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color(.systemGreen))
+                                } else {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .imageScale(.large)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(Color(.systemRed))
+                                }
+                            }
                         }
+                        
+                        
                     }
-                }
-
-                
-            }
-            .padding(.horizontal)
-            .padding(.top, 12)
-            
-            ButtonView(label: "SIGN UP", icon: "arrow.right", iconOnLeft: false, isDisabled: !formIsValid){
-                Task {
-                    do{
-                        try await viewModel.createUser(email: email, fullname:fullname,
-                            password: password,
-                            birthdate: formattedDate(date: birthdate))
-                    }catch{
-                        self.isError = true
+                    .padding(.horizontal)
+                    .padding(.top, 80)
+                    
+                    ButtonView(label: "SIGN UP", icon: "arrow.right", iconOnLeft: false, isDisabled: !formIsValid){
+                        Task {
+                            do{
+                                try await viewModel.createUser(email: email, fullname:fullname,
+                                                               password: password,
+                                                               birthdate: formattedDate(date: birthdate))
+                            }catch{
+                                self.isError = true
+                            }
+                            
+                        }
+                    }.alert(isPresented: $isError) {
+                        Alert(title: Text("Failed to Sign Un"),
+                              message: Text("Email is already in use"),
+                              dismissButton: .default(Text("OK")))
                     }
-
-                }
-            }.alert(isPresented: $isError) {
-                Alert(title: Text("Failed to Sign Un"),
-                      message: Text("Email is already in use"),
-                      dismissButton: .default(Text("OK")))
-            }
-            
-            Spacer()
-            
-            Button {
-                dismiss()
-            } label: {
-                HStack(spacing: 3){
-                    Text("Already have an account?").foregroundColor(.black)
-                    Text("Sign In")
-                        .fontWeight(.bold)
-                }
-                .font(.system(size: 14))
+                    
+                    Spacer()
+                    
+                    Button {
+                        dismiss()
+                    } label: {
+                        HStack(spacing: 3){
+                            Text("Already have an account?").foregroundColor(.black)
+                            Text("Sign In")
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color("TaskBG"))
+                        }
+                        .font(.system(size: 14))
+                    }
+                }.padding(.top, 30)
             }
         }
     }
 }
-
 extension RegistrationView: AuthenticationFormProtocol {
     var formIsValid: Bool {
         return !email.isEmpty
@@ -135,7 +150,7 @@ extension RegistrationView: AuthenticationFormProtocol {
         && !fullname.isEmpty
         && birthdate < Date()
     }
-
+    
 }
 
 

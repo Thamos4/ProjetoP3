@@ -8,6 +8,8 @@
 import Foundation
 import Firebase
 import FirebaseFirestoreSwift
+import FirebaseAuth
+import FirebaseFirestore
 import SwiftUI
 import PhotosUI
 
@@ -20,6 +22,7 @@ class AuthViewModel: ObservableObject {
     
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
+    @Published var users: [User] = []
     
     @Published var profileImage: Image?
     @Published var selectedItem: PhotosPickerItem? {
@@ -36,6 +39,7 @@ class AuthViewModel: ObservableObject {
     }
     
     func signIn(email: String, password: String) async throws {
+        clearSessionData()
         let result = try await Auth.auth().signIn(withEmail: email, password: password)
         self.userSession = result.user
         try await fetchUser()
@@ -82,9 +86,10 @@ class AuthViewModel: ObservableObject {
     
     }
     
-    func clearSessionData (){
+    func clearSessionData () {
         self.userSession = nil // Limpa a sessao do user e leva nos para o login
         self.currentUser = nil // Limpa o data model do user
+        self.profileImage = nil
     }
     
     func saveProfileImage(item: PhotosPickerItem){
@@ -106,9 +111,26 @@ class AuthViewModel: ObservableObject {
         self.profileImage = Image(uiImage: uiImage)
     }
     
+    func loadImage(user: User) async throws -> Image {
+        let data = try await StoreManager.shared.getData(userId: user.id, path: user.profileImagePath)
+        let uiImage = UIImage(data: data)
+        return Image(uiImage: uiImage!)
+    }
+
+    
     func updateProfileImage(userId: String, path: String) async throws {
         try await Firestore.firestore().collection("users").document(userId).setData(["profileImagePath": path], merge: true)
     }
     
-
+    func getAllUsers() async throws{
+        self.users = try await UserManager.shared.getAllUsers()
+    }
+    
+    func switchUserRole(userId: String) async throws{
+        try await UserManager.shared.switchUserRole(userId: userId)
+        
+        if let index = users.firstIndex(where: { $0.id == userId }) {
+            users[index].role.toggle()
+        }
+    }
 }

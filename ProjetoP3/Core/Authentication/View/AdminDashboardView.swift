@@ -7,66 +7,80 @@
 
 import SwiftUI
 
-@MainActor
-class AdminDashboardViewModel: ObservableObject {
-    @Published private(set) var users: [User] = []
-    
-    func getAllUsers() async throws{
-        print("DEBGUG: Called getAllUsers from ViewModel")
-        self.users = try await UserManager.shared.getAllUsers()
-    }
-    
-    func switchUserRole(userId: String) async throws{
-        try await UserManager.shared.switchUserRole(userId: userId)
-        
-        if let index = users.firstIndex(where: { $0.id == userId }) {
-            users[index].role.toggle()
-        }
-    }
-    
-}
-
 struct AdminDashboardView: View{
-    @StateObject private var viewModel = AdminDashboardViewModel()
     @StateObject private var authViewModel = AuthViewModel()
-    
     
     var body: some View {
         NavigationStack{
-            List {
-                ForEach(viewModel.users) {user in
+            GeometryReader { geometry in
+                ZStack{
+                    Color(.white)
+                        .ignoresSafeArea()
+                    
+                    Ellipse()
+                        .fill(Color("TaskBG"))
+                        .frame(width: geometry.size.width * 2.0, height: geometry.size.height * 0.50)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.1)
+                        .shadow(radius: 3)
+                        .edgesIgnoringSafeArea(.all)
+                    
+                    
                     VStack{
-                        Text(user.fullname)
-                        Text(user.role.rawValue)
-                        
-                        if(user.id != authViewModel.currentUser?.id){
-                            Button{
-                                Task {
-                                    try await viewModel.switchUserRole(userId: user.id)
-                                }
-                            }label: {
-                                Text("Switch Role")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .frame(width: 340, height: 50)
-                                    .background(Color("TaskBG"))
-                                    .clipShape(Capsule())
-                                    .padding()
-                            }
+                        VStack{
+                            Text("Users List")
+                                .font(.title)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                            
                         }
-
+                        .frame(height:150)
+                        .padding(.bottom, 50)
+                        
+                        Spacer()
+                        
+                        ScrollView(.vertical, showsIndicators: false) {
+                            VStack{
+                                ForEach(authViewModel.users) {user in
+                                    HStack(alignment: .center){
+                                        Text(user.fullname)
+                                            .multilineTextAlignment(.leading)
+                            
+                                        Spacer()
+                                            Button {
+                                                Task {
+                                                    try await authViewModel.switchUserRole(userId: user.id)
+                                                }
+                                            } label: {
+                                                Text("Switch Role")
+                                                    .font(.system(size: 14))
+                                                    .padding(.vertical, 10)
+                                                    .padding(.horizontal, 12)
+                                            }
+                                            .frame(width: 100, height: 30)
+                                            .background(Color("TaskBG"))
+                                            .clipShape(Capsule())
+                                            .foregroundColor(.white)
+                                            .disabled(user.id == authViewModel.currentUser?.id)
+                                            .opacity(user.id == authViewModel.currentUser?.id ? 0.5 : 1)
+                                    }
+                                    .overlay(Text(user.role.rawValue))
+                                    .padding(.horizontal)
+                                    Divider()
+                                }
+                            }
+                            .padding(.top, 25)
+                        }
+                        
 
                     }
+                    .task{
+                        try? await authViewModel.getAllUsers()
+                    }
                 }
-            }
-            .navigationTitle("List of all users")
-            .task{
-                try? await viewModel.getAllUsers()
             }
         }
     }
 }
-
 
 struct AdminDashboardView_Previews: PreviewProvider {
     static var previews: some View {

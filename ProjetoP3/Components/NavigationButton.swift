@@ -18,10 +18,10 @@ struct NavigationButton<Destination: View>: View {
                 Image(systemName: icon)
                 Text(label)
             }
-            .foregroundColor(.white)
+            .foregroundColor(.black)
             .padding(.horizontal)
             .padding(.vertical,8)
-            .background(Color("TaskBG"))
+            .background(Color("ButtonBG"))
             .clipShape(Capsule())
             .font(.system(size: 14))
         }
@@ -30,6 +30,6 @@ struct NavigationButton<Destination: View>: View {
 
 struct AddButtonView_Previews: PreviewProvider {
     static var previews: some View {
-        NavigationButton(label: "Add Task", icon: "plus",destination: Home())
+        NavigationButton(label: "Add Task", icon: "plus",destination: Home(selectedTab: .constant(.home)))
     }
 }

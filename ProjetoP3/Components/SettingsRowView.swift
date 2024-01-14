@@ -21,7 +21,7 @@ struct SettingsRowView: View {
                 .foregroundColor(tintColor)
             
             Text(title)
-                .font(.subheadline)
+                .font(.system(size: 18))
                 .foregroundColor(.black)
         }
     }

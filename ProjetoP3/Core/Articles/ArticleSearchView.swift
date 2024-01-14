@@ -8,16 +8,26 @@ import Foundation
 import SwiftUI
 
 struct ArticleSearchView: View {
+    let conference: Conference
     @State private var search = ""
     @State private var searchedArticles: [Article] = []
     @StateObject private var viewModel = ArticleViewModel()
+    
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         NavigationStack{
             VStack{
+                Image(systemName: "arrow.left")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .onTapGesture {
+                        dismiss()
+                    }
+                    .padding(.bottom, 18)
+                
                 InputView(imageName: "magnifyingglass", placeholder: "Search", text: $search)
                     .onChange(of: search) { newSearch in
                         Task{
-                            
                             searchedArticles = viewModel.articles
                             if newSearch != "" {
                                 try await viewModel.searchArticle(articleTitle: newSearch)
@@ -29,7 +39,11 @@ struct ArticleSearchView: View {
                     VStack{
                         if(searchedArticles.count > 0) {
                             ForEach(searchedArticles) { article in
-                               ArticleContainerView(article: article)
+                               ArticleContainerView(article: article){
+                                   Task {
+                                       searchedArticles = try await viewModel.getArticlesByConference(conferenceId: conference.id)
+                                   }
+                               }
                             }
                         }else if(viewModel.articles.count > 0){
                             Text("No Articles match your search")
@@ -46,19 +60,19 @@ struct ArticleSearchView: View {
                 }
             }
         }
+        .padding(.horizontal)
         .onAppear{
             Task {
-                try await viewModel.getAllArticles()
-                searchedArticles = viewModel.articles
+                searchedArticles = try await viewModel.getArticlesByConference(conferenceId: conference.id)
                 
             }
         }
     }
 }
 
-struct ArticleSearchView_Previews: PreviewProvider {
-    static var previews: some View {
-        
-        ArticleSearchView()
-    }
-}
+//struct ArticleSearchView_Previews: PreviewProvider {
+//    static var previews: some View {
+//
+//        ArticleSearchView()
+//    }
+//}

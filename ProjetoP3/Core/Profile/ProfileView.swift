@@ -11,16 +11,25 @@ import PhotosUI
 struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthViewModel
     @State private var showDeleteAlert = false
+    @Binding var selectedTab: Tab
 
     var body: some View {
         if let user = viewModel.currentUser {
-            List {
-                Section {
-                    ZStack{
-                                    
-                        VStack{
-                            HStack{
-                            Spacer()
+          
+            GeometryReader { geometry in
+                ZStack{
+                    Color(.white)
+                        .ignoresSafeArea()
+                    
+                    Ellipse()
+                        .fill(Color("TaskBG"))
+                        .frame(width: geometry.size.width * 2.0, height: geometry.size.height * 0.50)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * 0.1)
+                        .shadow(radius: 3)
+                        .edgesIgnoringSafeArea(.all)
+
+                    HStack {
+                        VStack() {
                             PhotosPicker(selection: $viewModel.selectedItem){
                                 if let profileImage = viewModel.profileImage{
                                     profileImage
@@ -43,76 +52,89 @@ struct ProfileView: View {
                                     Task {
                                         viewModel.saveProfileImage(item: newValue)
                                     }
-                                    
                                 }
                             })
-                        Spacer()
-                        }
-                            
-                            
-                            
-                            VStack(alignment: .center, spacing: 4){
-                                Text(user.fullname)
-                                    .font(.subheadline)
-                                    .fontWeight(.semibold)
-                                    .padding(.top, 4)
-                                
-                                Text(user.email)
-                                    .font(.footnote)
-                                    .foregroundColor(.gray)
-                                
-                            }
-                        }
-                    }
-                }
-                
-                Section("General") {
-                    HStack(spacing: 12){
-                        Image(systemName: "camera.fill")
-                            .imageScale(.small)
-                            .font(.title)
-                            .foregroundColor(Color(.systemGray))
-                        
-                        PhotosPicker(selection: $viewModel.selectedItem, matching: .images, photoLibrary: .shared()) {
-
-                            Text("Edit Image")
+                            Text(user.fullname)
                                 .font(.subheadline)
-                                .foregroundColor(.black)
+                                .fontWeight(.semibold)
+                                .padding(.top, 4)
+                                .foregroundColor(.white)
+                            
+                            
+                            Spacer()
+                            
+                        }
+                        .padding()
+                        .padding(.top, 20)
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 10){
+                        Text("General")
+                            .font(.system(size: 15))
+                            .foregroundStyle(.gray)
+                    
+                        SettingsRowView(imageName: "envelope.fill", title: user.email, tintColor: Color(.systemGray))
+                        
+                        Divider()
+                        
+                        HStack(spacing: 12){
+                            Image(systemName: "camera.fill")
+                                .imageScale(.small)
+                                .font(.title)
+                                .foregroundColor(Color(.systemGray))
+                            
+                            PhotosPicker(selection: $viewModel.selectedItem, matching: .images, photoLibrary: .shared()) {
+
+                                Text("Edit Image")
+                                    .font(.system(size: 18))
+                                    .foregroundColor(.black)
+                            }
+                            
+                        }
+                        
+                        Divider()
+                        SettingsRowView(imageName: "calendar", title: "\(user.birthdate) ", tintColor: Color(.systemGray))
+                        
+                        
+                        Text("Account")
+                            .font(.system(size: 15))
+                            .foregroundStyle(.gray)
+                            .padding(.top, 15)
+                       
+                        Button{
+                            viewModel.signOut()
+                        } label: {
+                            SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign Out", tintColor: Color(.red))
+                        }
+                        
+                        Divider()
+                        
+                        Button{
+                            showDeleteAlert = true
+                        } label: {
+                            SettingsRowView(imageName: "xmark.circle.fill", title: "Delete Account", tintColor: Color(.red))
+                        }.alert(isPresented: $showDeleteAlert) {
+                            Alert(title: Text("Delete Account"),
+                                  message: Text("Do you really want to delete your account? "),
+                                  primaryButton: .default(Text("Yes"), action:{
+                               
+                                    Task {
+                                       try await viewModel.deleteAccount()
+                                    }
+                                    
+                                    showDeleteAlert = false
+                                }),
+                                  secondaryButton: .default(Text("No"), action:{
+                                    showDeleteAlert = false
+                                }))
                         }
                     }
-                
-                    SettingsRowView(imageName: "calendar", title: "Birthdate: \(user.birthdate) ", tintColor: Color(.systemGray))
-                }
-                
-                Section("Account") {
-                    Button{
-                        viewModel.signOut()
-                    } label: {
-                        SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign Out", tintColor: Color(.red))
-                    }
+                    .padding(EdgeInsets(top: 80, leading: 21, bottom: 10, trailing: 21))
                     
-                    Button{
-                        showDeleteAlert = true
-                    } label: {
-                        SettingsRowView(imageName: "xmark.circle.fill", title: "Delete Account", tintColor: Color(.red))
-                    }.alert(isPresented: $showDeleteAlert) {
-                        Alert(title: Text("Delete Account"),
-                              message: Text("Do you really want to delete your account? "),
-                              primaryButton: .default(Text("Yes"), action: {
-                                Task {
-                                    try await viewModel.deleteAccount()
-                                }
-                                
-                                showDeleteAlert = false
-                            }),
-                              secondaryButton: .default(Text("No"), action:{
-                                showDeleteAlert = false
-                            }))
-                    }
                     
                 }
-    
-            }.background(Color("CardBG"))
+            }
+         
         }
     }
 }
@@ -122,7 +144,7 @@ struct ProfileView_Previews: PreviewProvider {
         let authViewModel = AuthViewModel()
         authViewModel.currentUser = User.MOCK_USER
         
-        return ProfileView()
+        return ProfileView(selectedTab: .constant(.profile))
             .environmentObject(authViewModel)
     }
 }

@@ -13,14 +13,12 @@ struct ArticleContainerView: View {
     @StateObject var trackiewModel = TrackViewModel()
     
     @State private var track = ""
-    
     let article: Article
-    @State private var showAlert = false
+    let onDeleteArticle: () -> Void
+
     var body: some View {
         if let user = viewModel.currentUser {
-            
             HStack {
-                
                 VStack(spacing: 10) {
                     Circle()
                         .fill(.black)
@@ -30,73 +28,71 @@ struct ArticleContainerView: View {
                                 .stroke(.black, lineWidth: 1)
                                 .padding(-3)
                         )
-                    
                     Rectangle()
                         .fill(.black)
                         .frame(width: 3)
                 }
-                
+           
                 VStack(alignment: .leading) {
-                    VStack {
-                        HStack {
-                            
+                    NavigationLink(destination: ArticleView(article: article).navigationBarBackButtonHidden(true)) { 
+                        VStack{
                             HStack {
                                 Image(systemName: "newspaper.fill")                .frame(width: 20, height: 20)
                                     .foregroundColor(.white)
                                 Text("\(article.title)")
+                                    .font(.headline)
                                     .foregroundColor(Color(.white))
                                     .bold()
-                            }
-
-                            
-                            Spacer()
-                            
-                            HStack {
-                                Image(systemName: "clock")                .frame(width: 20, height: 20)
-                                    .foregroundColor(.white)
-                                Text(article.startHour)
-                                    .foregroundColor(Color(.white))
-                            }
-
-                        }.padding(.vertical, 3)
-                        .font(.system(size: 15))
-                        
-                        VStack(alignment: .leading, spacing: 12){
-                            
-                            Text(article.summary)
-                                .font(.caption)
-                                .foregroundColor(Color(.white))
-                            
-                            Text("Track: \(track.isEmpty ? "No Track": track)")
-                                .font(.caption)
-                                .foregroundColor(Color(.white))
-                            
-                            HStack {
-                                HStack {
-                                    Image(systemName: "person.fill")               .font(.system(size: 15))
-                                        .foregroundStyle(.secondary)
-                                        .foregroundColor(.white)
-                                    Text(article.author)
-                                        .font(.system(size: 14))
-                                        .foregroundStyle(.secondary)
-                                        .foregroundColor(Color(.white))
-                                }
                                 
                                 Spacer()
                                 
                                 HStack {
-                                    Image(systemName: "door.left.hand.closed")               .font(.system(size: 15))
-                                        .foregroundStyle(.secondary)
+                                    Image(systemName: "clock")                .frame(width: 20, height: 20)
                                         .foregroundColor(.white)
-                                    Text(article.room)
-                                        .font(.system(size: 14))
-                                        .foregroundStyle(.secondary)
+                                    Text(article.startHour)
                                         .foregroundColor(Color(.white))
                                 }
-                            }.padding(.top, 6)
-           
-                        }.frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.top, 3)
+
+                            }.padding(.vertical, 6)
+                            
+                            VStack(alignment: .leading, spacing: 12){
+                                
+                                Text(article.summary)
+                                    .font(.system(size: 15))
+                                    .foregroundColor(Color(.white))
+                                
+                                Text("Track: \(track.isEmpty ? "No Track": track)")
+                                    .font(.system(size: 15))
+                                    .foregroundColor(Color(.white))
+                                
+                                HStack {
+                                    HStack {
+                                        Image(systemName: "person.fill")               .font(.system(size: 15))
+                                            .foregroundStyle(.secondary)
+                                            .foregroundColor(.white)
+                                        Text(article.author)
+                                            .font(.system(size: 14))
+                                            .foregroundStyle(.secondary)
+                                            .foregroundColor(Color(.white))
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    HStack {
+                                        Image(systemName: "door.left.hand.closed")               .font(.system(size: 15))
+                                            .foregroundStyle(.secondary)
+                                            .foregroundColor(.white)
+                                        Text(article.room)
+                                            .font(.system(size: 14))
+                                            .foregroundStyle(.secondary)
+                                            .foregroundColor(Color(.white))
+                                    }
+                                }.padding(.top, 6)
+               
+                            }.frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.top, 6)
+
+                        }
 
                     }
                     
@@ -107,32 +103,22 @@ struct ArticleContainerView: View {
                                 .font(.system(size: 13))
                             
                             Button {
-                                self.showAlert = true
+                                Task {
+                                    try await articleViewModel.deleteArticle(id: article.id)
+                                    onDeleteArticle()
+                                }
+
                             } label: {
                                 Image(systemName: "trash")
                                     .foregroundColor(Color(.red))
                                     .font(.system(size: 13))
-                            }.alert(isPresented: $showAlert) {
-                                Alert(title: Text("Delete Article?"),
-                                      message: Text("Do you really want to delete this article? "),
-                                      primaryButton: .default(Text("Yes"), action:{
-                                    self.showAlert = false
-                                    
-                                    Task {
-                                        try await articleViewModel.deleteArticle(id: article.id)
-                                    }
-                                }),
-                                      secondaryButton: .default(Text("No"), action:{
-                                    
-                                    self.showAlert = false
-                                }))
                             }
                         }
                         .padding(.top, 1)
                     }
                 }
                 .padding()
-                .frame(maxWidth: .infinity)
+                .frame(maxWidth: 300)
                 .background(Color("TaskBG"))
                 .clipShape(RoundedRectangle(cornerRadius: 12))
                 .padding()
@@ -143,8 +129,6 @@ struct ArticleContainerView: View {
                     }
                 }
             }
-            .frame(maxWidth: .infinity, alignment: .trailing)
-
         }
     }
 }
@@ -154,7 +138,7 @@ struct ArticleContainerView_Previews: PreviewProvider {
         let authViewModel = AuthViewModel()
         authViewModel.currentUser = User.MOCK_USER
         
-        return ArticleContainerView(article: Article.MOCK_ARTICLE)
+        return ArticleContainerView(article: Article.MOCK_ARTICLE, onDeleteArticle: {})
             .environmentObject(authViewModel)
     }
 }

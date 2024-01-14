@@ -122,7 +122,11 @@ struct ProfileView: View {
                             Alert(title: Text("Delete Account"),
                                   message: Text("Do you really want to delete your account? "),
                                   primaryButton: .default(Text("Yes"), action:{
-                                viewModel.deleteAccount()
+                               
+                                Task {
+                                   try await viewModel.deleteAccount()
+                                }
+                               
                                     
                                     showDeleteAlert = false
                                 }),

@@ -57,7 +57,7 @@ struct DropdownView: View {
                     zIndex = index
                     withAnimation(){
                         showOptions.toggle()
-//                    }
+                    }
                     
                 }
                 
@@ -96,7 +96,7 @@ struct DropdownView: View {
                     withAnimation() {
                         selection = option
                         showOptions = false
-//                    }
+                    }
                 }
             }
         }

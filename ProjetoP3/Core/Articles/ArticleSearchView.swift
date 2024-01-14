@@ -49,7 +49,7 @@ struct ArticleSearchView: View {
         }
         .onAppear{
             Task {
-                searchedArticles = try await viewModel.gettArticlesByConference(conferenceId: conference.id)
+                searchedArticles = try await viewModel.getArticlesByConference(conferenceId: conference.id)
                 
             }
         }

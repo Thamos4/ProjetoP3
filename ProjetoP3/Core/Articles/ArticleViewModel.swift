@@ -32,10 +32,6 @@ class ArticleViewModel: ObservableObject{
         try await ArticleManager.shared.deleteArticle(articleId: id)
     }
     
-    func addComment(articleId: String, userId: String, content: String) async throws {
-        try await ArticleManager.shared.addComment(articleId: articleId, userId: userId, content: content)
-    }
-    
     func getAllArticles() async throws{
         try await articles =  ArticleManager.shared.getAllArticles()
     }

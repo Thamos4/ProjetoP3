@@ -16,6 +16,7 @@ struct ArticleView: View {
     @StateObject var commentViewModel = CommentViewModel()
     @State private var currentCommentList: [articleComment] = []
     @State private var newCommentContent: String = ""
+    @State private var showAlert = false
     let article: Article
    
     var body: some View {
@@ -97,11 +98,52 @@ struct ArticleView: View {
                 }
                 
                 Spacer()
+                
+                ScrollView{
+                    VStack(alignment: .leading, spacing: 10){
+                        ForEach(currentCommentList){ comment in
+                            HStack{
+                                CommentContainerView(comment: comment).environmentObject(userViewModel)
+                                if let user = userViewModel.currentUser, user.role == .admin {
+                                    
+                                    Button {
+                                        self.showAlert = true
+                                    } label: {
+                                        Image(systemName: "trash")
+                                            .foregroundColor(Color(.red))
+                                            .font(.system(size: 13))
+                                    }.alert(isPresented: $showAlert) {
+                                        Alert(title: Text("Delete Comment?"),
+                                              message: Text("Do you really want to delete this comment? "),
+                                              primaryButton: .default(Text("Yes"), action:{
+                                            self.showAlert = false
+                                            
+                                            Task {
+                                                try await commentViewModel.deleteComment(id:comment.id, articleId: comment.articleId)
+                                                currentCommentList.removeAll(where: {$0.id == comment.id})
+                                                print("DEBUG: Deleting comment with content - ", comment.content)
+                                            }
+                                        }),
+                                              secondaryButton: .default(Text("No"), action:{
+                                            self.showAlert = false
+                                        }))
+                                    }
+                                    
+                                }
+                            }
+                            
+                        }
+                        
+                        
+                    }
+                }
+                
                 HStack{
                     InputView(imageName: "pencil", placeholder: "Write a question here", text: $newCommentContent)
                     Button{
                         Task {
-                            try await commentViewModel.addComment(articleId: article.id, userId: userViewModel.currentUser!.id,content: newCommentContent)
+                            
+                            try await currentCommentList.append(commentViewModel .addComment(articleId: article.id, userId: userViewModel.currentUser!.id,content: newCommentContent))
                             newCommentContent = ""
                             print("DEBUG: Pressed add comment button")
                         }
@@ -116,20 +158,13 @@ struct ArticleView: View {
                     .opacity(!formIsValid ? 0.5 : 1.0)
                 }.padding(.horizontal)
             }
-            
-            
-            
-            
-            ForEach(currentCommentList){ comment in
-                CommentContainerView(comment: comment).environmentObject(userViewModel)
-            }
         }.toolbar(.hidden, for: .tabBar)
     }
 }
 
 extension ArticleView: AuthenticationFormProtocol{
     var formIsValid: Bool{
-        return newCommentContent.count > 5
+        return !newCommentContent.isEmpty
     }
 }
 

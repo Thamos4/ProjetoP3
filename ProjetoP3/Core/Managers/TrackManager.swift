@@ -53,7 +53,7 @@ class TrackManager{
     }
     
     func trackAlreadyExists(name: String, conferenceId: String)async throws -> Bool{
-        var trackList = try await getAllTracksForConferenceId(conferenceId: conferenceId).map {$0.name}
+        let trackList = try await getAllTracksForConferenceId(conferenceId: conferenceId).map {$0.name}
         return trackList.contains(name)
     }
 }

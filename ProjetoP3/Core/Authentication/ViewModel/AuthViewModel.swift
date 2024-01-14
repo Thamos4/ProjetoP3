@@ -71,6 +71,7 @@ class AuthViewModel: ObservableObject {
     //selfUser: the current logged in user decided do delete is own account
     func deleteAccount() async throws {
         guard let user = Auth.auth().currentUser else { return } // deletes user from the auth table
+        try await user.delete()
         try await Firestore.firestore().collection("users").document(user.uid).delete() // deletes user metadate from users collection
         clearSessionData()
     }

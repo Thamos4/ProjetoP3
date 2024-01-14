@@ -22,10 +22,19 @@ class ArticleManager{
         articlesCollection.document(articleId)
     }
     
-    func createArticle (trackId: String, title: String, author: String, summary: String) async throws{
+    func createArticle (trackId: String, conferenceId: String,title: String, author: String, summary: String, room: String, startDate: String, startHour: String) async throws{
         let newArticleRef = articlesCollection.document()
         let id = newArticleRef.documentID
-        let newArticle = Article(id: id, trackId: trackId, title: title, author: author, summary: summary)
+        let newArticle = Article(id: id, 
+                                trackId: trackId,
+                                conferenceId: conferenceId,
+                                title: title,
+                                author: author,
+                                summary: summary,
+                                room: room,
+                                startDate: startDate,
+                                startHour: startHour)
+        
         try newArticleRef.setData(from: newArticle)
     }
     
@@ -43,6 +52,10 @@ class ArticleManager{
     
     func getAllArticlesForTrackId(trackId: String) async throws -> [Article]{
         try await articlesCollection.whereField("trackId", isEqualTo: trackId).getDocuments(as: Article.self)
+    }
+    
+    func getAllArticlesForConferenceId(conferenceId: String) async throws -> [Article] {
+        try await articlesCollection.whereField("conferenceId", isEqualTo: conferenceId).getDocuments(as: Article.self)
     }
     
     func deleteArticle(articleId: String) async throws -> Void{

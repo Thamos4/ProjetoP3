@@ -12,12 +12,9 @@ struct ConferenceContainerView: View {
     @StateObject var conferenceViewModel = ConferenceViewModel()
     let conference: Conference
     @State private var showAlert = false
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 15){
-            NavigationLink(destination: ConferenceView(conference: conference)
-                .navigationBarBackButtonHidden(true)
-            )
-            {
                 VStack {
                     HStack {
                         Text("From: \(conference.beginDate)")
@@ -46,8 +43,7 @@ struct ConferenceContainerView: View {
                             .bold()
                     }.frame(maxWidth: .infinity, alignment: .leading)
                 }
-            }
-            
+  
             HStack{
                 if let user = viewModel.currentUser, user.role == .admin {
                     

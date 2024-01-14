@@ -17,6 +17,7 @@ protocol AuthenticationFormProtocol {
 
 @MainActor //Para o codigo correr na main thread
 class AuthViewModel: ObservableObject {
+    
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
     
@@ -50,6 +51,10 @@ class AuthViewModel: ObservableObject {
         try await fetchUser()
     }
     
+    func getUser(id:String) async throws -> User{
+        try await UserManager.shared.getUser(userId: id)
+    }
+    
     func forgotPassword(email: String) async throws{
         try await Auth.auth().sendPasswordReset(withEmail: email)
     }
@@ -63,15 +68,11 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    //selfUser: the current logged in user decided do delete is own account
-    func deleteAccount(selfUser: Bool, user: FirebaseAuth.User) {
-        user.delete() // deletes user from the auth table
-        Firestore.firestore().collection("users").document(user.uid).delete() // deletes user metadate from users collection
-        
-        if selfUser {
-            clearSessionData()
-        }
-
+    func deleteAccount() async throws {
+        guard let user = Auth.auth().currentUser else { return } // deletes user from the auth table
+        try await user.delete()
+        try await Firestore.firestore().collection("users").document(user.uid).delete() // deletes user metadate from users collection
+        clearSessionData()
     }
     
     func fetchUser() async throws {

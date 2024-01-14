@@ -37,31 +37,5 @@ class ConferenceViewModel: ObservableObject{
         conferences.removeAll(where: {$0.id == id})
     }
     
-    func extractDate(date: Date, format: String) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = format
-        
-        return formatter.string(from: date)
-    }
-    
-    func datesInRange(startDate: String, endDate: String) -> [Date] {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd-MM-yyyy"
-
-        guard let startDate = dateFormatter.date(from: startDate),
-              let endDate = dateFormatter.date(from: endDate) else {
-            return []
-        }
-
-        var dates: [Date] = []
-        var currentDate = startDate
-
-        while currentDate <= endDate {
-            dates.append(currentDate)
-            currentDate = Calendar.current.date(byAdding: .day, value: 1, to: currentDate)!
-        }
-        
-        return dates
-    }
 
 }

@@ -10,7 +10,7 @@ import SwiftUI
 struct MainTabView: View {
     @EnvironmentObject var authViewModel: AuthViewModel
     var body: some View {
-        if authViewModel.userSession != nil {
+        if $authViewModel.userSession.wrappedValue != nil {
             TabView{
                 Home()
                     .tabItem {Label("Home", systemImage: "house")}

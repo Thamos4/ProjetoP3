@@ -39,6 +39,7 @@ class AuthViewModel: ObservableObject {
     }
     
     func signIn(email: String, password: String) async throws {
+        clearSessionData()
         let result = try await Auth.auth().signIn(withEmail: email, password: password)
         self.userSession = result.user
         try await fetchUser()
@@ -85,9 +86,10 @@ class AuthViewModel: ObservableObject {
     
     }
     
-    func clearSessionData (){
+    func clearSessionData () {
         self.userSession = nil // Limpa a sessao do user e leva nos para o login
         self.currentUser = nil // Limpa o data model do user
+        self.profileImage = nil
     }
     
     func saveProfileImage(item: PhotosPickerItem){

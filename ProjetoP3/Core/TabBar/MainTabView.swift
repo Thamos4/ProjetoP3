@@ -40,6 +40,8 @@ struct MainTabView: View {
                     .tabItem {Label("Profile", systemImage: "person")}
                     .tag(Tab.profile)
                 
+            }.onAppear {
+                selectedTab = .home
             }
         } else {
             LoginView()

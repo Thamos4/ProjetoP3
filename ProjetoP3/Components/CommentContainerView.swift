@@ -51,7 +51,7 @@ struct CommentContainerView: View {
                             self.showAlert = false
 
                             Task {
-                                                try await commentViewModel.deleteComment(id:comment.id, articleId: comment.articleId)
+                                try await commentViewModel.deleteComment(id:comment.id, articleId: comment.articleId)
                                 print("DEBUG: Selected comment: - ", comment.content)
                             }
                         }),
@@ -68,8 +68,6 @@ struct CommentContainerView: View {
         .onAppear{
             Task {
                 user = try await userViewModel.getUser(id: comment.userId)
-                let uiImage = try await StoreManager.shared.getImage(userId: user.id, path: user.profileImagePath)
-                userViewModel.profileImage = Image(uiImage: uiImage)
             }
         }
     }

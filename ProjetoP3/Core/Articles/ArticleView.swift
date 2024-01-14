@@ -92,7 +92,7 @@ struct ArticleView: View {
                 
                 ScrollView{
                     VStack(alignment: .leading, spacing: 10){
-                        ForEach(currentCommentList){ comment in
+                        ForEach(currentCommentList.reversed()){ comment in
                             CommentContainerView(comment: comment) {
                                 Task{
                                     try await commentViewModel.getCommentsByArticleId(articleId:comment.articleId)
